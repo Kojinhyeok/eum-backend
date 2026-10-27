@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="robots" content="noindex, nofollow">
+	<title>대시보드 - 이음인사이트</title>
+	<link href="css/app.css" rel="stylesheet">
+	<link href="css/custom.css" rel="stylesheet">
+</head>
+
+<body data-page="dashboard" data-base="">
+<div class="wrapper">
+	<div id="sidebar-container"></div>
+	<div class="main">
+		<div id="header-container"></div>
+
+		<main class="content">
+			<div class="container-fluid p-0">
+				<h1 class="h3 mb-3"><strong>이음인사이트 관리자</strong></h1>
+
+				<div class="row">
+					<div class="col-sm-6 col-xl-3">
+						<a href="inquiry/list.html" class="card text-decoration-none">
+							<div class="card-body">
+								<h5 class="card-title text-muted mb-2">신규 상담 문의</h5>
+								<h1 class="mt-1 mb-0" id="statNewInquiries">-</h1>
+								<div class="text-muted small mt-1">전체 <span id="statTotalInquiries">-</span>건</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-xl-3">
+						<a href="regulation/list.html" class="card text-decoration-none">
+							<div class="card-body">
+								<h5 class="card-title text-muted mb-2">게시 중인 최신규정</h5>
+								<h1 class="mt-1 mb-0" id="statPublished">-</h1>
+								<div class="text-muted small mt-1">전체 <span id="statTotalRegulations">-</span>건</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-body">
+						<p class="mb-1">왼쪽 메뉴에서 관리할 항목을 선택하세요.</p>
+						<ul class="mb-0 text-muted small">
+							<li><strong>국가별 최신규정</strong>: 글을 등록하면 홈페이지 ‘국가별 최신규정’ 페이지와 메인 상단 업데이트 바에 바로 반영됩니다.</li>
+							<li><strong>상담 문의 내역</strong>: 홈페이지 ‘문의하기’로 접수된 상담 신청을 확인하고 처리 상태를 관리합니다.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/common.js"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		fetch("/api/admin/dashboard")
+			.then(res => res.ok ? res.json() : null)
+			.then(d => {
+				if (!d) return;
+				document.getElementById("statNewInquiries").textContent = d.newInquiries;
+				document.getElementById("statTotalInquiries").textContent = d.totalInquiries;
+				document.getElementById("statPublished").textContent = d.publishedRegulations;
+				document.getElementById("statTotalRegulations").textContent = d.totalRegulations;
+			});
+	});
+</script>
+</body>
+</html>

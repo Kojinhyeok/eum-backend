@@ -1,0 +1,12 @@
+{
+  "name": "eum-frontend",
+  "private": true,
+  "description": "이음인사이트 화면 CSS 빌드 (Tailwind). 결과물 src/main/resources/static/css/site.css 는 git에 함께 커밋합니다.",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i src/main/frontend/site.css -o src/main/resources/static/css/site.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/main/frontend/site.css -o src/main/resources/static/css/site.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

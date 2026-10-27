@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="robots" content="noindex, nofollow">
+	<title>상담 문의 내역 - 이음인사이트</title>
+	<link href="../css/app.css" rel="stylesheet">
+	<link href="../css/custom.css" rel="stylesheet">
+</head>
+
+<body data-page="inquiry-list" data-base="../">
+<div class="wrapper">
+	<div id="sidebar-container"></div>
+	<div class="main">
+		<div id="header-container"></div>
+
+		<main class="content">
+			<div class="container-fluid p-0">
+				<h1 class="h3 mb-3"><strong>상담 문의 내역</strong></h1>
+
+				<div class="card mb-3">
+					<div class="card-body py-3 d-flex flex-wrap align-items-center gap-2">
+						<select id="filterStatus" class="form-select form-select-sm" style="width:auto;" onchange="renderTable()">
+							<option value="">전체 상태</option>
+							<option value="NEW">신규</option>
+							<option value="DONE">처리완료</option>
+						</select>
+						<select id="filterType" class="form-select form-select-sm" style="width:auto;" onchange="renderTable()">
+							<option value="">전체 유형</option>
+						</select>
+						<span class="small text-muted ms-auto" id="countLabel"></span>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="table-responsive">
+						<table class="table table-hover my-0" id="inquiryTable">
+							<thead>
+							<tr>
+								<th style="width:140px;">접수일시</th>
+								<th style="width:80px;">상태</th>
+								<th style="width:140px;">문의 유형</th>
+								<th>회사명</th>
+								<th>담당자</th>
+								<th>제품군 / 목표 국가</th>
+								<th style="width:130px;">관리</th>
+							</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">문의 상세</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="detailBody"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				<button type="button" class="btn btn-primary" id="btnSaveDetail" onclick="saveDetail()">저장</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script>
+	let inquiryList = [];
+	let currentId = null;
+
+	const typeLabel = {
+		GLOBAL: '글로벌 규제대응', DOMESTIC: '국내 인허가', CLINICAL: '시험·임상',
+		LETTER: '규제 레터 구독', ETC: '기타 문의'
+	};
+
+	function esc(s) {
+		return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+	}
+	function formatDate(v) {
+		if (Array.isArray(v)) {
+			const p = n => String(n).padStart(2, '0');
+			return `${v[0]}-${p(v[1])}-${p(v[2])} ${p(v[3] || 0)}:${p(v[4] || 0)}`;
+		}
+		return v ? String(v).replace('T', ' ').substring(0, 16) : '-';
+	}
+	function statusBadge(s) {
+		return s === 'DONE' ? '<span class="badge badge-done">처리완료</span>' : '<span class="badge badge-new">신규</span>';
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById("filterType").insertAdjacentHTML('beforeend',
+			Object.entries(typeLabel).map(([k, v]) => `<option value="${k}">${v}</option>`).join(''));
+		loadInquiries();
+	});
+
+	function loadInquiries() {
+		fetch("/api/admin/inquiry")
+			.then(res => res.json())
+			.then(list => { inquiryList = list; renderTable(); });
+	}
+
+	function renderTable() {
+		const st = document.getElementById("filterStatus").value;
+		const tp = document.getElementById("filterType").value;
+		const list = inquiryList.filter(i => (!st || i.status === st) && (!tp || i.inquiryType === tp));
+		document.getElementById("countLabel").textContent = `총 ${list.length}건`;
+		const tbody = document.querySelector("#inquiryTable tbody");
+		tbody.innerHTML = list.length === 0
+			? '<tr><td colspan="7" class="text-center py-4">접수된 문의가 없습니다.</td></tr>'
+			: list.map(item => `
+				<tr>
+					<td class="align-middle">${formatDate(item.createdAt)}</td>
+					<td class="align-middle">${statusBadge(item.status)}</td>
+					<td class="align-middle">${esc(typeLabel[item.inquiryType] ?? item.inquiryType)}</td>
+					<td class="align-middle">${esc(item.companyName)}</td>
+					<td class="align-middle">${esc(item.contactName)}</td>
+					<td class="align-middle">${esc(item.productTarget)}</td>
+					<td class="align-middle">
+						<button class="btn btn-sm btn-outline-primary" onclick="viewInquiry(${item.id})">보기</button>
+						<button class="btn btn-sm btn-outline-danger" onclick="deleteInquiry(${item.id})">삭제</button>
+					</td>
+				</tr>`).join("");
+	}
+
+	function viewInquiry(id) {
+		const item = inquiryList.find(i => i.id === id);
+		currentId = id;
+		document.getElementById("detailBody").innerHTML = `
+			<dl class="row mb-3">
+				<dt class="col-sm-3">접수일시</dt><dd class="col-sm-9">${formatDate(item.createdAt)}</dd>
+				<dt class="col-sm-3">문의 유형</dt><dd class="col-sm-9">${esc(typeLabel[item.inquiryType] ?? item.inquiryType)}</dd>
+				<dt class="col-sm-3">회사명</dt><dd class="col-sm-9">${esc(item.companyName)}</dd>
+				<dt class="col-sm-3">담당자</dt><dd class="col-sm-9">${esc(item.contactName)}</dd>
+				<dt class="col-sm-3">이메일</dt><dd class="col-sm-9"><a href="mailto:${esc(item.email)}">${esc(item.email)}</a></dd>
+				<dt class="col-sm-3">연락처</dt><dd class="col-sm-9">${esc(item.phone || '-')}</dd>
+				<dt class="col-sm-3">제품군 / 목표 국가</dt><dd class="col-sm-9">${esc(item.productTarget)}</dd>
+				<dt class="col-sm-3">문의 내용</dt><dd class="col-sm-9 text-pre">${esc(item.content)}</dd>
+			</dl>
+			<div class="row g-3 border-top pt-3">
+				<div class="col-md-4">
+					<label class="form-label" for="dStatus">처리 상태</label>
+					<select class="form-select" id="dStatus">
+						<option value="NEW" ${item.status === 'NEW' ? 'selected' : ''}>신규</option>
+						<option value="DONE" ${item.status === 'DONE' ? 'selected' : ''}>처리완료</option>
+					</select>
+				</div>
+				<div class="col-md-8">
+					<label class="form-label" for="dMemo">관리자 메모</label>
+					<textarea class="form-control" id="dMemo" rows="2">${esc(item.adminMemo)}</textarea>
+				</div>
+			</div>`;
+		bootstrap.Modal.getOrCreateInstance(document.getElementById('detailModal')).show();
+	}
+
+	function saveDetail() {
+		if (!currentId) return;
+		fetch(`/api/admin/inquiry/${currentId}`, {
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				status: document.getElementById("dStatus").value,
+				adminMemo: document.getElementById("dMemo").value
+			})
+		}).then(res => {
+			if (!res.ok) { alert("저장에 실패했습니다."); return; }
+			bootstrap.Modal.getOrCreateInstance(document.getElementById('detailModal')).hide();
+			loadInquiries();
+		});
+	}
+
+	function deleteInquiry(id) {
+		if (!confirm("이 문의를 삭제하시겠습니까?")) return;
+		fetch(`/api/admin/inquiry/${id}`, { method: "DELETE" })
+			.then(res => { if (res.ok) loadInquiries(); else alert("삭제에 실패했습니다."); });
+	}
+</script>
+</body>
+</html>

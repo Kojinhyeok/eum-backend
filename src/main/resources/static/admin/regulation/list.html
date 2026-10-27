@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="robots" content="noindex, nofollow">
+	<title>국가별 최신규정 관리 - 이음인사이트</title>
+	<link href="../css/app.css" rel="stylesheet">
+	<link href="../css/custom.css" rel="stylesheet">
+</head>
+
+<body data-page="regulation-list" data-base="../">
+<div class="wrapper">
+	<div id="sidebar-container"></div>
+	<div class="main">
+		<div id="header-container"></div>
+
+		<main class="content">
+			<div class="container-fluid p-0">
+				<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+					<h1 class="h3 mb-0"><strong>국가별 최신규정 관리</strong></h1>
+					<div class="d-flex gap-2">
+						<a href="/regulations" target="_blank" class="btn btn-outline-secondary">홈페이지에서 보기</a>
+						<button type="button" class="btn btn-primary" onclick="openForm()">+ 새 글 등록</button>
+					</div>
+				</div>
+
+				<div class="card mb-3">
+					<div class="card-body py-3 d-flex flex-wrap align-items-center gap-2">
+						<label for="filterRegion" class="mb-0 small text-muted">권역</label>
+						<select id="filterRegion" class="form-select form-select-sm" style="width:auto;" onchange="renderTable()">
+							<option value="">전체</option>
+						</select>
+						<span class="small text-muted ms-auto" id="countLabel"></span>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="table-responsive">
+						<table class="table table-hover my-0" id="regulationTable">
+							<thead>
+							<tr>
+								<th style="width:110px;">업데이트일</th>
+								<th style="width:110px;">권역</th>
+								<th style="width:140px;">구분</th>
+								<th>제목</th>
+								<th style="width:80px;">상태</th>
+								<th style="width:130px;">관리</th>
+							</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+
+<!-- 등록/수정 모달 -->
+<div class="modal fade" id="formModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="formTitle">새 글 등록</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="regulationForm" onsubmit="return false;">
+					<input type="hidden" id="postId">
+					<div class="row g-3">
+						<div class="col-md-4">
+							<label class="form-label required" for="fRegion">권역</label>
+							<select class="form-select" id="fRegion"></select>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label required" for="fCategory">구분 배지</label>
+							<input class="form-control" id="fCategory" list="categoryList" maxlength="50" placeholder="최신 개정/고시">
+							<datalist id="categoryList">
+								<option value="최신 개정/고시">
+								<option value="가이드라인 반영">
+								<option value="긴급 고시 대응">
+								<option value="규정 DB 동기화">
+								<option value="시행 예정">
+							</datalist>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label required" for="fDate">업데이트일</label>
+							<input class="form-control" type="date" id="fDate">
+						</div>
+
+						<div class="col-12">
+							<label class="form-label required" for="fTitle">제목</label>
+							<input class="form-control" id="fTitle" maxlength="200" placeholder="예: MoCRA 안전성 입증 및 시설/제품 리스팅 의무화 가이드">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="fEffective">시행/적용 시점</label>
+							<input class="form-control" id="fEffective" maxlength="100" placeholder="예: 시행: 2024.12 ~ 상시">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="fKeyPoint">규제 변경 포인트 (상단 요약 카드)</label>
+							<input class="form-control" id="fKeyPoint" maxlength="300" placeholder="예: 전성분 라벨링 요건 및 시설 등록 갱신 주기 알림">
+						</div>
+						<div class="col-12">
+							<label class="form-label required" for="fSummary">개정 내용 요약</label>
+							<textarea class="form-control" id="fSummary" rows="3"></textarea>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="fImpact">규제 영향 분석 (Impact Analysis)</label>
+							<textarea class="form-control" id="fImpact" rows="3"></textarea>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="fCheckpoints">체크포인트 &amp; 가이드</label>
+							<textarea class="form-control" id="fCheckpoints" rows="3" placeholder="한 줄에 하나씩 입력하세요"></textarea>
+							<div class="form-hint">줄바꿈 단위로 항목이 나뉘어 체크 표시와 함께 노출됩니다.</div>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="fSourceUrl">원문 &amp; 분석 리포트 링크</label>
+							<input class="form-control" id="fSourceUrl" maxlength="500" placeholder="https://">
+							<div class="form-hint">비워두면 카드 하단에 ‘이 규정 관련 상담하기’ 링크가 표시됩니다.</div>
+						</div>
+						<div class="col-12">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="fPublished" checked>
+								<label class="form-check-label" for="fPublished">홈페이지에 게시</label>
+							</div>
+						</div>
+					</div>
+					<div id="formError" class="alert alert-danger mt-3 mb-0 py-2 px-3" style="display:none;"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-primary" id="btnSave" onclick="savePost()">저장</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script>
+	let regions = [];
+	let posts = [];
+
+	function esc(s) {
+		return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+	}
+	function regionLabel(code) {
+		const r = regions.find(x => x.code === code);
+		return r ? r.label : code;
+	}
+	function today() {
+		const d = new Date();
+		return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+	}
+	function toDateStr(v) {
+		if (Array.isArray(v)) return v[0] + '-' + String(v[1]).padStart(2, '0') + '-' + String(v[2]).padStart(2, '0');
+		return v ? String(v).substring(0, 10) : '';
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+		fetch("/api/admin/regulations/regions")
+			.then(res => res.json())
+			.then(list => {
+				regions = list;
+				const opts = list.map(r => `<option value="${r.code}">${esc(r.label)} (${r.shortCode})</option>`).join('');
+				document.getElementById("fRegion").innerHTML = opts;
+				document.getElementById("filterRegion").insertAdjacentHTML('beforeend', opts);
+				loadPosts();
+			});
+	});
+
+	function loadPosts() {
+		fetch("/api/admin/regulations")
+			.then(res => res.json())
+			.then(list => { posts = list; renderTable(); });
+	}
+
+	function renderTable() {
+		const filter = document.getElementById("filterRegion").value;
+		const list = filter ? posts.filter(p => p.region === filter) : posts;
+		document.getElementById("countLabel").textContent = `총 ${list.length}건`;
+		const tbody = document.querySelector("#regulationTable tbody");
+		tbody.innerHTML = list.length === 0
+			? '<tr><td colspan="6" class="text-center py-4">등록된 글이 없습니다.</td></tr>'
+			: list.map(p => `
+				<tr>
+					<td class="align-middle">${esc(toDateStr(p.noticeDate))}</td>
+					<td class="align-middle">${esc(regionLabel(p.region))}</td>
+					<td class="align-middle">${esc(p.category)}</td>
+					<td class="align-middle">${esc(p.title)}</td>
+					<td class="align-middle">${p.published
+						? '<span class="badge badge-new">게시</span>'
+						: '<span class="badge badge-done">숨김</span>'}</td>
+					<td class="align-middle">
+						<button class="btn btn-sm btn-outline-primary" onclick="openForm(${p.id})">수정</button>
+						<button class="btn btn-sm btn-outline-danger" onclick="deletePost(${p.id})">삭제</button>
+					</td>
+				</tr>`).join("");
+	}
+
+	function setVal(id, v) { document.getElementById(id).value = v ?? ''; }
+	function getVal(id) { return document.getElementById(id).value; }
+
+	function openForm(id) {
+		document.getElementById("formError").style.display = "none";
+		const p = id ? posts.find(x => x.id === id) : null;
+		document.getElementById("formTitle").textContent = p ? "글 수정" : "새 글 등록";
+		setVal("postId", p ? p.id : '');
+		setVal("fRegion", p ? p.region : (regions[0] && regions[0].code));
+		setVal("fCategory", p ? p.category : '최신 개정/고시');
+		setVal("fDate", p ? toDateStr(p.noticeDate) : today());
+		setVal("fTitle", p && p.title);
+		setVal("fEffective", p && p.effectiveNote);
+		setVal("fKeyPoint", p && p.keyPoint);
+		setVal("fSummary", p && p.summary);
+		setVal("fImpact", p && p.impact);
+		setVal("fCheckpoints", p && p.checkpoints);
+		setVal("fSourceUrl", p && p.sourceUrl);
+		document.getElementById("fPublished").checked = p ? p.published : true;
+		bootstrap.Modal.getOrCreateInstance(document.getElementById('formModal')).show();
+	}
+
+	function savePost() {
+		const id = getVal("postId");
+		const body = {
+			region: getVal("fRegion"),
+			category: getVal("fCategory"),
+			noticeDate: getVal("fDate"),
+			title: getVal("fTitle"),
+			effectiveNote: getVal("fEffective"),
+			keyPoint: getVal("fKeyPoint"),
+			summary: getVal("fSummary"),
+			impact: getVal("fImpact"),
+			checkpoints: getVal("fCheckpoints"),
+			sourceUrl: getVal("fSourceUrl"),
+			published: document.getElementById("fPublished").checked
+		};
+		const errBox = document.getElementById("formError");
+		errBox.style.display = "none";
+		const btn = document.getElementById("btnSave");
+		btn.disabled = true;
+
+		fetch(id ? `/api/admin/regulations/${id}` : "/api/admin/regulations", {
+			method: id ? "PUT" : "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(body)
+		})
+			.then(async res => {
+				const data = await res.json().catch(() => ({}));
+				if (!res.ok) throw new Error(data.message || "저장 중 오류가 발생했습니다.");
+				return data;
+			})
+			.then(() => {
+				bootstrap.Modal.getOrCreateInstance(document.getElementById('formModal')).hide();
+				loadPosts();
+			})
+			.catch(err => {
+				errBox.textContent = err.message;
+				errBox.style.display = "block";
+			})
+			.finally(() => { btn.disabled = false; });
+	}
+
+	function deletePost(id) {
+		const p = posts.find(x => x.id === id);
+		if (!confirm(`"${p ? p.title : ''}" 글을 삭제하시겠습니까?`)) return;
+		fetch(`/api/admin/regulations/${id}`, { method: "DELETE" })
+			.then(res => { if (res.ok) loadPosts(); else alert("삭제에 실패했습니다."); });
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('시험·임상 | 이음인사이트', 'In vitro 안전성 평가, 인체적용 안전성 평가, 결과 해석과 규제자료 연계까지 안전성·유효성 근거 확보를 위한 시험·임상 전략을 설계합니다.')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('clinical')}"></header>
+
+<main>
+    <!-- ===== 페이지 히어로 ===== -->
+    <section class="page-hero">
+        <div class="container-x relative py-12 md:py-16">
+            <span class="kicker">Clinical Strategy</span>
+            <h1 class="h-page mt-3">안전성을 바탕으로<br class="sm:hidden"> 시험·임상을 설계합니다</h1>
+            <p class="lead mt-4 max-w-2xl">안전성·유효성 자료를 살펴보고 필요한 시험과 평가 방법을 제안합니다.</p>
+        </div>
+    </section>
+
+    <!-- ===== 평가 영역 ===== -->
+    <section class="section bg-white">
+        <div class="container-x">
+            <div class="grid gap-4 md:grid-cols-3">
+                <article class="card bar-top p-6 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">biotech</span></span>
+                    <h2 class="mt-5 text-[20px] font-extrabold"><span class="text-primary">In vitro</span> 안전성 평가</h2>
+                    <p class="mt-3 text-[15px] leading-7">제품 특성과 평가 목적에 맞춰 시험모델과 방법을 검토하고 시험 수행을 연계합니다.</p>
+                </article>
+                <article class="card bar-top p-6 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">clinical_notes</span></span>
+                    <h2 class="mt-5 text-[20px] font-extrabold">인체적용 안전성 평가</h2>
+                    <p class="mt-3 text-[15px] leading-7">대상자와 사용 조건에 맞춰 피부 반응 등 평가 항목을 정하고 인체적용시험을 연계합니다.</p>
+                </article>
+                <article class="card bar-top p-6 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">analytics</span></span>
+                    <h2 class="mt-5 text-[20px] font-extrabold">근거 검토와 결과 해석</h2>
+                    <p class="mt-3 text-[15px] leading-7">안전성·유효성 결과의 의미와 적용 범위를 검토하고 규제자료 준비로 연결합니다.</p>
+                </article>
+            </div>
+
+            <!-- 검토 결과물 -->
+            <div class="mt-5 flex flex-col gap-4 rounded-xl bg-primary px-5 py-5 text-white sm:px-6 md:flex-row md:items-center md:gap-8">
+                <p class="shrink-0 text-[17px] font-extrabold text-mint">검토 결과물</p>
+                <ul class="flex flex-wrap gap-2">
+                    <li class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-mint" translate="no" aria-hidden="true">check</span>안전성 자료 검토</li>
+                    <li class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-mint" translate="no" aria-hidden="true">check</span>시험 설계 의견서</li>
+                    <li class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-mint" translate="no" aria-hidden="true">check</span>결과 해석·규제자료 연계</li>
+                </ul>
+            </div>
+            <p class="mt-3 text-[13px] text-ink-mute">※ 시험·임상 전략 안에서 안전성 평가를 설명합니다. 구체적 시험항목과 수행 범위는 상담 시 안내합니다.</p>
+        </div>
+    </section>
+
+    <!-- ===== 지원 범위 ===== -->
+    <section class="section border-y border-line bg-surface-low">
+        <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-12">
+            <div class="lg:col-span-4">
+                <span class="kicker">Clinical &amp; Efficacy Testing</span>
+                <h2 class="h-section mt-3">안전성 · 유효성<br>근거 확보</h2>
+                <p class="mt-4 text-[15px] leading-7">전문 임상기관과 협업해 제품과 목표 국가에 맞는 시험을 설계하고, 결과를 인허가 자료로 연결합니다.</p>
+            </div>
+            <ul class="grid gap-3 lg:col-span-8">
+                <li class="card flex gap-4 p-5">
+                    <span class="num-badge !h-8 !w-8 !text-[14px]">1</span>
+                    <div><p class="text-[16px] font-bold text-ink">피부임상시험센터 연계</p><p class="mt-1 text-[14px] leading-6">전문 임상기관과 협업을 통해 제품 특성에 적합한 인체적용시험 설계 및 진행지원</p></div>
+                </li>
+                <li class="card flex gap-4 p-5">
+                    <span class="num-badge !h-8 !w-8 !text-[14px]">2</span>
+                    <div><p class="text-[16px] font-bold text-ink">국가별 규제대응을 위한 시험설계</p><p class="mt-1 text-[14px] leading-6">원료 혹은 완제품에 대한 In-vitro부터 임상시험까지 독성 및 안전성 시험지원</p></div>
+                </li>
+                <li class="card flex gap-4 p-5">
+                    <span class="num-badge !h-8 !w-8 !text-[14px]">3</span>
+                    <div><p class="text-[16px] font-bold text-ink">시험결과의 규제 활용 지원</p><p class="mt-1 text-[14px] leading-6">국내외 규제요건을 고려하여 시험 결과보고서를 검토하고 인허가 자료로 활용할 수 있도록 지원</p></div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ===== 4단계 프로세스 ===== -->
+    <section class="section bg-white">
+        <div class="container-x">
+            <div class="mx-auto max-w-3xl text-center">
+                <span class="kicker">Sequential Workflow</span>
+                <h2 class="h-section mt-3">원스톱 실행 프로세스</h2>
+                <p class="mt-3 text-[15px] leading-7">초기 성분 검토 단계부터 컨텐츠 완성까지 유기적으로 이어지는 4단계 협업 체계</p>
+            </div>
+
+            <ol class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-12">
+                <li class="card bar-top p-6 shadow-card">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-[14px] font-extrabold text-white">01</span>
+                    <h3 class="mt-4 text-[17px] font-bold">규제 사전 진단</h3>
+                    <p class="mt-2 text-[14px] leading-6">배합금지 및 한도 원료 검토, 타겟팅할 기능성 범위 설정</p>
+                </li>
+                <li class="card bar-top p-6 shadow-card">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-[14px] font-extrabold text-white">02</span>
+                    <h3 class="mt-4 text-[17px] font-bold">최적 임상·시험 설계</h3>
+                    <p class="mt-2 text-[14px] leading-6">클레임 실증에 요구되는 프로토콜 기반 피부 인체적용시험 및 효능 평가 착수</p>
+                </li>
+                <li class="card bar-top p-6 shadow-card">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-[14px] font-extrabold text-white">03</span>
+                    <h3 class="mt-4 text-[17px] font-bold">제품별 인허가</h3>
+                    <p class="mt-2 text-[14px] leading-6">제품 특성별(일반화장품, 기능성 보고 혹은 심사) 인허가 진행</p>
+                </li>
+                <li class="card bar-top p-6 shadow-card">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-mint text-[14px] font-extrabold text-primary-deep">04</span>
+                    <h3 class="mt-4 text-[17px] font-bold">합법적 마케팅 컨텐츠</h3>
+                    <p class="mt-2 text-[14px] leading-6">허가받은 클레임 한도 내에서 소비자의 신뢰와 구매를 유도하는 e커머스 상세페이지 제작</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section th:replace="~{fragments/layout :: cta('CLINICAL')}"></section>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>

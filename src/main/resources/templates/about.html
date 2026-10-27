@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('회사 소개 | 이음인사이트', '이음인사이트(EUM Insight)는 과학과 비즈니스, 사람을 잇는 화장품 규제과학 파트너입니다. 글로벌 규제대응, 국내 인허가, 시험·임상 전략을 하나로 연결합니다.')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('about')}"></header>
+
+<main>
+    <!-- ===== 히어로 ===== -->
+    <section class="relative overflow-hidden bg-primary-deep text-white">
+        <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-mint/20 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-primary/60 blur-3xl"></div>
+        <div class="container-x relative py-16 md:py-24">
+            <p class="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.12em] text-mint md:text-[13px]">
+                <span class="h-1.5 w-1.5 rounded-full bg-mint"></span>About EUM Insight
+            </p>
+            <h1 class="mt-4 max-w-3xl text-[32px] font-extrabold leading-[1.25] tracking-[-0.03em] text-white sm:text-[40px] md:text-[52px]">
+                과학과 비즈니스,<br>그리고 사람을 <span class="text-mint">잇습니다</span>
+            </h1>
+            <p class="mt-6 max-w-2xl text-[15px] leading-7 text-white/75 md:text-[17px] md:leading-8">
+                이음인사이트는 글로벌 규제과학과 임상 인프라를 연결해 고객사의 화장품이 국내외 시장에 안전하고 빠르게 진입하도록 돕는 규제과학 파트너입니다.
+            </p>
+            <!-- 이음 바 -->
+            <div class="mt-10 flex h-1.5 max-w-md overflow-hidden rounded-full">
+                <span class="w-[70%] bg-white/80"></span><span class="w-[30%] bg-mint"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 이름의 의미 ===== -->
+    <section class="section bg-white">
+        <div class="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div class="lg:col-span-5">
+                <span class="kicker">Our Name</span>
+                <h2 class="h-section mt-3">‘이음’, 끊어진 것을<br>하나로 잇는다는 뜻</h2>
+                <p class="mt-5 text-[15px] leading-7">
+                    <strong class="font-bold text-ink notranslate" translate="no">이음(ee-um)</strong>은 둘 이상을 서로 잇는다는 우리말입니다.
+                    화장품이 새로운 시장에 진입하려면 성분 검토, 안전성 근거, 각국 규제 서류, 현지 등록이 모두 맞물려야 합니다.
+                    이음인사이트는 흩어진 이 과정을 하나의 흐름으로 연결합니다.
+                </p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-3 lg:col-span-7">
+                <div class="card bar-top p-6 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">science</span></span>
+                    <p class="mt-5 text-[13px] font-extrabold uppercase tracking-wider text-primary notranslate" translate="no">Science</p>
+                    <h3 class="mt-1 text-[17px] font-bold">과학적 근거</h3>
+                    <p class="mt-2 text-[14px] leading-6">원료 안전성, 시험·임상 데이터 등 규제 판단의 근거가 되는 과학을 기반으로 합니다.</p>
+                </div>
+                <div class="card bar-top p-6 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">trending_up</span></span>
+                    <p class="mt-5 text-[13px] font-extrabold uppercase tracking-wider text-primary notranslate" translate="no">Business</p>
+                    <h3 class="mt-1 text-[17px] font-bold">시장 진출</h3>
+                    <p class="mt-2 text-[14px] leading-6">규제 준수를 출발점으로 고객사의 국내외 출시 일정과 사업 성과까지 함께 고민합니다.</p>
+                </div>
+                <div class="card bar-top p-6 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">diversity_3</span></span>
+                    <p class="mt-5 text-[13px] font-extrabold uppercase tracking-wider text-primary notranslate" translate="no">People</p>
+                    <h3 class="mt-1 text-[17px] font-bold">사람과 네트워크</h3>
+                    <p class="mt-2 text-[14px] leading-6">고객사, 임상기관, 현지 대리인과 각국 전문가를 연결해 실무가 끊기지 않게 합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 하는 일 ===== -->
+    <section class="section border-y border-line bg-surface-low">
+        <div class="container-x">
+            <div class="max-w-3xl">
+                <span class="kicker">What We Do</span>
+                <h2 class="h-section mt-3">규제 검토에서 시험 평가,<br class="sm:hidden"> 출시와 사후관리까지</h2>
+            </div>
+
+            <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <a href="/global" class="card group flex flex-col p-6 transition-shadow hover:shadow-lift">
+                    <span class="text-[13px] font-extrabold text-primary">01</span>
+                    <h3 class="mt-3 text-[18px] font-bold group-hover:text-primary">글로벌 규제대응</h3>
+                    <p class="mt-2 flex-1 text-[14px] leading-6">미국 FDA MoCRA, 유럽·영국 CPNP/SCPN, 중국 NMPA, 아세안 ACD 등 권역별 인허가 전주기 지원</p>
+                    <span class="mt-5 inline-flex items-center gap-1 text-[14px] font-bold text-primary">자세히 보기<span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">arrow_forward</span></span>
+                </a>
+                <a href="/domestic" class="card group flex flex-col p-6 transition-shadow hover:shadow-lift">
+                    <span class="text-[13px] font-extrabold text-primary">02</span>
+                    <h3 class="mt-3 text-[18px] font-bold group-hover:text-primary">국내 인허가</h3>
+                    <p class="mt-2 flex-1 text-[14px] leading-6">일반화장품 규격·라벨 검토, 기능성화장품 보고·심사, 표시·광고 실증 가이드</p>
+                    <span class="mt-5 inline-flex items-center gap-1 text-[14px] font-bold text-primary">자세히 보기<span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">arrow_forward</span></span>
+                </a>
+                <a href="/clinical" class="card group flex flex-col p-6 transition-shadow hover:shadow-lift">
+                    <span class="text-[13px] font-extrabold text-primary">03</span>
+                    <h3 class="mt-3 text-[18px] font-bold group-hover:text-primary">시험·임상 전략</h3>
+                    <p class="mt-2 flex-1 text-[14px] leading-6">In vitro·인체적용 안전성 평가 설계와 결과 해석, 규제자료 연계</p>
+                    <span class="mt-5 inline-flex items-center gap-1 text-[14px] font-bold text-primary">자세히 보기<span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">arrow_forward</span></span>
+                </a>
+                <a href="/regulations" class="card group flex flex-col p-6 transition-shadow hover:shadow-lift">
+                    <span class="text-[13px] font-extrabold text-primary">04</span>
+                    <h3 class="mt-3 text-[18px] font-bold group-hover:text-primary">규제 모니터링</h3>
+                    <p class="mt-2 flex-1 text-[14px] leading-6">국가별 화장품 규정 개정 사항을 상시 추적하고 영향 분석과 체크포인트를 공유</p>
+                    <span class="mt-5 inline-flex items-center gap-1 text-[14px] font-bold text-primary">최신규정 보기<span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">arrow_forward</span></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 일하는 방식 ===== -->
+    <section class="section bg-white">
+        <div class="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div class="lg:col-span-4">
+                <span class="kicker">How We Work</span>
+                <h2 class="h-section mt-3">이음인사이트가<br>지키는 원칙</h2>
+            </div>
+            <ul class="grid gap-3 sm:grid-cols-2 lg:col-span-8">
+                <li class="check-item !p-5">
+                    <span class="material-symbols-outlined notranslate text-[24px] text-primary" translate="no" aria-hidden="true">lock</span>
+                    <div><p class="text-[16px] font-bold text-ink">엄격한 기밀유지(NDA)</p><p class="mt-1 text-[14px] leading-6">처방 및 연구개발 자료는 안전하게 관리하며 상담 종료 후 요청 시 즉시 파기합니다.</p></div>
+                </li>
+                <li class="check-item !p-5">
+                    <span class="material-symbols-outlined notranslate text-[24px] text-primary" translate="no" aria-hidden="true">fact_check</span>
+                    <div><p class="text-[16px] font-bold text-ink">과학적 타당성 우선</p><p class="mt-1 text-[14px] leading-6">단순 대행을 넘어 성분·시험 근거를 먼저 검토하고 인허가 경로를 제안합니다.</p></div>
+                </li>
+                <li class="check-item !p-5">
+                    <span class="material-symbols-outlined notranslate text-[24px] text-primary" translate="no" aria-hidden="true">public</span>
+                    <div><p class="text-[16px] font-bold text-ink">목표 국가별 전문가 매칭</p><p class="mt-1 text-[14px] leading-6">미국 MoCRA 전문가, 유럽 Safety Assessor, 중국 경내책임인 네트워크와 직접 협업합니다.</p></div>
+                </li>
+                <li class="check-item !p-5">
+                    <span class="material-symbols-outlined notranslate text-[24px] text-primary" translate="no" aria-hidden="true">headset_mic</span>
+                    <div><p class="text-[16px] font-bold text-ink">신속한 대응</p><p class="mt-1 text-[14px] leading-6">통관 보류, 식약처 보완요청 등 급박한 사안은 전담 PM이 바로 상담합니다.</p></div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ===== 그룹 네트워크 ===== -->
+    <section id="network" class="section border-y border-line bg-surface-low">
+        <div class="container-x">
+            <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                <div>
+                    <span class="kicker">Group Network</span>
+                    <h2 class="h-section mt-3">4개국 글로벌 거점</h2>
+                    <p class="mt-3 text-[15px] leading-7">베트남 · 태국 · 미국 · 프랑스 글로벌 거점 법인 및 인프라 구축</p>
+                </div>
+            </div>
+
+            <div class="mt-10 grid gap-4 md:grid-cols-3">
+                <div class="card bar-top p-6 shadow-card">
+                    <div class="flex items-center gap-2">
+                        <span class="chip-dark notranslate" translate="no">VN · TH</span>
+                        <span class="text-[13px] font-bold text-primary">동남아 거점</span>
+                    </div>
+                    <h3 class="mt-4 text-[18px] font-bold">베트남 · 태국 법인</h3>
+                    <p class="mt-2 text-[14px] leading-6">아세안(ACD/DAV) 규제 및 동남아 신속 인허가 현지 직접 대응</p>
+                </div>
+                <div class="card bar-top p-6 shadow-card">
+                    <div class="flex items-center gap-2">
+                        <span class="chip-dark notranslate" translate="no">US</span>
+                        <span class="text-[13px] font-bold text-primary">북미 거점</span>
+                    </div>
+                    <h3 class="mt-4 text-[18px] font-bold">미국 법인</h3>
+                    <p class="mt-2 text-[14px] leading-6">FDA MoCRA 시설·제품 등록 및 현지 US Agent 즉각 지원</p>
+                </div>
+                <div class="card bar-top p-6 shadow-card">
+                    <div class="flex items-center gap-2">
+                        <span class="chip-dark notranslate" translate="no">FR</span>
+                        <span class="text-[13px] font-bold text-primary">유럽 거점</span>
+                    </div>
+                    <h3 class="mt-4 text-[18px] font-bold">프랑스 법인</h3>
+                    <p class="mt-2 text-[14px] leading-6">EU CPNP/SCPN 규정 검토 및 현지 RP(책임자) 네트워크와 직결된 전문 규제 대응</p>
+                </div>
+            </div>
+
+            <!-- 패밀리 임상 네트워크 -->
+            <div class="mt-5 rounded-xl bg-white p-6 sm:p-8">
+                <div class="grid gap-6 lg:grid-cols-12 lg:items-center">
+                    <div class="lg:col-span-4">
+                        <p class="text-[13px] font-extrabold uppercase tracking-wider text-primary">Family Clinical Network</p>
+                        <h3 class="mt-2 text-[20px] font-extrabold">글로벌 규제 대응 및<br class="hidden lg:block"> 임상 시험 원스톱 파트너스</h3>
+                    </div>
+                    <div class="grid gap-3 sm:grid-cols-3 lg:col-span-8">
+                        <a href="https://www.humantest.co.kr" target="_blank" rel="noopener" class="group flex items-center justify-between gap-2 rounded-lg border border-line p-4 hover:border-primary">
+                            <span class="text-[14px] font-bold text-ink group-hover:text-primary">휴먼 피부임상시험센터<span class="block text-[12px] font-semibold text-ink-mute notranslate" translate="no">HUMAN</span></span>
+                            <span class="material-symbols-outlined notranslate text-[20px] text-ink-mute" translate="no" aria-hidden="true">north_east</span>
+                        </a>
+                        <a href="https://pderma.kr" target="_blank" rel="noopener" class="group flex items-center justify-between gap-2 rounded-lg border border-line p-4 hover:border-primary">
+                            <span class="text-[14px] font-bold text-ink group-hover:text-primary">프리더마 피부임상연구원<span class="block text-[12px] font-semibold text-ink-mute notranslate" translate="no">Prederma</span></span>
+                            <span class="material-symbols-outlined notranslate text-[20px] text-ink-mute" translate="no" aria-hidden="true">north_east</span>
+                        </a>
+                        <a href="https://h-derma.co.kr" target="_blank" rel="noopener" class="group flex items-center justify-between gap-2 rounded-lg border border-line p-4 hover:border-primary">
+                            <span class="text-[14px] font-bold text-ink group-hover:text-primary">H-Derma<span class="block text-[12px] font-semibold text-ink-mute notranslate" translate="no">Global Clinical Center</span></span>
+                            <span class="material-symbols-outlined notranslate text-[20px] text-ink-mute" translate="no" aria-hidden="true">north_east</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 회사 정보 ===== -->
+    <section class="section bg-white">
+        <div class="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div class="lg:col-span-4">
+                <span class="kicker">Company</span>
+                <h2 class="h-section mt-3">회사 정보</h2>
+            </div>
+            <dl class="card divide-y divide-line lg:col-span-8">
+                <div class="grid gap-1 px-5 py-4 sm:grid-cols-[160px_1fr] sm:gap-4 sm:px-6">
+                    <dt class="text-[14px] font-bold text-ink">회사명</dt>
+                    <dd class="text-[15px]"><span>(주)이음인사이트</span> <span class="text-ink-mute notranslate" translate="no">EUM Insight Co., Ltd.</span></dd>
+                </div>
+                <div class="grid gap-1 px-5 py-4 sm:grid-cols-[160px_1fr] sm:gap-4 sm:px-6">
+                    <dt class="text-[14px] font-bold text-ink">대표자</dt>
+                    <dd class="text-[15px]">백지훈 (대표 컨설턴트)</dd>
+                </div>
+                <div class="grid gap-1 px-5 py-4 sm:grid-cols-[160px_1fr] sm:gap-4 sm:px-6">
+                    <dt class="text-[14px] font-bold text-ink">사업자등록번호</dt>
+                    <dd class="text-[15px]">847-81-04025</dd>
+                </div>
+                <div class="grid gap-1 px-5 py-4 sm:grid-cols-[160px_1fr] sm:gap-4 sm:px-6">
+                    <dt class="text-[14px] font-bold text-ink">주요 분야</dt>
+                    <dd class="text-[15px]">화장품 규제과학(Regulatory Science) 및 임상 전략 통합 컨설팅</dd>
+                </div>
+                <div class="grid gap-1 px-5 py-4 sm:grid-cols-[160px_1fr] sm:gap-4 sm:px-6">
+                    <dt class="text-[14px] font-bold text-ink">본사 주소</dt>
+                    <dd class="text-[15px]">제주도 제주시 아란5길 19-4, 2층<br>서울시 구로구 디지털로31길 62, 501호</dd>
+                </div>
+                <div class="grid gap-1 px-5 py-4 sm:grid-cols-[160px_1fr] sm:gap-4 sm:px-6">
+                    <dt class="text-[14px] font-bold text-ink">연락처</dt>
+                    <dd class="text-[15px]"><a href="tel:02-6739-0069" class="hover:text-primary">02-6739-0069</a> (평일 09:00 - 17:00)<br><a href="mailto:info@eum-in.com" class="hover:text-primary">info@eum-in.com</a></dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <section th:replace="~{fragments/layout :: cta('ETC')}"></section>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>

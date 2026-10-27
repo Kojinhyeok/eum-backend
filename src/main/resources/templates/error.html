@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('페이지를 찾을 수 없습니다 | 이음인사이트', '이음인사이트')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('error')}"></header>
+
+<main class="bg-surface-low">
+    <section class="container-x flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
+        <p class="text-[56px] font-extrabold tracking-tight text-primary md:text-[72px]" th:text="${status} ?: '404'">404</p>
+        <h1 class="mt-2 text-[22px] font-extrabold md:text-[26px]">요청하신 페이지를 표시할 수 없습니다</h1>
+        <p class="mt-3 max-w-md text-[15px] leading-7">주소가 변경되었거나 일시적인 오류일 수 있습니다. 아래 버튼으로 이동해 주세요.</p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="/" class="btn btn-primary">홈으로</a>
+            <a href="/contact" class="btn btn-outline">문의하기</a>
+        </div>
+    </section>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>

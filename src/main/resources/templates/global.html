@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('글로벌 규제대응 | 이음인사이트', '미국 FDA MoCRA, 유럽·영국 CPNP/SCPN, 중국 NMPA, 아세안 ACD 등 권역별 화장품 인허가 표준 프로세스와 예상 소요기간을 안내합니다.')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('global')}"></header>
+
+<main>
+    <!-- ===== 페이지 히어로 ===== -->
+    <section class="page-hero">
+        <div class="container-x relative py-12 md:py-16">
+            <span class="kicker">Global Regulatory Affairs Intelligence</span>
+            <h1 class="h-page mt-3">해외 화장품 인허가</h1>
+            <p class="lead mt-4 max-w-2xl">
+                FDA MoCRA, EU CPNP, 중국 NMPA, 아세안 등 목표 국가별 진입 요건 검토부터 기술서류 작성, 당국 등록과 사후관리까지 전주기로 지원합니다.
+            </p>
+        </div>
+    </section>
+
+    <section class="section !pt-10 md:!pt-14 bg-white" data-tabs>
+        <div class="container-x">
+            <!-- ===== 권역 탭 ===== -->
+            <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-end">
+                <h2 class="text-[20px] font-extrabold tracking-tight md:text-[22px]">4대 핵심 권역별 규제 트랙 요약</h2>
+                <p class="text-[13px] text-ink-mute">국가를 선택하면 세부 프로세스를 확인할 수 있습니다</p>
+            </div>
+
+            <div class="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4" role="tablist" aria-label="권역 선택">
+                <button type="button" class="tab-card" role="tab" data-tab-target="us">
+                    <span class="flex w-full items-start justify-between gap-2">
+                        <span class="tab-title text-[16px] font-extrabold text-ink md:text-[17px]">미국 <span class="font-semibold">(USA)</span></span>
+                        <span class="tab-code chip hidden sm:inline-flex notranslate" translate="no">FDA</span>
+                    </span>
+                    <span class="tab-sub text-[13px] font-semibold text-ink-soft">MoCRA / OTC</span>
+                </button>
+                <button type="button" class="tab-card" role="tab" data-tab-target="eu">
+                    <span class="flex w-full items-start justify-between gap-2">
+                        <span class="tab-title text-[16px] font-extrabold text-ink md:text-[17px]">유럽·영국 <span class="font-semibold">(EU·UK)</span></span>
+                        <span class="tab-code chip hidden sm:inline-flex notranslate" translate="no">EC / UK</span>
+                    </span>
+                    <span class="tab-sub text-[13px] font-semibold text-ink-soft">CPNP / SCPN</span>
+                </button>
+                <button type="button" class="tab-card" role="tab" data-tab-target="cn">
+                    <span class="flex w-full items-start justify-between gap-2">
+                        <span class="tab-title text-[16px] font-extrabold text-ink md:text-[17px]">중국 <span class="font-semibold">(China)</span></span>
+                        <span class="tab-code chip hidden sm:inline-flex notranslate" translate="no">NMPA</span>
+                    </span>
+                    <span class="tab-sub text-[13px] font-semibold text-ink-soft">일반 등록·특수 허가</span>
+                </button>
+                <button type="button" class="tab-card" role="tab" data-tab-target="asean">
+                    <span class="flex w-full items-start justify-between gap-2">
+                        <span class="tab-title text-[16px] font-extrabold text-ink md:text-[17px]">아세안 <span class="font-semibold">(ASEAN)</span></span>
+                        <span class="tab-code chip hidden sm:inline-flex notranslate" translate="no">ACD</span>
+                    </span>
+                    <span class="tab-sub text-[13px] font-semibold text-ink-soft">10개국 통일 규정 / 전자신고</span>
+                </button>
+            </div>
+
+            <!-- ===== 미국 ===== -->
+            <article class="card bar-top mt-6 p-5 shadow-card sm:p-8" role="tabpanel" data-tab-panel="us" id="panel-us">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <span class="chip-dark self-start sm:self-auto notranslate" translate="no">MoCRA / OTC</span>
+                    <h2 class="text-[22px] font-extrabold tracking-tight md:text-[28px]">미국 FDA 규제 대응 트랙</h2>
+                </div>
+
+                <h3 class="mt-8 text-[16px] font-bold">표준 수행 프로세스 타임라인</h3>
+                <ol class="mt-4 grid gap-3 md:grid-cols-3">
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">1</span>제품 검토</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">성분 처방 &amp; 라벨링 규정 검토</p>
+                        <p class="mt-1.5 text-[14px] leading-6">배합 금지/한도 물질 및 미국 표시사항</p>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">2</span>당국 행정 접수</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">제품 리스팅</p>
+                        <p class="mt-1.5 text-[14px] leading-6">FDA Direct 계정 생성 및 제품별 리스팅</p>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">3</span>사후관리</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">연간 업데이트 무료 제공</p>
+                        <p class="mt-1.5 text-[14px] leading-6">MoCRA 의무사항인 연간 업데이트 무상제공</p>
+                    </li>
+                </ol>
+
+                <div class="mt-6 flex flex-col gap-2 border-t border-line pt-4 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+                    <p class="flex items-center gap-2 font-semibold text-ink-soft"><span class="h-1.5 w-1.5 rounded-full bg-mint-dark"></span>이음인사이트 글로벌 전담팀 자체 검수</p>
+                    <p class="font-bold text-primary">예상 소요기간: 8~10 영업일 (자료 완비 시)</p>
+                </div>
+            </article>
+
+            <!-- ===== 유럽·영국 ===== -->
+            <article class="card bar-top mt-6 p-5 shadow-card sm:p-8" role="tabpanel" data-tab-panel="eu" id="panel-eu" hidden>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <span class="chip-dark self-start sm:self-auto notranslate" translate="no">CPNP / SCPN</span>
+                    <h2 class="text-[22px] font-extrabold tracking-tight md:text-[28px]">유럽·영국 (EU·UK) 규제 대응 트랙</h2>
+                </div>
+
+                <h3 class="mt-8 text-[16px] font-bold">표준 수행 프로세스 타임라인</h3>
+                <ol class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">1</span>포뮬러 &amp; PIF 준비</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">전성분 &amp; 규제 검토</p>
+                        <ul class="dot-list mt-1.5 space-y-0.5 text-[14px] leading-6"><li>전성분 검토</li><li>PIF 자료 취합 및 검토</li></ul>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">2</span>CPSR 안전성 보고서</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">Safety Assessor 심사</p>
+                        <p class="mt-1.5 text-[14px] leading-6">Part A(안전성 정보) &amp; Part B(안전성 평가) 작성 완료</p>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">3</span>현지 RP 지정 &amp; 라벨링</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">법적 대리인 및 패키지</p>
+                        <ul class="dot-list mt-1.5 space-y-0.5 text-[14px] leading-6"><li>유럽/영국 RP 지정</li><li>포장 표기 및 클레임 적합성 감수</li></ul>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">4</span>CPNP / SCPN 공식 등록</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">당국 포털 등록 및 승인</p>
+                        <ul class="dot-list mt-1.5 space-y-0.5 text-[14px] leading-6"><li>유럽 CPNP 및 영국 SCPN 신고</li><li>PIF 및 신고번호 공유</li></ul>
+                    </li>
+                </ol>
+
+                <div class="mt-6 border-t border-line pt-4 text-[13px]">
+                    <p class="font-bold text-primary">예상 소요기간: 약 2~3개월 (서류 취합 상황에 따라 변동될 수 있음)</p>
+                </div>
+            </article>
+
+            <!-- ===== 중국 ===== -->
+            <article class="card bar-top mt-6 p-5 shadow-card sm:p-8" role="tabpanel" data-tab-panel="cn" id="panel-cn" hidden>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <span class="chip-dark self-start sm:self-auto notranslate" translate="no">NMPA / CSAR</span>
+                    <h2 class="text-[22px] font-extrabold tracking-tight md:text-[28px]">중국 국가약품감독관리국(NMPA)</h2>
+                </div>
+
+                <h3 class="mt-8 text-[16px] font-bold">표준 수행 프로세스 타임라인</h3>
+                <ol class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">1</span>처방 검토 &amp; 원료코드</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">전성분 검토</p>
+                        <p class="mt-1.5 text-[14px] leading-6">전성분 검토 및 원료코드 검토</p>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">2</span>경내책임인 지정 &amp; 공증</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">법적 대리인 지정</p>
+                        <ul class="dot-list mt-1.5 space-y-0.5 text-[14px] leading-6"><li>중국 현지 경내책임인 지정 계약</li><li>수권서(위임장) 공증 및 아포스티유/영사확인</li><li>NMPA 당국 전자시스템 계정 개설</li></ul>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">3</span>공인 검사기관 시험 &amp; 효능평가</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">미생물·이화학·독성시험 및 인체적용 효능평가</p>
+                        <ul class="dot-list mt-1.5 space-y-0.5 text-[14px] leading-6"><li>중국 공인 검사기관 안전성 시험(미생물, 중금속, 독리시험) 및 효능·효과 입증 시험자료 구비(필요시)</li><li>안전성 평가 보고서 작성</li></ul>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">4</span>NMPA 온라인 등록·허가 완료</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">일반(비특수) 등록 / 특수화장품 허가</p>
+                        <ul class="dot-list mt-1.5 space-y-0.5 text-[14px] leading-6"><li>NMPA 온라인 플랫폼 전자서류 최종 제출</li><li>보완자료 대응</li></ul>
+                    </li>
+                </ol>
+
+                <div class="mt-6 border-t border-line pt-4 text-[13px]">
+                    <p class="font-bold text-primary">예상 소요기간: 일반(비특수 화장품) 3~5개월 / 특수(미백·주름·자외선차단·탈모 등) 8~12개월</p>
+                </div>
+            </article>
+
+            <!-- ===== 아세안 ===== -->
+            <article class="card bar-top mt-6 p-5 shadow-card sm:p-8" role="tabpanel" data-tab-panel="asean" id="panel-asean" hidden>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <span class="chip-dark self-start sm:self-auto notranslate" translate="no">ACD / ASEAN</span>
+                    <h2 class="text-[22px] font-extrabold tracking-tight md:text-[28px]">아세안 화장품 지침 (ACD) 공통 인허가 프로세스</h2>
+                </div>
+                <p class="mt-3 text-[14px] leading-6">싱가포르·말레이시아·태국·베트남·인도네시아 등 아세안 10개 회원국 단일 표준 규정 및 각 국가별 규정에 따른 Notification</p>
+
+                <h3 class="mt-8 text-[16px] font-bold">표준 수행 프로세스 타임라인</h3>
+                <ol class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">1</span>처방 및 라벨링 사전 스크리닝</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">Formulation &amp; Labeling</p>
+                        <ul class="dot-list mt-1.5 space-y-0.5 text-[14px] leading-6"><li>전성분 ACD 부속서(Annexes) 배합 한도 및 금지 성분 스크리닝</li><li>아세안 공통 라벨링 요건 준수 검토</li></ul>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">2</span>현지 등록 책임자 지정</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">Local Importer / Applicant</p>
+                        <p class="mt-1.5 text-[14px] leading-6">수출 대상국 내 사업자등록 및 화장품 취급 라이선스를 보유한 현지 법적 등록 주체(수입사 또는 대행사) 지정</p>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">3</span>제품정보파일(PIF) 작성 &amp; 구비</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">Product Information File</p>
+                        <p class="mt-1.5 text-[14px] leading-6">PIF 서류 취합 및 검토(필요시)</p>
+                    </li>
+                    <li class="rounded-lg bg-surface-low p-4">
+                        <p class="flex items-center gap-2 text-[13px] font-bold text-primary"><span class="num-badge">4</span>당국 온라인 포털 신고 완료</p>
+                        <p class="mt-2 text-[16px] font-bold text-ink">Online Submission</p>
+                        <p class="mt-1.5 text-[14px] leading-6">각국 보건당국 포털에 제품 신고</p>
+                    </li>
+                </ol>
+
+                <div class="mt-6 flex flex-col gap-2 border-t border-line pt-4 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+                    <p class="flex items-center gap-2 font-semibold text-ink-soft"><span class="h-1.5 w-1.5 rounded-full bg-mint-dark"></span>국가별로 프로세스는 변동될 수 있음</p>
+                    <p class="font-bold text-primary">예상 소요기간: 사전 서류 준비 완료 후 평균 2개월 내 신고 완료 (국가별 상이)</p>
+                </div>
+            </article>
+
+            <!-- ===== 공통 안내 ===== -->
+            <p class="mt-6 flex items-start gap-2 rounded-lg bg-surface-low px-4 py-3.5 text-[14px] text-ink-soft">
+                <span class="material-symbols-outlined notranslate mt-px text-[20px] text-primary" translate="no" aria-hidden="true">info</span>
+                ※ 세부 수행 범위와 현지 대리인 요건은 대상 국가와 제품 유형에 따라 변동될 수 있습니다.
+            </p>
+
+            <!-- ===== 기타 국가 ===== -->
+            <div class="mt-10 grid gap-5 rounded-xl border border-line bg-white p-6 sm:p-8 md:grid-cols-[1fr_auto] md:items-center">
+                <div>
+                    <span class="chip">Other Markets</span>
+                    <h2 class="mt-3 text-[20px] font-extrabold tracking-tight md:text-[22px]">기타 국가 (일본·중동·오세아니아 등)</h2>
+                    <p class="mt-2 text-[14px] leading-6">일본 PMDA, 중동(SFDA), 캐나다, 호주 등 국가별 규제 요건 및 진출 타당성을 사전에 협의하고 맞춤으로 지원합니다.</p>
+                </div>
+                <a href="/contact?type=GLOBAL" class="btn btn-primary">
+                    진출 국가 상담하기<span class="material-symbols-outlined notranslate text-[20px]" translate="no" aria-hidden="true">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section th:replace="~{fragments/layout :: cta('GLOBAL')}"></section>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>

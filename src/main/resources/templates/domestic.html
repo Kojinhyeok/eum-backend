@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('국내 서비스 | 이음인사이트', '일반 화장품 전성분·국문 라벨 검토부터 기능성화장품 보고·심사, 표시·광고 실증까지 국내 화장품 인허가 표준 프로세스를 안내합니다.')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('domestic')}"></header>
+
+<main>
+    <!-- ===== 페이지 히어로 ===== -->
+    <section class="page-hero">
+        <div class="container-x relative py-12 md:py-16">
+            <span class="kicker">Domestic Regulatory Affairs &amp; Clinical Synergy</span>
+            <h1 class="h-page mt-3">국내 화장품 인허가</h1>
+            <p class="lead mt-4 max-w-2xl">
+                전성분 규격·배합한도 검토와 국문 라벨링부터 기능성화장품 보고·심사, 표시·광고 실증까지 국내 출시에 필요한 인허가를 연결합니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== 국내 서비스 범위 ===== -->
+    <section class="bg-white pt-12 md:pt-16">
+        <div class="container-x">
+            <div class="grid gap-4 md:grid-cols-3">
+                <div class="card bar-top p-5 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">fact_check</span></span>
+                    <h2 class="mt-4 text-[17px] font-bold">일반화장품 규격 및 라벨 검토</h2>
+                    <p class="mt-2 text-[14px] leading-6">전성분 규격·배합한도 심층 스크리닝, 법정 필수 기재사항 및 국문 라벨링 사전 검증</p>
+                </div>
+                <div class="card bar-top p-5 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">science</span></span>
+                    <h2 class="mt-4 text-[17px] font-bold">기능성화장품 심사 및 보고</h2>
+                    <p class="mt-2 text-[14px] leading-6">미백·주름·자외선차단·탈모 증상 완화 유효성 검증 자료 편철</p>
+                </div>
+                <div class="card bar-top p-5 shadow-card">
+                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">campaign</span></span>
+                    <h2 class="mt-4 text-[17px] font-bold">표시·광고 실증 가이드</h2>
+                    <p class="mt-2 text-[14px] leading-6">식약처 사후감시 대비 표시·광고 위반 리스크 검토 및 소구점 정제</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-white">
+        <div class="container-x">
+            <span class="kicker">Domestic Regulatory Process &amp; Scope</span>
+            <h2 class="h-section mt-3">국내 화장품 인허가 표준 프로세스 및 업무 범위</h2>
+
+            <!-- ===== TRACK 1 ===== -->
+            <article class="card mt-8 overflow-hidden shadow-card md:mt-10">
+                <div class="flex items-center gap-3 border-b border-line bg-surface-low px-5 py-4 sm:px-8 sm:py-5">
+                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
+                        <span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">spa</span>
+                    </span>
+                    <div>
+                        <p class="text-[12px] font-extrabold uppercase tracking-wider text-primary">Track 1</p>
+                        <h3 class="text-[18px] font-extrabold md:text-[20px]">일반 화장품 인허가 프로세스</h3>
+                    </div>
+                </div>
+
+                <ol class="grid gap-4 p-5 sm:p-8 md:grid-cols-3">
+                    <li class="rounded-lg border border-line p-5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[15px] font-extrabold text-primary">STEP 01</span>
+                            <span class="chip-mint">4 ~ 7 영업일</span>
+                        </div>
+                        <h4 class="mt-3 text-[17px] font-bold">전성분 규격 검토</h4>
+                        <ul class="dot-list mt-3 space-y-1.5 text-[14px] leading-6">
+                            <li>일반화장품 기준 사용 금지 성분 확인</li>
+                            <li>배합한도 및 원료별 제한조건 심층 체크</li>
+                            <li>표준 원료 성분명 국문 표기 적합성 검증</li>
+                        </ul>
+                    </li>
+                    <li class="rounded-lg border border-line p-5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[15px] font-extrabold text-primary">STEP 02</span>
+                            <span class="chip-mint">4 ~ 7 영업일</span>
+                        </div>
+                        <h4 class="mt-3 text-[17px] font-bold">국문 라벨 검토 및 제작</h4>
+                        <ul class="dot-list mt-3 space-y-1.5 text-[14px] leading-6">
+                            <li>화장품법 제10조 법정 표시사항 완벽 대조</li>
+                            <li>표시광고 가이드라인 준수 및 금지표현 필터링</li>
+                            <li>한국 라벨 필수 문구 작성 및 인쇄 규격 확정</li>
+                        </ul>
+                    </li>
+                    <li class="rounded-lg border border-line p-5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[15px] font-extrabold text-primary">STEP 03</span>
+                        </div>
+                        <h4 class="mt-3 text-[17px] font-bold">유통 준비 및 선택 옵션 연계</h4>
+                        <p class="mt-3 text-[13px] font-bold text-ink">실무 부대 서비스 옵션</p>
+                        <ul class="mt-2 divide-y divide-line rounded-lg bg-surface-low px-3 text-[14px]">
+                            <li class="py-2.5">화장품 책임판매업 등록</li>
+                            <li class="py-2.5">품질검사 의뢰대행(국내기준)</li>
+                            <li class="py-2.5">28년 제도 대응 안전성평가 보고서</li>
+                        </ul>
+                    </li>
+                </ol>
+            </article>
+
+            <!-- ===== TRACK 2 ===== -->
+            <article class="card mt-6 overflow-hidden shadow-card">
+                <div class="flex flex-col gap-3 border-b border-line bg-surface-low px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-5">
+                    <div class="flex items-center gap-3">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-mint text-primary-deep">
+                            <span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">science</span>
+                        </span>
+                        <div>
+                            <p class="text-[12px] font-extrabold uppercase tracking-wider text-primary">Track 2</p>
+                            <h3 class="text-[18px] font-extrabold md:text-[20px]">기능성화장품 인허가 프로세스 (보고 vs 심사)</h3>
+                        </div>
+                    </div>
+                    <span class="chip self-start sm:self-auto">이원화 맞춤 경로</span>
+                </div>
+
+                <div class="p-5 sm:p-8">
+                    <p class="text-[14px] leading-6">미백·주름개선·자외선차단·탈모완화 등 효능군별 식약처 고시 및 안전성·유효성 심사 체계</p>
+
+                    <!-- 사전 판별 -->
+                    <div class="mt-5 flex flex-col gap-4 rounded-lg border border-primary/20 bg-primary-50 p-5 md:flex-row md:items-center md:justify-between">
+                        <div class="flex gap-3">
+                            <span class="material-symbols-outlined notranslate mt-0.5 text-[22px] text-primary" translate="no" aria-hidden="true">rule</span>
+                            <div>
+                                <p class="text-[15px] font-bold text-ink">[사전 판별 단계] 기능성화장품 보고 vs 심사 대상 사전 스크리닝</p>
+                                <p class="mt-1 text-[14px] leading-6">식약처 기능성화장품 기준 및 시험방법 고시 원료·함량 부합 여부, 기허가 품목과의 대조를 통해 최적화된 인허가 경로를 선제적으로 확정합니다.</p>
+                            </div>
+                        </div>
+                        <span class="chip-dark shrink-0 self-start md:self-auto">사전 판별 후 트랙 확정</span>
+                    </div>
+
+                    <div class="mt-5 grid gap-4 lg:grid-cols-5">
+                        <!-- PATH A -->
+                        <div class="rounded-lg border border-line p-5 lg:col-span-2">
+                            <span class="chip">PATH A (Fast-Track)</span>
+                            <h4 class="mt-3 text-[18px] font-bold">기능성화장품 보고 트랙</h4>
+                            <p class="mt-1 text-[14px] leading-6">식약처 고시 원료 및 규격 기준에 정확히 부합하는 품목</p>
+                            <ul class="mt-4 space-y-2">
+                                <li class="check-item"><span class="material-symbols-outlined notranslate text-[20px] text-mint-dark" translate="no" aria-hidden="true">task_alt</span><span class="text-[14px] leading-6">안전성·유효성 시험자료 제출 면제 또는 간이 서류 검토</span></li>
+                                <li class="check-item"><span class="material-symbols-outlined notranslate text-[20px] text-mint-dark" translate="no" aria-hidden="true">bolt</span><span class="text-[14px] leading-6">의약품안전나라 시스템을 통한 전자보고</span></li>
+                                <li class="check-item"><span class="material-symbols-outlined notranslate text-[20px] text-mint-dark" translate="no" aria-hidden="true">description</span><span class="text-[14px] leading-6">보고서 작성 및 적격 신청 주체 협업 지원</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- PATH B -->
+                        <div class="rounded-lg border-2 border-primary p-5 lg:col-span-3">
+                            <span class="chip-dark">PATH B (Full-Track)</span>
+                            <h4 class="mt-3 text-[18px] font-bold">기능성화장품 심사 트랙 <span class="text-[15px] font-semibold text-ink-soft">(개별인정·신규 효능·비고시)</span></h4>
+                            <p class="mt-1 text-[14px] leading-6">새로운 효능, 복합제형, 신규 기능성 원료 및 식약처 심사관 평가가 필수적인 품목에 대해 전과정 전담 밀착 지원</p>
+                            <ol class="mt-4 grid gap-2 sm:grid-cols-2">
+                                <li class="flex gap-3 rounded-lg bg-surface-low p-3.5"><span class="num-badge">1</span><div><p class="text-[14px] font-bold text-ink">시험계획서 및 결과보고서 검토</p><p class="mt-0.5 text-[13px] leading-5">인체적용시험 데이터 및 안전성·기시법 타당성 검증</p></div></li>
+                                <li class="flex gap-3 rounded-lg bg-surface-low p-3.5"><span class="num-badge">2</span><div><p class="text-[14px] font-bold text-ink">신청자료 준비 및 식약처 제출</p><p class="mt-0.5 text-[13px] leading-5">기준및시험방법(기시법), 안전성·유효성</p></div></li>
+                                <li class="flex gap-3 rounded-lg bg-surface-low p-3.5"><span class="num-badge">3</span><div><p class="text-[14px] font-bold text-ink">식약처 보완</p><p class="mt-0.5 text-[13px] leading-5">심사관 보완요구에 대한 학술·임상 시험 대응</p></div></li>
+                                <li class="flex gap-3 rounded-lg bg-surface-low p-3.5"><span class="num-badge">4</span><div><p class="text-[14px] font-bold text-ink">제조사 핸들링 및 원료 규격</p><p class="mt-0.5 text-[13px] leading-5">원료 공급사 규격서 및 제조원 공정검증 자료 취합 조율</p></div></li>
+                            </ol>
+                            <div class="mt-4 rounded-lg bg-surface-low p-3.5 text-[13px]">
+                                <p class="font-bold text-ink">선택·부대 실무 옵션</p>
+                                <div class="mt-2 flex flex-wrap gap-2">
+                                    <span class="rounded bg-white px-2.5 py-1 font-semibold">기능성 효능시험 의뢰대행</span>
+                                    <span class="rounded bg-white px-2.5 py-1 font-semibold">품질검사 의뢰대행</span>
+                                    <span class="rounded bg-white px-2.5 py-1 font-semibold">안전성평가 보고서 작성</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section th:replace="~{fragments/layout :: cta('DOMESTIC')}"></section>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>
