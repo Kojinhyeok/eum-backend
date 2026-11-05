@@ -25,9 +25,9 @@
          새 아이콘을 쓰면 아래 icon_names 목록에 이름을 추가해야 표시됩니다. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&icon_names=analytics,arrow_downward,arrow_forward,biotech,bolt,call,campaign,check,check_circle,checklist,chevron_left,chevron_right,clinical_notes,close,description,diversity_3,domain_verification,expand_more,fact_check,headset_mic,hub,info,inventory_2,lock,mail,menu,north_east,notifications_active,policy,public,rule,science,spa,task_alt,trending_up,verified,verified_user&display=block">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0..1,0&icon_names=arrow_back,arrow_downward,arrow_forward,call,check,check_circle,checklist,chevron_left,chevron_right,close,expand_more,headset_mic,info,inventory_2,lock,mail,menu,north_east,policy,public,task_alt,verified,verified_user&display=block">
 
-    <link rel="stylesheet" href="/css/site.css?v=20261106">
+    <link rel="stylesheet" href="/css/site.css?v=20261106b">
 </head>
 
 <body>
@@ -153,6 +153,25 @@
         </div>
     </div>
 </header>
+
+<!-- =========================================================
+     게시판 탭: 인사이트 / 공지사항 하위 메뉴 이동
+     th:replace="~{fragments/layout :: insightTabs('RESEARCH')}"
+     ========================================================= -->
+<nav th:fragment="insightTabs(current)" class="border-b border-line bg-white" aria-label="인사이트 메뉴">
+    <div class="container-x no-scrollbar flex gap-6 overflow-x-auto">
+        <a href="/regulations" class="board-tab" th:classappend="${current == 'REGULATIONS'} ? 'is-active'">글로벌 규제동향</a>
+        <a href="/insights/research" class="board-tab" th:classappend="${current == 'RESEARCH'} ? 'is-active'">화장품 연구동향</a>
+        <a href="/insights/column" class="board-tab" th:classappend="${current == 'COLUMN'} ? 'is-active'">전문가 칼럼</a>
+    </div>
+</nav>
+
+<nav th:fragment="noticeTabs(current)" class="border-b border-line bg-white" aria-label="공지사항 메뉴">
+    <div class="container-x no-scrollbar flex gap-6 overflow-x-auto">
+        <a href="/notice/company" class="board-tab" th:classappend="${current == 'NOTICE'} ? 'is-active'">회사공지</a>
+        <a href="/notice/event" class="board-tab" th:classappend="${current == 'EVENT'} ? 'is-active'">행사 및 세미나</a>
+    </div>
+</nav>
 
 <!-- =========================================================
      하단 상담 CTA: th:replace="~{fragments/layout :: cta('GLOBAL')}"

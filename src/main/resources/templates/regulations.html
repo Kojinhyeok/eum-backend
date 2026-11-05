@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('국가별 최신규정 | 이음인사이트', '미국 FDA MoCRA, 유럽·영국 CPNP/SCPN, 중국 NMPA, 아세안 ACD 등 국가별 화장품 규정 개정 사항과 규제 영향 분석, 체크포인트를 상시 업데이트합니다.')}"></head>
+<head th:replace="~{fragments/layout :: head('글로벌 규제동향 | 인사이트 | 이음인사이트', '미국 FDA MoCRA, 유럽·영국 CPNP/SCPN, 중국 NMPA, 아세안 ACD 등 국가별 화장품 규정 개정 사항과 규제 영향 분석, 체크포인트를 상시 업데이트합니다.')}"></head>
 <body>
 <header th:replace="~{fragments/layout :: header('regulations')}"></header>
 
@@ -10,11 +10,13 @@
         <div class="container-x relative py-12 md:py-16">
             <div class="flex flex-wrap items-center gap-3">
                 <span class="kicker">Global Regulatory Intelligence &amp; Live Radar</span>
-                <span class="chip-mint"><span class="live-dot"></span>상시 업데이트 운영 중 (Daily Tracking System)</span>
+                <span class="chip-lime"><span class="live-dot"></span>상시 업데이트 운영 중 (Daily Tracking System)</span>
             </div>
-            <h1 class="h-page mt-4 max-w-4xl">국가별 화장품 규정 상시 모니터링 &amp; 지속 업데이트 체계</h1>
+            <h1 class="h-page mt-4 max-w-4xl">국가별 화장품 규정</h1>
         </div>
     </section>
+
+    <nav th:replace="~{fragments/layout :: insightTabs('REGULATIONS')}"></nav>
 
     <!-- ===== 권역별 최신 요약 ===== -->
     <section th:if="${hasSummary}" class="bg-white pt-10 md:pt-14">
@@ -22,7 +24,7 @@
             <!-- 모바일: 가로 스크롤 / 태블릿 이상: 그리드 -->
             <div class="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
                 <a th:each="s : ${summaryPosts}" th:href="|/regulations?region=${s.region.code}#post-${s.id}|" href="#"
-                   class="card bar-top group flex w-[82%] shrink-0 snap-start flex-col p-5 shadow-card transition-shadow hover:shadow-lift sm:w-auto">
+                   class="card group flex w-[82%] shrink-0 snap-start flex-col p-5 transition-colors hover:border-primary sm:w-auto">
                     <div class="flex items-center justify-between gap-2">
                         <span class="chip" th:text="${s.category}">최신 개정 완료</span>
                         <span class="text-[12px] text-ink-mute" th:text="${s.dateLabel}">2025.02.01</span>
@@ -38,19 +40,6 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 규제 레터 구독 -->
-            <div class="mt-5 flex flex-col gap-4 rounded-xl border border-line bg-surface-low p-5 sm:flex-row sm:items-center sm:justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-mint">
-                        <span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">notifications_active</span>
-                    </span>
-                    <p class="text-[15px] font-bold text-ink">관심 국가의 규정 변경 소식을 받아보세요</p>
-                </div>
-                <a href="/contact?type=LETTER" class="btn btn-primary !py-2.5">
-                    <span class="material-symbols-outlined notranslate text-[20px]" translate="no" aria-hidden="true">mail</span>고객사 맞춤형 글로벌 규제 레터 구독 신청
-                </a>
-            </div>
         </div>
     </section>
 
@@ -59,7 +48,7 @@
         <div class="container-x">
             <div class="text-center">
                 <span class="kicker">Global Regulatory Intelligence Archive</span>
-                <h2 class="h-section mt-3">국가별 최신 규정 업데이트 &amp; 변경 가이드</h2>
+                <h2 class="h-section mt-3">국가별 최신 규정 업데이트</h2>
             </div>
 
             <!-- 권역 필터 -->
@@ -74,7 +63,7 @@
 
             <!-- 게시글 카드 -->
             <div th:if="${hasPosts}" class="mt-8 grid gap-5 lg:grid-cols-2">
-                <article th:each="p : ${posts}" th:id="|post-${p.id}|" class="card flex flex-col p-5 shadow-card sm:p-6">
+                <article th:each="p : ${posts}" th:id="|post-${p.id}|" class="card flex flex-col p-5 sm:p-6">
                     <!-- 국가 헤더 -->
                     <header class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                         <div class="flex min-w-0 items-start gap-3">
@@ -82,7 +71,7 @@
                             <div class="min-w-0">
                                 <p class="flex flex-wrap items-center gap-x-2 gap-y-1">
                                     <span class="text-[18px] font-extrabold text-ink"><span th:text="${p.region.label}">미국</span> <span class="notranslate" translate="no" th:text="${p.region.en}">USA</span></span>
-                                    <span class="chip-mint !py-0.5 !text-[11px]"><span class="live-dot"></span>Live Active</span>
+                                    <span class="chip-lime !py-0.5 !text-[11px]"><span class="live-dot"></span>Live Active</span>
                                 </p>
                                 <p class="mt-0.5 text-[12px] font-semibold text-primary notranslate" translate="no" th:text="${p.region.framework}">US FDA MoCRA &amp; OTC Regulations</p>
                             </div>
@@ -115,7 +104,7 @@
                         </p>
                         <ul class="mt-2 space-y-1.5">
                             <li th:each="c : ${p.checkpointList}" class="flex items-start gap-2 text-[14px] leading-6">
-                                <span class="material-symbols-outlined notranslate mt-0.5 text-[18px] text-mint-dark" translate="no" aria-hidden="true">check_circle</span>
+                                <span class="material-symbols-outlined notranslate mt-0.5 text-[18px] text-lime-dark" translate="no" aria-hidden="true">check_circle</span>
                                 <span th:text="${c}">체크포인트</span>
                             </li>
                         </ul>
@@ -125,7 +114,7 @@
                     <div class="mt-auto pt-5">
                     <footer class="flex flex-col gap-2 border-t border-line pt-4 text-[13px] sm:flex-row sm:items-center sm:justify-between">
                         <span class="inline-flex items-center gap-1.5 text-ink-mute">
-                            <span class="material-symbols-outlined notranslate text-[18px] text-mint-dark" translate="no" aria-hidden="true">verified</span>DB 동기화 완료
+                            <span class="material-symbols-outlined notranslate text-[18px] text-lime-dark" translate="no" aria-hidden="true">verified</span>DB 동기화 완료
                         </span>
                         <a th:if="${p.hasSource}" th:href="${p.sourceUrl}" href="#" target="_blank" rel="noopener"
                            class="inline-flex items-center gap-1 font-bold text-primary hover:underline">

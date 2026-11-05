@@ -3,7 +3,6 @@
  *
  *  - primary : Navy (메인 색, 제목·버튼·진한 배경)
  *  - lime    : Neon Lime (포인트 색, 버튼 배경·강조선·점) → 흰 배경 위 '글자색'으로는 쓰지 않음
- *  - mint    : 이전 팔레트 클래스 호환용 별칭(= lime). 페이지 수정이 끝나면 삭제 예정
  */
  const lime = {
   DEFAULT: '#B7F34D',
@@ -26,7 +25,6 @@ module.exports = {
           50: '#EEF2F5',
         },
         lime,
-        mint: lime,
         surface: {
           DEFAULT: '#FFFFFF',
           low: '#F5F9F0',

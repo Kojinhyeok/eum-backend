@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="robots" content="noindex, nofollow">
+	<title>인사이트·공지사항 게시판 - 이음인사이트</title>
+	<link href="../css/app.css" rel="stylesheet">
+	<link href="../css/custom.css" rel="stylesheet">
+</head>
+
+<body data-page="board-list" data-base="../">
+<div class="wrapper">
+	<div id="sidebar-container"></div>
+	<div class="main">
+		<div id="header-container"></div>
+
+		<main class="content">
+			<div class="container-fluid p-0">
+				<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+					<h1 class="h3 mb-0"><strong>인사이트·공지사항 게시판</strong></h1>
+					<button type="button" class="btn btn-primary" onclick="openForm()">+ 새 글 등록</button>
+				</div>
+
+				<div class="card mb-3">
+					<div class="card-body py-3 d-flex flex-wrap align-items-center gap-2">
+						<label for="filterBoard" class="mb-0 small text-muted">게시판</label>
+						<select id="filterBoard" class="form-select form-select-sm" style="width:auto;" onchange="renderTable()">
+							<option value="">전체</option>
+						</select>
+						<span class="small text-muted ms-auto" id="countLabel"></span>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="table-responsive">
+						<table class="table table-hover my-0" id="boardTable">
+							<thead>
+							<tr>
+								<th style="width:110px;">작성일</th>
+								<th style="width:150px;">게시판</th>
+								<th>제목</th>
+								<th style="width:70px;">조회</th>
+								<th style="width:90px;">상태</th>
+								<th style="width:190px;">관리</th>
+							</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+
+<!-- 등록/수정 모달 -->
+<div class="modal fade" id="formModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="formTitle">새 글 등록</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form onsubmit="return false;">
+					<input type="hidden" id="postId">
+					<div class="row g-3">
+						<div class="col-md-5">
+							<label class="form-label required" for="fBoard">게시판</label>
+							<select class="form-select" id="fBoard"></select>
+						</div>
+						<div class="col-12">
+							<label class="form-label required" for="fTitle">제목</label>
+							<input class="form-control" id="fTitle" maxlength="200">
+						</div>
+						<div class="col-12">
+							<label class="form-label required" for="fContent">본문</label>
+							<textarea class="form-control" id="fContent" rows="12"></textarea>
+							<div class="form-hint">입력한 줄바꿈이 홈페이지에 그대로 표시됩니다.</div>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="fLink">관련 링크 (선택)</label>
+							<input class="form-control" id="fLink" maxlength="500" placeholder="https://">
+							<div class="form-hint">원문 기사, 행사 신청 페이지 등. 입력하면 글 하단에 ‘관련 링크 바로가기’ 버튼이 표시됩니다.</div>
+						</div>
+						<div class="col-12 d-flex flex-wrap gap-4">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="fPinned">
+								<label class="form-check-label" for="fPinned">목록 상단 고정</label>
+							</div>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" id="fPublished" checked>
+								<label class="form-check-label" for="fPublished">홈페이지에 게시</label>
+							</div>
+						</div>
+					</div>
+					<div id="formError" class="alert alert-danger mt-3 mb-0 py-2 px-3" style="display:none;"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-primary" id="btnSave" onclick="savePost()">저장</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script>
+	let types = [];
+	let posts = [];
+
+	function esc(s) {
+		return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+	}
+	function typeOf(code) {
+		return types.find(t => t.code === code) || { label: code, groupLabel: '', path: '#' };
+	}
+	function formatDate(v) {
+		if (Array.isArray(v)) return v[0] + '.' + String(v[1]).padStart(2, '0') + '.' + String(v[2]).padStart(2, '0');
+		return v ? String(v).substring(0, 10).replaceAll('-', '.') : '-';
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+		fetch("/api/admin/board/types")
+			.then(res => res.json())
+			.then(list => {
+				types = list;
+				const opts = list.map(t => `<option value="${t.code}">${esc(t.groupLabel)} > ${esc(t.label)}</option>`).join('');
+				document.getElementById("fBoard").innerHTML = opts;
+				document.getElementById("filterBoard").insertAdjacentHTML('beforeend', opts);
+				loadPosts();
+			});
+	});
+
+	function loadPosts() {
+		fetch("/api/admin/board")
+			.then(res => res.json())
+			.then(list => { posts = list; renderTable(); });
+	}
+
+	function renderTable() {
+		const filter = document.getElementById("filterBoard").value;
+		const list = filter ? posts.filter(p => p.board === filter) : posts;
+		document.getElementById("countLabel").textContent = `총 ${list.length}건`;
+		const tbody = document.querySelector("#boardTable tbody");
+		tbody.innerHTML = list.length === 0
+			? '<tr><td colspan="6" class="text-center py-4">등록된 글이 없습니다.</td></tr>'
+			: list.map(p => {
+				const t = typeOf(p.board);
+				return `
+				<tr>
+					<td class="align-middle">${formatDate(p.createdAt)}</td>
+					<td class="align-middle">${esc(t.label)}</td>
+					<td class="align-middle">${p.pinned ? '<span class="badge bg-secondary me-1">고정</span>' : ''}${esc(p.title)}</td>
+					<td class="align-middle">${p.viewCount ?? 0}</td>
+					<td class="align-middle">${p.published
+						? '<span class="badge badge-new">게시</span>'
+						: '<span class="badge badge-done">숨김</span>'}</td>
+					<td class="align-middle">
+						<a class="btn btn-sm btn-outline-secondary" href="${t.path}/${p.id}" target="_blank">보기</a>
+						<button class="btn btn-sm btn-outline-primary" onclick="openForm(${p.id})">수정</button>
+						<button class="btn btn-sm btn-outline-danger" onclick="deletePost(${p.id})">삭제</button>
+					</td>
+				</tr>`;
+			}).join("");
+	}
+
+	function setVal(id, v) { document.getElementById(id).value = v ?? ''; }
+	function getVal(id) { return document.getElementById(id).value; }
+
+	function openForm(id) {
+		document.getElementById("formError").style.display = "none";
+		const p = id ? posts.find(x => x.id === id) : null;
+		const filter = document.getElementById("filterBoard").value;
+		document.getElementById("formTitle").textContent = p ? "글 수정" : "새 글 등록";
+		setVal("postId", p ? p.id : '');
+		setVal("fBoard", p ? p.board : (filter || (types[0] && types[0].code)));
+		setVal("fTitle", p && p.title);
+		setVal("fContent", p && p.content);
+		setVal("fLink", p && p.linkUrl);
+		document.getElementById("fPinned").checked = p ? p.pinned : false;
+		document.getElementById("fPublished").checked = p ? p.published : true;
+		bootstrap.Modal.getOrCreateInstance(document.getElementById('formModal')).show();
+	}
+
+	function savePost() {
+		const id = getVal("postId");
+		const body = {
+			board: getVal("fBoard"),
+			title: getVal("fTitle"),
+			content: getVal("fContent"),
+			linkUrl: getVal("fLink"),
+			pinned: document.getElementById("fPinned").checked,
+			published: document.getElementById("fPublished").checked
+		};
+		const errBox = document.getElementById("formError");
+		errBox.style.display = "none";
+		const btn = document.getElementById("btnSave");
+		btn.disabled = true;
+
+		fetch(id ? `/api/admin/board/${id}` : "/api/admin/board", {
+			method: id ? "PUT" : "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(body)
+		})
+			.then(async res => {
+				const data = await res.json().catch(() => ({}));
+				if (!res.ok) throw new Error(data.message || "저장 중 오류가 발생했습니다.");
+				return data;
+			})
+			.then(() => {
+				bootstrap.Modal.getOrCreateInstance(document.getElementById('formModal')).hide();
+				loadPosts();
+			})
+			.catch(err => {
+				errBox.textContent = err.message;
+				errBox.style.display = "block";
+			})
+			.finally(() => { btn.disabled = false; });
+	}
+
+	function deletePost(id) {
+		const p = posts.find(x => x.id === id);
+		if (!confirm(`"${p ? p.title : ''}" 글을 삭제하시겠습니까?`)) return;
+		fetch(`/api/admin/board/${id}`, { method: "DELETE" })
+			.then(res => { if (res.ok) loadPosts(); else alert("삭제에 실패했습니다."); });
+	}
+</script>
+</body>
+</html>

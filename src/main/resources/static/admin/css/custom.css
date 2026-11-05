@@ -1,7 +1,7 @@
 /* =====================================================
    페이지 로딩 (FOUC 방지)
    ===================================================== */
-.wrapper {
+   .wrapper {
 	opacity: 0;
 	transition: opacity 0.15s ease-in;
 }
@@ -436,56 +436,56 @@
 }
 
 /* =====================================================
-   이음인사이트 브랜드 컬러 (Deep Teal #315E74 / Neon Mint #2EE6BE)
+   이음인사이트 브랜드 컬러 (Navy #263F56 / Neon Lime #B7F34D)
    ===================================================== */
 .sidebar,
 .sidebar-content,
 .sidebar-brand,
 .sidebar-link,
 a.sidebar-link {
-	background: #1B3644;
+	background: #182A3B;
 }
 .sidebar-item.active > .sidebar-link,
 .sidebar-item.active > a.sidebar-link {
-	background: linear-gradient(90deg, rgba(46, 230, 190, 0.14), rgba(46, 230, 190, 0.02) 60%, transparent);
-	border-left-color: #2EE6BE;
+	background: linear-gradient(90deg, rgba(183, 243, 77, 0.14), rgba(183, 243, 77, 0.02) 60%, transparent);
+	border-left-color: #B7F34D;
 }
 .sidebar-brand .brand-dot {
 	display: inline-block;
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
-	background: #2EE6BE;
+	background: #B7F34D;
 	margin-left: 4px;
 	vertical-align: middle;
 }
 .btn-primary {
-	background-color: #315E74;
-	border-color: #315E74;
+	background-color: #263F56;
+	border-color: #263F56;
 }
 .btn-primary:hover,
 .btn-primary:focus {
-	background-color: #264B5D;
-	border-color: #264B5D;
+	background-color: #1D3246;
+	border-color: #1D3246;
 }
 .btn-outline-primary {
-	color: #315E74;
-	border-color: #315E74;
+	color: #263F56;
+	border-color: #263F56;
 }
 .btn-outline-primary:hover {
-	background-color: #315E74;
-	border-color: #315E74;
+	background-color: #263F56;
+	border-color: #263F56;
 	color: #fff;
 }
 .page-item.active .page-link {
-	background-color: #315E74;
-	border-color: #315E74;
+	background-color: #263F56;
+	border-color: #263F56;
 }
 
 /* 상태 배지 */
 .badge-new {
-	background: #D6FAF1;
-	color: #1B3644;
+	background: #E5F5CF;
+	color: #182A3B;
 	font-weight: 700;
 }
 .badge-done {

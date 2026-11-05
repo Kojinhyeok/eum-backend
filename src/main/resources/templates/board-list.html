@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${board.label + ' | ' + board.groupLabel + ' | 이음인사이트'}, ${'이음인사이트 ' + board.groupLabel + ' - ' + board.label})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header(${activeMenu})}"></header>
+
+<main>
+    <!-- ===== 페이지 히어로 ===== -->
+    <section class="page-hero">
+        <div class="container-x relative py-12 md:py-14">
+            <span class="kicker" th:text="${isInsights} ? 'Insights' : 'Notice'">Insights</span>
+            <h1 class="h-page mt-3" th:text="${board.label}">화장품 연구동향</h1>
+        </div>
+    </section>
+
+    <th:block th:if="${isInsights}">
+        <nav th:replace="~{fragments/layout :: insightTabs(${board.code})}"></nav>
+    </th:block>
+    <th:block th:unless="${isInsights}">
+        <nav th:replace="~{fragments/layout :: noticeTabs(${board.code})}"></nav>
+    </th:block>
+
+    <section class="section !pt-10 bg-white md:!pt-12">
+        <div class="container-x">
+            <!-- 목록 -->
+            <ul th:if="${hasPosts}" class="divide-y divide-line border-y border-primary/80">
+                <li th:each="p : ${posts}">
+                    <a th:href="|${board.path}/${p.id}|" href="#" class="group flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:gap-6">
+                        <div class="min-w-0 flex-1">
+                            <p class="flex items-center gap-2">
+                                <span th:if="${p.pinned}" class="chip-dark shrink-0">고정</span>
+                                <span class="line-clamp-2 text-[16px] font-bold text-ink group-hover:text-primary group-hover:underline sm:line-clamp-1" th:text="${p.title}">제목</span>
+                            </p>
+                            <p class="mt-1 line-clamp-1 text-[14px] text-ink-mute" th:text="${p.excerpt}">요약</p>
+                        </div>
+                        <div class="flex shrink-0 items-center gap-3 text-[13px] text-ink-mute sm:w-[150px] sm:justify-end">
+                            <span th:text="${p.dateLabel}">2026.11.06</span>
+                            <span class="h-3 w-px bg-line-strong"></span>
+                            <span>조회 <span th:text="${p.viewCount}">0</span></span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <div th:unless="${hasPosts}" class="rounded-lg border border-line px-6 py-16 text-center">
+                <p class="text-[15px] font-semibold text-ink">등록된 글이 없습니다.</p>
+                <p class="mt-1 text-[13px] text-ink-mute">새 소식이 등록되면 이곳에서 확인하실 수 있습니다.</p>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <nav th:if="${totalPages > 1}" class="mt-10 flex flex-wrap items-center justify-center gap-1.5" aria-label="페이지">
+                <a th:if="${hasPrev}" th:href="|${board.path}?page=${currentPage - 1}|" href="#" class="page-btn" aria-label="이전 페이지">
+                    <span class="material-symbols-outlined notranslate text-[20px]" translate="no" aria-hidden="true">chevron_left</span>
+                </a>
+                <a th:each="n : ${pageNumbers}" th:href="|${board.path}?page=${n}|" href="#"
+                   class="page-btn" th:classappend="${n == currentPage} ? 'is-active'" th:text="${n + 1}">1</a>
+                <a th:if="${hasNext}" th:href="|${board.path}?page=${currentPage + 1}|" href="#" class="page-btn" aria-label="다음 페이지">
+                    <span class="material-symbols-outlined notranslate text-[20px]" translate="no" aria-hidden="true">chevron_right</span>
+                </a>
+            </nav>
+        </div>
+    </section>
+
+    <section th:replace="~{fragments/layout :: cta('GLOBAL')}"></section>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>

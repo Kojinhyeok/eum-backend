@@ -33,9 +33,18 @@
 					<div class="col-sm-6 col-xl-3">
 						<a href="regulation/list.html" class="card text-decoration-none">
 							<div class="card-body">
-								<h5 class="card-title text-muted mb-2">게시 중인 최신규정</h5>
+								<h5 class="card-title text-muted mb-2">게시 중인 글로벌 규제동향</h5>
 								<h1 class="mt-1 mb-0" id="statPublished">-</h1>
 								<div class="text-muted small mt-1">전체 <span id="statTotalRegulations">-</span>건</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-xl-3">
+						<a href="board/list.html" class="card text-decoration-none">
+							<div class="card-body">
+								<h5 class="card-title text-muted mb-2">게시 중인 게시판 글</h5>
+								<h1 class="mt-1 mb-0" id="statBoard">-</h1>
+								<div class="text-muted small mt-1">전체 <span id="statTotalBoard">-</span>건</div>
 							</div>
 						</a>
 					</div>
@@ -45,7 +54,8 @@
 					<div class="card-body">
 						<p class="mb-1">왼쪽 메뉴에서 관리할 항목을 선택하세요.</p>
 						<ul class="mb-0 text-muted small">
-							<li><strong>국가별 최신규정</strong>: 글을 등록하면 홈페이지 ‘국가별 최신규정’ 페이지와 메인 상단 업데이트 바에 바로 반영됩니다.</li>
+							<li><strong>글로벌 규제동향 (국가별)</strong>: 글을 등록하면 홈페이지 ‘인사이트 &gt; 글로벌 규제동향’ 페이지와 메인 상단 업데이트 바에 바로 반영됩니다.</li>
+							<li><strong>인사이트·공지사항 게시판</strong>: 화장품 연구동향, 전문가 칼럼, 회사공지, 행사 및 세미나 글을 등록합니다.</li>
 							<li><strong>상담 문의 내역</strong>: 홈페이지 ‘문의하기’로 접수된 상담 신청을 확인하고 처리 상태를 관리합니다.</li>
 						</ul>
 					</div>
@@ -67,6 +77,8 @@
 				document.getElementById("statTotalInquiries").textContent = d.totalInquiries;
 				document.getElementById("statPublished").textContent = d.publishedRegulations;
 				document.getElementById("statTotalRegulations").textContent = d.totalRegulations;
+				document.getElementById("statBoard").textContent = d.publishedBoardPosts;
+				document.getElementById("statTotalBoard").textContent = d.totalBoardPosts;
 			});
 	});
 </script>

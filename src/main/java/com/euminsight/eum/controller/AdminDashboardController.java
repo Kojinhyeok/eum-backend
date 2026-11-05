@@ -1,5 +1,6 @@
 package com.euminsight.eum.controller;
 
+import com.euminsight.eum.domain.board.BoardPostRepository;
 import com.euminsight.eum.domain.inquiry.InquiryRepository;
 import com.euminsight.eum.domain.regulation.RegulationPostRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class AdminDashboardController {
 
     private final InquiryRepository inquiryRepository;
     private final RegulationPostRepository regulationPostRepository;
+    private final BoardPostRepository boardPostRepository;
 
     @GetMapping("/api/admin/dashboard")
     public Map<String, Long> dashboard() {
@@ -21,7 +23,9 @@ public class AdminDashboardController {
                 "newInquiries", inquiryRepository.countByStatus("NEW"),
                 "totalInquiries", inquiryRepository.count(),
                 "publishedRegulations", regulationPostRepository.countByPublishedTrue(),
-                "totalRegulations", regulationPostRepository.count()
+                "totalRegulations", regulationPostRepository.count(),
+                "publishedBoardPosts", boardPostRepository.countByPublishedTrue(),
+                "totalBoardPosts", boardPostRepository.count()
         );
     }
 }

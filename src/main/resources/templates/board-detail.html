@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${post.title + ' | ' + board.label + ' | 이음인사이트'}, ${post.excerpt})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header(${activeMenu})}"></header>
+
+<main>
+    <th:block th:if="${isInsights}">
+        <nav th:replace="~{fragments/layout :: insightTabs(${board.code})}"></nav>
+    </th:block>
+    <th:block th:unless="${isInsights}">
+        <nav th:replace="~{fragments/layout :: noticeTabs(${board.code})}"></nav>
+    </th:block>
+
+    <article class="section !pt-10 bg-white md:!pt-14">
+        <div class="container-x max-w-3xl">
+            <a th:href="${board.path}" href="#" class="inline-flex items-center gap-1 text-[14px] font-bold text-primary hover:underline">
+                <span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">arrow_back</span>
+                <span th:text="${board.label}">화장품 연구동향</span>
+            </a>
+
+            <header class="mt-5 border-b border-primary/80 pb-6">
+                <h1 class="text-[26px] font-extrabold leading-snug tracking-tight text-ink md:text-[32px]" th:text="${post.title}">제목</h1>
+                <p class="mt-3 flex items-center gap-3 text-[13px] text-ink-mute">
+                    <span th:text="${post.dateLabel}">2026.11.06</span>
+                    <span class="h-3 w-px bg-line-strong"></span>
+                    <span>조회 <span th:text="${post.viewCount}">0</span></span>
+                </p>
+            </header>
+
+            <div class="whitespace-pre-line py-8 text-[16px] leading-8 text-ink" th:text="${post.content}">본문</div>
+
+            <div th:if="${post.hasLink}" class="border-t border-line pt-6">
+                <a th:href="${post.linkUrl}" href="#" target="_blank" rel="noopener" class="btn btn-outline">
+                    관련 링크 바로가기
+                    <span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">north_east</span>
+                </a>
+            </div>
+
+            <div class="mt-10 flex justify-center border-t border-line pt-8">
+                <a th:href="${board.path}" href="#" class="btn btn-primary">목록으로</a>
+            </div>
+        </div>
+    </article>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>

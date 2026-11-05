@@ -26,7 +26,7 @@
 
             <!-- ===== 문의 폼 ===== -->
             <div class="lg:order-2 lg:col-span-8">
-                <form id="inquiry-form" class="card p-5 shadow-card sm:p-8" novalidate>
+                <form id="inquiry-form" class="card p-5 sm:p-8" novalidate>
                     <h2 class="text-[20px] font-extrabold tracking-tight">상담 신청서</h2>
                     <p class="mt-1 text-[13px] text-ink-mute"><span class="text-primary">*</span> 표시는 필수 입력 항목입니다.</p>
 
@@ -37,7 +37,6 @@
                                 <option value="GLOBAL">글로벌 규제대응 (해외 인허가)</option>
                                 <option value="DOMESTIC">국내 인허가</option>
                                 <option value="CLINICAL">시험·임상</option>
-                                <option value="LETTER">글로벌 규제 레터 구독</option>
                                 <option value="ETC">기타 문의</option>
                             </select>
                         </div>
@@ -83,7 +82,7 @@
                         <button type="button" id="privacy-toggle" class="ml-8 mt-1 text-[13px] font-semibold text-ink-mute underline underline-offset-2 hover:text-primary" aria-expanded="false" aria-controls="privacy-box">전문보기</button>
                         <div id="privacy-box" class="ml-8 mt-3 space-y-1.5 rounded-lg border border-line bg-white p-4 text-[13px] leading-6" hidden>
                             <p><strong class="text-ink">수집 항목</strong> : 회사명, 담당자 성함 및 직함, 업무용 이메일, 연락처(선택), 제품군 및 목표 국가, 문의 내용</p>
-                            <p><strong class="text-ink">수집 목적</strong> : 인허가·시험 상담 접수, 예상 소요 기간 및 견적 안내, 규제 레터 발송(구독 신청 시)</p>
+                            <p><strong class="text-ink">수집 목적</strong> : 인허가·시험 상담 접수, 예상 소요 기간 및 견적 안내</p>
                             <p><strong class="text-ink">보유 기간</strong> : 상담 종료 후 1년간 보관 후 파기 (파기 요청 시 즉시 파기)</p>
                             <p><strong class="text-ink">기밀 유지</strong> : 접수된 처방 및 연구개발 자료는 상담 목적 외로 사용하지 않으며, 상담 종료 후 요청 시 즉시 파기합니다.</p>
                             <p class="text-ink-mute">동의를 거부할 수 있으나, 거부 시 상담 접수가 제한됩니다. 자세한 내용은 <a href="/privacy" class="underline" target="_blank">개인정보처리방침</a>을 확인해 주세요.</p>
@@ -99,9 +98,9 @@
                 </form>
 
                 <!-- 접수 완료 -->
-                <div id="form-done" class="card shadow-card" role="status" hidden>
+                <div id="form-done" class="card" role="status" hidden>
                     <div class="flex flex-col items-center px-6 py-14 text-center">
-                    <span class="flex h-14 w-14 items-center justify-center rounded-full bg-mint-soft text-primary">
+                    <span class="flex h-14 w-14 items-center justify-center rounded-full bg-lime-soft text-primary">
                         <span class="material-symbols-outlined notranslate text-[32px]" translate="no" aria-hidden="true">task_alt</span>
                     </span>
                     <h2 class="mt-5 text-[22px] font-extrabold tracking-tight">상담 신청이 접수되었습니다</h2>
@@ -118,18 +117,18 @@
                     <p class="mt-2 text-[14px] leading-6">이음인사이트의 규제과학 전문가 그룹이 신속하고 확실한 인허가 방향을 제안합니다.</p>
 
                     <ul class="mt-6 space-y-4 border-t border-white/10 pt-6">
-                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-mint" translate="no" aria-hidden="true">check_circle</span>
+                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-lime" translate="no" aria-hidden="true">check_circle</span>
                             <div><p class="text-[15px] font-bold text-white">글로벌 화장품 인허가</p><p class="text-[13px] leading-5">미국 FDA MoCRA, 유럽 CPNP, 중국 NMPA, 아세안 등</p></div></li>
-                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-mint" translate="no" aria-hidden="true">check_circle</span>
+                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-lime" translate="no" aria-hidden="true">check_circle</span>
                             <div><p class="text-[15px] font-bold text-white">임상·시험 전략 수립</p><p class="text-[13px] leading-5">인체적용시험, In-vitro 안전성 평가, 효능 입증</p></div></li>
-                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-mint" translate="no" aria-hidden="true">check_circle</span>
+                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-lime" translate="no" aria-hidden="true">check_circle</span>
                             <div><p class="text-[15px] font-bold text-white">안전성 평가</p><p class="text-[13px] leading-5">CPSR 안전성보고서, 제품정보파일 PIF 구축</p></div></li>
-                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-mint" translate="no" aria-hidden="true">check_circle</span>
+                        <li class="flex gap-3"><span class="material-symbols-outlined notranslate text-[22px] text-lime" translate="no" aria-hidden="true">check_circle</span>
                             <div><p class="text-[15px] font-bold text-white">기능성화장품 심사·보고</p><p class="text-[13px] leading-5">표시광고 사전 실증 및 규제 클레임 리스크 점검</p></div></li>
                     </ul>
 
                     <p class="mt-6 flex items-center gap-2 rounded-lg bg-white/10 px-4 py-3 text-[13px]">
-                        <span class="material-symbols-outlined notranslate text-[20px] text-mint" translate="no" aria-hidden="true">lock</span>
+                        <span class="material-symbols-outlined notranslate text-[20px] text-lime" translate="no" aria-hidden="true">lock</span>
                         <span><strong class="text-white">기밀유지협약(NDA) 적용</strong> (처방자료 암호화)</span>
                     </p>
                 </div>
