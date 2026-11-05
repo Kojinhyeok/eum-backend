@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('시험·임상 | 이음인사이트', 'In vitro 안전성 평가, 인체적용 안전성 평가, 결과 해석과 규제자료 연계까지 안전성·유효성 근거 확보를 위한 시험·임상 전략을 설계합니다.')}"></head>
+<head th:replace="~{fragments/layout :: head('시험·임상 평가 | 이음인사이트', 'In vitro 시험, 인체적용시험, AI 데이터 분석까지 안전성·유효성 근거 확보를 위한 시험·임상 평가를 설계합니다.')}"></head>
 <body>
 <header th:replace="~{fragments/layout :: header('clinical')}"></header>
 
@@ -8,9 +8,14 @@
     <!-- ===== 페이지 히어로 ===== -->
     <section class="page-hero">
         <div class="container-x relative py-12 md:py-16">
-            <span class="kicker">Clinical Strategy</span>
-            <h1 class="h-page mt-3">안전성을 바탕으로<br class="sm:hidden"> 시험·임상을 설계합니다</h1>
-            <p class="lead mt-4 max-w-2xl">안전성·유효성 자료를 살펴보고 필요한 시험과 평가 방법을 제안합니다.</p>
+            <span class="kicker">Scientific Evaluation</span>
+            <h1 class="h-page mt-3">시험 · 임상 평가</h1>
+            <p class="lead mt-4 max-w-2xl">안전성을 바탕으로 시험·임상을 설계합니다. 안전성·유효성 자료를 살펴보고 필요한 시험과 평가 방법을 제안합니다.</p>
+            <nav class="mt-6 flex flex-wrap gap-2" aria-label="페이지 내 이동">
+                <a href="#invitro" class="rounded-sm border border-line-strong bg-white px-3 py-2 text-[13px] font-bold text-ink hover:border-primary">in vitro 시험</a>
+                <a href="#human" class="rounded-sm border border-line-strong bg-white px-3 py-2 text-[13px] font-bold text-ink hover:border-primary">인체적용시험</a>
+                <a href="#ai" class="rounded-sm border border-line-strong bg-white px-3 py-2 text-[13px] font-bold text-ink hover:border-primary">AI 데이터 분석</a>
+            </nav>
         </div>
     </section>
 
@@ -18,38 +23,101 @@
     <section class="section bg-white">
         <div class="container-x">
             <div class="grid gap-4 md:grid-cols-3">
-                <article class="card bar-top p-6 shadow-card">
-                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">biotech</span></span>
-                    <h2 class="mt-5 text-[20px] font-extrabold"><span class="text-primary">In vitro</span> 안전성 평가</h2>
+                <article id="invitro" class="card border-t-[3px] border-t-primary p-6">
+                    <h2 class="text-[20px] font-extrabold"><span class="text-primary">In vitro</span> 안전성 평가</h2>
                     <p class="mt-3 text-[15px] leading-7">제품 특성과 평가 목적에 맞춰 시험모델과 방법을 검토하고 시험 수행을 연계합니다.</p>
                 </article>
-                <article class="card bar-top p-6 shadow-card">
-                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">clinical_notes</span></span>
-                    <h2 class="mt-5 text-[20px] font-extrabold">인체적용 안전성 평가</h2>
+                <article id="human" class="card border-t-[3px] border-t-primary p-6">
+                    <h2 class="text-[20px] font-extrabold">인체적용 안전성 평가</h2>
                     <p class="mt-3 text-[15px] leading-7">대상자와 사용 조건에 맞춰 피부 반응 등 평가 항목을 정하고 인체적용시험을 연계합니다.</p>
                 </article>
-                <article class="card bar-top p-6 shadow-card">
-                    <span class="icon-box"><span class="material-symbols-outlined notranslate" translate="no" aria-hidden="true">analytics</span></span>
-                    <h2 class="mt-5 text-[20px] font-extrabold">근거 검토와 결과 해석</h2>
+                <article class="card border-t-[3px] border-t-primary p-6">
+                    <h2 class="text-[20px] font-extrabold">근거 검토와 결과 해석</h2>
                     <p class="mt-3 text-[15px] leading-7">안전성·유효성 결과의 의미와 적용 범위를 검토하고 규제자료 준비로 연결합니다.</p>
                 </article>
             </div>
 
             <!-- 검토 결과물 -->
-            <div class="mt-5 flex flex-col gap-4 rounded-xl bg-primary px-5 py-5 text-white sm:px-6 md:flex-row md:items-center md:gap-8">
-                <p class="shrink-0 text-[17px] font-extrabold text-mint">검토 결과물</p>
+            <div class="mt-5 flex flex-col gap-4 rounded-lg bg-primary px-5 py-5 text-white sm:px-6 md:flex-row md:items-center md:gap-8">
+                <p class="shrink-0 text-[17px] font-extrabold text-lime">검토 결과물</p>
                 <ul class="flex flex-wrap gap-2">
-                    <li class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-mint" translate="no" aria-hidden="true">check</span>안전성 자료 검토</li>
-                    <li class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-mint" translate="no" aria-hidden="true">check</span>시험 설계 의견서</li>
-                    <li class="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-mint" translate="no" aria-hidden="true">check</span>결과 해석·규제자료 연계</li>
+                    <li class="inline-flex items-center gap-1.5 rounded-sm bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-lime" translate="no" aria-hidden="true">check</span>안전성 자료 검토</li>
+                    <li class="inline-flex items-center gap-1.5 rounded-sm bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-lime" translate="no" aria-hidden="true">check</span>시험 설계 의견서</li>
+                    <li class="inline-flex items-center gap-1.5 rounded-sm bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-lime" translate="no" aria-hidden="true">check</span>결과 해석·규제자료 연계</li>
                 </ul>
             </div>
             <p class="mt-3 text-[13px] text-ink-mute">※ 시험·임상 전략 안에서 안전성 평가를 설명합니다. 구체적 시험항목과 수행 범위는 상담 시 안내합니다.</p>
         </div>
     </section>
 
+    <!-- ===== AI 데이터 분석 ===== -->
+    <section id="ai" class="section border-y border-line bg-surface-low">
+        <div class="container-x">
+            <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
+                <div class="lg:col-span-5">
+                    <span class="kicker">AI-Assisted Data Analytics</span>
+                    <h2 class="h-section mt-3">AI를 활용한<br>시험·피부 데이터 분석</h2>
+                </div>
+
+                <!-- 분석 흐름 -->
+                <ol class="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center lg:col-span-7">
+                    <li class="rounded-md border border-line bg-white px-4 py-5 text-center">
+                        <p class="text-[12px] font-extrabold tracking-wider text-primary/70">01</p>
+                        <p class="mt-1 text-[16px] font-bold text-ink">데이터 입력</p>
+                    </li>
+                    <li class="flex justify-center text-ink-mute" aria-hidden="true">
+                        <span class="material-symbols-outlined notranslate rotate-90 sm:rotate-0" translate="no">arrow_forward</span>
+                    </li>
+                    <li class="rounded-md border-2 border-primary bg-white px-4 py-5 text-center">
+                        <p class="text-[12px] font-extrabold tracking-wider text-primary/70">02</p>
+                        <p class="mt-1 text-[16px] font-bold text-primary">AI 분석 지원</p>
+                    </li>
+                    <li class="flex justify-center text-ink-mute" aria-hidden="true">
+                        <span class="material-symbols-outlined notranslate rotate-90 sm:rotate-0" translate="no">arrow_forward</span>
+                    </li>
+                    <li class="rounded-md border border-line bg-white px-4 py-5 text-center">
+                        <p class="text-[12px] font-extrabold tracking-wider text-primary/70">03</p>
+                        <p class="mt-1 text-[16px] font-bold text-ink">전문가 검토</p>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="mt-10 grid gap-4 md:grid-cols-2">
+                <article class="card p-6 sm:p-7">
+                    <h3 class="text-[20px] font-extrabold">통계 분석 서비스</h3>
+                    <p class="mt-2 text-[15px] leading-7">AI를 활용한 데이터 정리와 탐색을 바탕으로, 시험 목적에 맞는 통계 분석과 결과 해석을 지원합니다.</p>
+                    <ul class="mt-5 flex flex-wrap gap-2">
+                        <li class="rounded-sm bg-surface-low px-3 py-1.5 text-[13px] font-semibold text-ink">데이터 정리</li>
+                        <li class="rounded-sm bg-surface-low px-3 py-1.5 text-[13px] font-semibold text-ink">통계 분석</li>
+                        <li class="rounded-sm bg-surface-low px-3 py-1.5 text-[13px] font-semibold text-ink">결과 시각화</li>
+                    </ul>
+                </article>
+                <article class="card p-6 sm:p-7">
+                    <h3 class="text-[20px] font-extrabold">피부 데이터 분석</h3>
+                    <p class="mt-2 text-[15px] leading-7">AI로 피부 측정 데이터의 패턴과 변화를 탐색하고, 전문가 검토를 통해 분석 결과를 해석합니다.</p>
+                    <ul class="mt-5 flex flex-wrap gap-2">
+                        <li class="rounded-sm bg-surface-low px-3 py-1.5 text-[13px] font-semibold text-ink">피부 데이터 분석</li>
+                        <li class="rounded-sm bg-surface-low px-3 py-1.5 text-[13px] font-semibold text-ink">변화 비교</li>
+                        <li class="rounded-sm bg-surface-low px-3 py-1.5 text-[13px] font-semibold text-ink">패턴 탐색</li>
+                    </ul>
+                </article>
+            </div>
+
+            <!-- 분석 결과물 -->
+            <div class="mt-5 flex flex-col gap-4 rounded-lg bg-primary px-5 py-5 text-white sm:px-6 md:flex-row md:items-center md:gap-8">
+                <p class="shrink-0 text-[17px] font-extrabold text-lime">분석 결과물</p>
+                <ul class="flex flex-wrap gap-2">
+                    <li class="inline-flex items-center gap-1.5 rounded-sm bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-lime" translate="no" aria-hidden="true">check</span>통계 분석 보고서</li>
+                    <li class="inline-flex items-center gap-1.5 rounded-sm bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-lime" translate="no" aria-hidden="true">check</span>피부 데이터 분석 리포트</li>
+                    <li class="inline-flex items-center gap-1.5 rounded-sm bg-white/10 px-3.5 py-2 text-[14px] font-semibold"><span class="material-symbols-outlined notranslate text-[18px] text-lime" translate="no" aria-hidden="true">check</span>결과 시각화 자료</li>
+                </ul>
+            </div>
+            <p class="mt-3 text-[13px] text-ink-mute">※ AI 활용 방식과 분석 범위는 상담 시 안내합니다.</p>
+        </div>
+    </section>
+
     <!-- ===== 지원 범위 ===== -->
-    <section class="section border-y border-line bg-surface-low">
+    <section class="section bg-white">
         <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-12">
             <div class="lg:col-span-4">
                 <span class="kicker">Clinical &amp; Efficacy Testing</span>
@@ -74,7 +142,7 @@
     </section>
 
     <!-- ===== 4단계 프로세스 ===== -->
-    <section class="section bg-white">
+    <section class="section border-t border-line bg-surface-low">
         <div class="container-x">
             <div class="mx-auto max-w-3xl text-center">
                 <span class="kicker">Sequential Workflow</span>
@@ -83,24 +151,24 @@
             </div>
 
             <ol class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-12">
-                <li class="card bar-top p-6 shadow-card">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-[14px] font-extrabold text-white">01</span>
-                    <h3 class="mt-4 text-[17px] font-bold">규제 사전 진단</h3>
+                <li class="card border-t-[3px] border-t-primary p-6">
+                    <span class="text-[13px] font-extrabold tracking-wider text-primary">STEP 01</span>
+                    <h3 class="mt-3 text-[17px] font-bold">규제 사전 진단</h3>
                     <p class="mt-2 text-[14px] leading-6">배합금지 및 한도 원료 검토, 타겟팅할 기능성 범위 설정</p>
                 </li>
-                <li class="card bar-top p-6 shadow-card">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-[14px] font-extrabold text-white">02</span>
-                    <h3 class="mt-4 text-[17px] font-bold">최적 임상·시험 설계</h3>
+                <li class="card border-t-[3px] border-t-primary p-6">
+                    <span class="text-[13px] font-extrabold tracking-wider text-primary">STEP 02</span>
+                    <h3 class="mt-3 text-[17px] font-bold">최적 임상·시험 설계</h3>
                     <p class="mt-2 text-[14px] leading-6">클레임 실증에 요구되는 프로토콜 기반 피부 인체적용시험 및 효능 평가 착수</p>
                 </li>
-                <li class="card bar-top p-6 shadow-card">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-[14px] font-extrabold text-white">03</span>
-                    <h3 class="mt-4 text-[17px] font-bold">제품별 인허가</h3>
+                <li class="card border-t-[3px] border-t-primary p-6">
+                    <span class="text-[13px] font-extrabold tracking-wider text-primary">STEP 03</span>
+                    <h3 class="mt-3 text-[17px] font-bold">제품별 인허가</h3>
                     <p class="mt-2 text-[14px] leading-6">제품 특성별(일반화장품, 기능성 보고 혹은 심사) 인허가 진행</p>
                 </li>
-                <li class="card bar-top p-6 shadow-card">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-mint text-[14px] font-extrabold text-primary-deep">04</span>
-                    <h3 class="mt-4 text-[17px] font-bold">합법적 마케팅 컨텐츠</h3>
+                <li class="card border-t-[3px] border-t-primary p-6">
+                    <span class="text-[13px] font-extrabold tracking-wider text-primary">STEP 04</span>
+                    <h3 class="mt-3 text-[17px] font-bold">합법적 마케팅 컨텐츠</h3>
                     <p class="mt-2 text-[14px] leading-6">허가받은 클레임 한도 내에서 소비자의 신뢰와 구매를 유도하는 e커머스 상세페이지 제작</p>
                 </li>
             </ol>
