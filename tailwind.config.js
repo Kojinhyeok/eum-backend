@@ -1,6 +1,16 @@
-/** 이음인사이트 브랜드 팔레트: A. Neon Mint & Deep Teal
- *  #FFFFFF / #F1F8FA / #D8EDF0 / #2EE6BE / #315E74
+/** 이음인사이트 브랜드 팔레트: C. Neon Lime & Navy
+ *  #FFFFFF / #F5F9F0 / #E5F5CF / #B7F34D / #263F56
+ *
+ *  - primary : Navy (메인 색, 제목·버튼·진한 배경)
+ *  - lime    : Neon Lime (포인트 색, 버튼 배경·강조선·점) → 흰 배경 위 '글자색'으로는 쓰지 않음
+ *  - mint    : 이전 팔레트 클래스 호환용 별칭(= lime). 페이지 수정이 끝나면 삭제 예정
  */
+ const lime = {
+  DEFAULT: '#B7F34D',
+  dark: '#8FCB22',   // 아이콘·라인용
+  soft: '#E5F5CF',
+};
+
 module.exports = {
   content: [
     './src/main/resources/templates/**/*.html',
@@ -10,29 +20,26 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#315E74', // Deep Teal (메인)
-          dark: '#264B5D',    // hover
-          deep: '#1B3644',    // 진한 배경(푸터·CTA)
-          50: '#EAF3F6',
+          DEFAULT: '#263F56', // Navy
+          dark: '#1D3246',    // hover
+          deep: '#182A3B',    // 진한 배경(푸터·CTA)
+          50: '#EEF2F5',
         },
-        mint: {
-          DEFAULT: '#2EE6BE', // Neon Mint (포인트)
-          dark: '#14B48F',    // 아이콘·라인용 (본문 글자색으로는 사용 X)
-          soft: '#D6FAF1',
-        },
+        lime,
+        mint: lime,
         surface: {
           DEFAULT: '#FFFFFF',
-          low: '#F1F8FA',
-          mid: '#D8EDF0',
+          low: '#F5F9F0',
+          mid: '#E5F5CF',
         },
         line: {
-          DEFAULT: '#D8EDF0',
-          strong: '#BCD7DE',
+          DEFAULT: '#E3E9DD',
+          strong: '#C9D3C1',
         },
         ink: {
-          DEFAULT: '#14303D', // 제목
-          soft: '#47616D',    // 본문
-          mute: '#7A919B',    // 보조
+          DEFAULT: '#1B2B3A', // 제목
+          soft: '#4A5866',    // 본문
+          mute: '#7D8994',    // 보조
         },
       },
       fontFamily: {
@@ -42,8 +49,8 @@ module.exports = {
         site: '1200px',
       },
       boxShadow: {
-        card: '0 1px 2px rgba(20,48,61,0.04), 0 4px 16px -4px rgba(20,48,61,0.06)',
-        lift: '0 10px 30px -10px rgba(20,48,61,0.18)',
+        card: '0 1px 2px rgba(27,43,58,0.04)',
+        lift: '0 6px 20px -8px rgba(27,43,58,0.16)',
       },
     },
   },

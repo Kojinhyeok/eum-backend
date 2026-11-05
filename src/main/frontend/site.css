@@ -20,7 +20,7 @@
     @apply text-ink;
   }
   ::selection {
-    @apply bg-mint text-primary-deep;
+    @apply bg-lime text-primary-deep;
   }
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -31,6 +31,7 @@
 
 /* =========================================================
    공통 컴포넌트
+   - 장식(그라데이션·블러·반짝임·투톤 바)은 쓰지 않고 선과 여백 위주로 정리
    ========================================================= */
 @layer components {
   .container-x {
@@ -40,13 +41,9 @@
     @apply py-16 md:py-24;
   }
 
-  /* 섹션 키커: 민트 점 + 대문자 라벨 */
+  /* 섹션 키커: 작은 라벨 */
   .kicker {
-    @apply inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.12em] text-primary md:text-[13px];
-  }
-  .kicker::before {
-    content: '';
-    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-mint;
+    @apply inline-block text-[12px] font-bold uppercase tracking-[0.1em] text-primary/70 md:text-[13px];
   }
 
   .h-page {
@@ -61,13 +58,14 @@
 
   /* 버튼 */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-[15px] font-bold tracking-tight transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint;
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-[15px] font-bold tracking-tight transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
   }
   .btn-primary {
     @apply bg-primary text-white hover:bg-primary-dark;
   }
+  .btn-lime,
   .btn-mint {
-    @apply bg-mint text-primary-deep hover:bg-[#22d4ad];
+    @apply bg-lime text-primary-deep hover:bg-[#A8E83A];
   }
   .btn-outline {
     @apply border border-line-strong bg-white text-ink hover:border-primary hover:text-primary;
@@ -78,85 +76,106 @@
 
   /* 카드 */
   .card {
-    @apply rounded-xl border border-line bg-white;
+    @apply rounded-lg border border-line bg-white;
   }
-  /* 상단 이음 바: 딥 틸 70% + 네온 민트 30% (견적서 시안 모티프) */
+  /* (이전 투톤 상단 바) → 장식 없이 사용, 클래스는 호환용으로만 남김 */
   .bar-top {
-    @apply relative overflow-hidden;
-  }
-  .bar-top::before {
-    content: '';
-    @apply absolute inset-x-0 top-0 h-[3px];
-    background: linear-gradient(90deg, #315E74 0 70%, #2EE6BE 70% 100%);
+    @apply relative;
   }
 
   .chip {
-    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-surface-mid px-2.5 py-1 text-[12px] font-bold leading-none text-primary;
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded bg-surface-low px-2 py-1 text-[12px] font-bold leading-none text-primary;
   }
   .chip-dark {
     @apply inline-flex items-center whitespace-nowrap rounded bg-primary px-2 py-1 text-[11px] font-bold leading-none text-white;
   }
+  .chip-lime,
   .chip-mint {
-    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-mint-soft px-2.5 py-1 text-[12px] font-bold leading-none text-primary-deep;
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded bg-lime-soft px-2.5 py-1 text-[12px] font-bold leading-none text-primary-deep;
   }
+  /* 상태 점 (깜빡임 없음) */
   .live-dot {
-    @apply relative inline-flex h-2 w-2 shrink-0;
-  }
-  .live-dot::before {
-    content: '';
-    @apply absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-70;
-  }
-  .live-dot::after {
-    content: '';
-    @apply relative inline-flex h-2 w-2 rounded-full bg-mint-dark;
+    @apply inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-lime-dark;
   }
 
   .icon-box {
-    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-surface-low text-primary;
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-surface-low text-primary;
   }
   .num-badge {
     @apply inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[12px] font-bold text-white;
   }
 
-  /* 헤더 */
+  /* ---------- 헤더 / 드롭다운 메뉴 ---------- */
+  .nav-item {
+    @apply relative;
+  }
   .nav-link {
-    @apply relative rounded-md px-2.5 py-2 text-[15px] font-medium text-ink-soft transition-colors hover:text-primary xl:px-3.5;
+    @apply relative inline-flex items-center gap-0.5 rounded-md px-2.5 py-2 text-[15px] font-medium text-ink-soft transition-colors hover:text-primary xl:px-3.5;
   }
   .nav-link.is-active {
     @apply font-bold text-primary;
   }
   .nav-link.is-active::after {
     content: '';
-    @apply absolute inset-x-2.5 -bottom-[18px] h-[3px] rounded-full bg-mint xl:inset-x-3.5;
+    @apply absolute inset-x-2.5 -bottom-[18px] h-[3px] bg-lime xl:inset-x-3.5;
+  }
+  .nav-caret {
+    @apply text-[18px] text-ink-mute transition-transform;
+  }
+  .nav-item:hover .nav-caret,
+  .nav-item:focus-within .nav-caret {
+    @apply rotate-180;
+  }
+  /* 드롭다운: 마우스를 올리거나 키보드로 포커스하면 표시 */
+  .nav-dropdown {
+    @apply invisible absolute left-1/2 top-full z-50 min-w-[180px] -translate-x-1/2 pt-[18px] opacity-0 transition duration-150;
+  }
+  .nav-item:hover .nav-dropdown,
+  .nav-item:focus-within .nav-dropdown {
+    @apply visible opacity-100;
+  }
+  .nav-dropdown-inner {
+    @apply overflow-hidden rounded-md border border-line bg-white py-1.5 shadow-lift;
+  }
+  .nav-dropdown a {
+    @apply block whitespace-nowrap px-4 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-surface-low hover:text-primary;
+  }
+
+  /* 모바일 메뉴 */
+  .mobile-group {
+    @apply border-b border-line py-3;
   }
   .mobile-link {
-    @apply flex items-center justify-between border-b border-line py-4 text-[16px] font-semibold text-ink;
+    @apply flex items-center justify-between py-1.5 text-[16px] font-bold text-ink;
   }
   .mobile-link.is-active {
     @apply text-primary;
   }
+  .mobile-sub {
+    @apply mt-1 grid grid-cols-2 gap-x-3;
+  }
+  .mobile-sub a {
+    @apply py-1.5 text-[14px] text-ink-soft;
+  }
+
   .lang-switch {
-    @apply flex items-center rounded-lg bg-surface-low p-1;
+    @apply flex items-center rounded-md bg-surface-low p-1;
   }
   .lang-btn {
-    @apply rounded-md px-2.5 py-1 text-[12px] font-bold text-ink-mute transition-colors hover:text-ink;
+    @apply rounded px-2.5 py-1 text-[12px] font-bold text-ink-mute transition-colors hover:text-ink;
   }
   .lang-btn.is-active {
     @apply bg-white text-primary shadow-sm;
   }
 
-  /* 페이지 상단 히어로 (서브페이지 공통) */
+  /* 페이지 상단 (서브페이지 공통) */
   .page-hero {
-    @apply relative overflow-hidden border-b border-line bg-surface-low;
-  }
-  .page-hero::after {
-    content: '';
-    @apply pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-mint/20 blur-3xl;
+    @apply relative border-b border-line bg-surface-low;
   }
 
   /* 리스트 */
   .check-item {
-    @apply flex items-start gap-3 rounded-lg bg-surface-low p-3.5;
+    @apply flex items-start gap-3 rounded-md bg-surface-low p-3.5;
   }
   .dot-list > li {
     @apply relative pl-3.5;
@@ -168,7 +187,7 @@
 
   /* 탭 */
   .tab-card {
-    @apply flex h-full flex-col gap-1.5 rounded-xl border border-line bg-white p-4 text-left transition-colors hover:border-primary md:p-5;
+    @apply flex h-full flex-col gap-1.5 rounded-lg border border-line bg-white p-4 text-left transition-colors hover:border-primary md:p-5;
   }
   .tab-card.is-active {
     @apply border-primary bg-primary text-white;
@@ -180,12 +199,12 @@
     @apply text-white/80;
   }
   .tab-card.is-active .tab-code {
-    @apply bg-mint text-primary-deep;
+    @apply bg-lime text-primary-deep;
   }
 
   /* 필터 칩 */
   .filter-chip {
-    @apply inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line bg-white px-4 py-2 text-[14px] font-semibold text-ink-soft transition-colors hover:border-primary hover:text-primary;
+    @apply inline-flex shrink-0 items-center gap-1.5 rounded-md border border-line bg-white px-4 py-2 text-[14px] font-semibold text-ink-soft transition-colors hover:border-primary hover:text-primary;
   }
   .filter-chip.is-active {
     @apply border-primary bg-primary text-white;
@@ -196,7 +215,7 @@
     @apply mb-2 block text-[14px] font-bold text-ink;
   }
   .form-input {
-    @apply block w-full rounded-lg border border-line-strong bg-white px-4 py-3 text-[15px] text-ink placeholder:text-ink-mute/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-mint/40;
+    @apply block w-full rounded-md border border-line-strong bg-white px-4 py-3 text-[15px] text-ink placeholder:text-ink-mute/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-lime/50;
   }
   .form-input.is-invalid {
     @apply border-red-400 focus:ring-red-200;
@@ -204,7 +223,7 @@
 
   /* 페이지네이션 */
   .page-btn {
-    @apply inline-flex h-10 min-w-[40px] items-center justify-center rounded-lg border border-line bg-white px-3 text-[14px] font-semibold text-ink-soft hover:border-primary hover:text-primary;
+    @apply inline-flex h-10 min-w-[40px] items-center justify-center rounded-md border border-line bg-white px-3 text-[14px] font-semibold text-ink-soft hover:border-primary hover:text-primary;
   }
   .page-btn.is-active {
     @apply border-primary bg-primary text-white;
