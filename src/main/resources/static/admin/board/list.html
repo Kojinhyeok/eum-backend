@@ -8,6 +8,30 @@
 	<title>인사이트·공지사항 게시판 - 이음인사이트</title>
 	<link href="../css/app.css" rel="stylesheet">
 	<link href="../css/custom.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css" rel="stylesheet">
+	<style>
+		#editor { height: 420px; font-size: 15px; }
+		#editor .ql-editor img { max-width: 100%; height: auto; }
+		.ql-toolbar.ql-snow { border-radius: .3rem .3rem 0 0; background: #F5F9F0; }
+		.ql-container.ql-snow { border-radius: 0 0 .3rem .3rem; }
+		/* 문단 형식 선택 한글 표시 */
+		.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+		.ql-snow .ql-picker.ql-header .ql-picker-item::before { content: '본문'; }
+		.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+		.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before { content: '제목'; }
+		.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
+		.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before { content: '소제목'; }
+		.editor-busy { position: relative; }
+		.editor-busy::after { content: "이미지 업로드 중…"; position: absolute; top: 50px; right: 12px; padding: 4px 10px;
+			border-radius: 4px; background: #263F56; color: #fff; font-size: 12px; z-index: 5; }
+		.file-list { list-style: none; margin: 0; padding: 0; }
+		.file-list li { display: flex; align-items: center; gap: .5rem; padding: .5rem .75rem; border: 1px solid #E3E9DD;
+			border-radius: .3rem; margin-bottom: .4rem; background: #fff; }
+		.file-list .ext { flex-shrink: 0; min-width: 44px; padding: 2px 6px; border-radius: 3px; background: #E5F5CF;
+			color: #182A3B; font-size: 11px; font-weight: 700; text-align: center; }
+		.file-list .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+		.file-list .size { flex-shrink: 0; color: #7D8994; font-size: 12px; }
+	</style>
 </head>
 
 <body data-page="board-list" data-base="../">
@@ -57,7 +81,7 @@
 
 <!-- 등록/수정 모달 -->
 <div class="modal fade" id="formModal" tabindex="-1" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="formTitle">새 글 등록</h5>
@@ -76,9 +100,20 @@
 							<input class="form-control" id="fTitle" maxlength="200">
 						</div>
 						<div class="col-12">
-							<label class="form-label required" for="fContent">본문</label>
-							<textarea class="form-control" id="fContent" rows="12"></textarea>
-							<div class="form-hint">입력한 줄바꿈이 홈페이지에 그대로 표시됩니다.</div>
+							<label class="form-label required">본문</label>
+							<div id="editorWrap"><div id="editor"></div></div>
+							<div class="form-hint">툴바의 그림 버튼으로 이미지를 넣을 수 있습니다. (JPG·PNG·GIF·WEBP, 10MB 이하)</div>
+						</div>
+						<div class="col-12">
+							<div class="d-flex align-items-center justify-content-between mb-2">
+								<label class="form-label mb-0">첨부파일 (선택)</label>
+								<button type="button" class="btn btn-sm btn-outline-primary" id="btnAddFile"
+										onclick="document.getElementById('fileInput').click()">+ 파일 추가</button>
+								<input type="file" id="fileInput" multiple hidden
+									   accept=".pdf,.hwp,.hwpx,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.jpg,.jpeg,.png,.gif,.webp">
+							</div>
+							<ul class="file-list" id="fileList"></ul>
+							<div class="form-hint">PDF, HWP, 워드, 엑셀, 파워포인트, ZIP, 이미지 · 파일당 20MB 이하 · 최대 10개. 글 하단에 다운로드 목록으로 표시됩니다.</div>
 						</div>
 						<div class="col-12">
 							<label class="form-label" for="fLink">관련 링크 (선택)</label>
@@ -109,9 +144,152 @@
 
 <script src="../js/app.js"></script>
 <script src="../js/common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
 <script>
 	let types = [];
 	let posts = [];
+	let files = [];          // 현재 글의 첨부파일 [{name, url, fileKey, size}]
+	let uploading = 0;       // 진행 중인 업로드 수
+	let quill;
+
+	const IMAGE_MAX = 10 * 1024 * 1024;
+	const FILE_MAX = 20 * 1024 * 1024;
+	const MAX_FILES = 10;
+
+	/* ===== 업로드 공통 ===== */
+	async function upload(kind, file) {
+		const fd = new FormData();
+		fd.append('file', file);
+		const res = await fetch(`/api/admin/upload/${kind}`, { method: 'POST', body: fd });
+		const data = await res.json().catch(() => ({}));
+		if (!res.ok) throw new Error(data.message || '업로드에 실패했습니다.');
+		return data;
+	}
+	function setBusy(on) {
+		uploading += on ? 1 : -1;
+		document.getElementById('editorWrap').classList.toggle('editor-busy', uploading > 0);
+		document.getElementById('btnSave').disabled = uploading > 0;
+	}
+
+	/* ===== 에디터 ===== */
+	function initEditor() {
+		quill = new Quill('#editor', {
+			theme: 'snow',
+			placeholder: '본문을 입력하세요.',
+			modules: {
+				toolbar: {
+					container: [
+						[{ header: [2, 3, false] }],
+						['bold', 'italic', 'underline', 'strike'],
+						[{ list: 'ordered' }, { list: 'bullet' }, 'blockquote'],
+						[{ align: [] }],
+						['link', 'image'],
+						['clean']
+					],
+					handlers: { image: pickImage }
+				}
+			}
+		});
+	}
+
+	function pickImage() {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = 'image/jpeg,image/png,image/gif,image/webp';
+		input.onchange = () => { if (input.files[0]) insertImage(input.files[0]); };
+		input.click();
+	}
+
+	async function insertImage(file) {
+		if (file.size > IMAGE_MAX) { alert('이미지는 10MB 이하만 올릴 수 있습니다.'); return; }
+		const range = quill.getSelection(true);
+		setBusy(true);
+		try {
+			const data = await upload('image', file);
+			quill.insertEmbed(range ? range.index : quill.getLength(), 'image', data.url, 'user');
+			quill.setSelection((range ? range.index : quill.getLength()) + 1, 0);
+		} catch (e) {
+			alert(e.message);
+		} finally {
+			setBusy(false);
+		}
+	}
+
+	/** 붙여넣기·드래그로 들어온 data: 이미지를 저장 전에 S3로 올리고 주소 교체 */
+	async function uploadPastedImages() {
+		const imgs = [...quill.root.querySelectorAll('img[src^="data:"]')];
+		for (const img of imgs) {
+			const blob = await (await fetch(img.src)).blob();
+			if (blob.size > IMAGE_MAX) throw new Error('본문에 10MB가 넘는 이미지가 있습니다.');
+			const ext = (blob.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
+			const data = await upload('image', new File([blob], `paste.${ext}`, { type: blob.type }));
+			img.setAttribute('src', data.url);
+		}
+	}
+
+	function escHtml(s) {
+		return String(s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+	}
+	/** 저장된 본문을 에디터에 넣기 (예전 텍스트 글은 줄 단위 문단으로 변환) */
+	function setEditorContent(content) {
+		let html = content || '';
+		if (html && !/<(p|h[1-6]|ul|ol|li|img|blockquote|pre|br|div)[\s>\/]/i.test(html)) {
+			html = html.split(/\r?\n/).map(line => `<p>${line ? escHtml(line) : '<br>'}</p>`).join('');
+		}
+		quill.setContents(quill.clipboard.convert(html), 'silent');
+		quill.history.clear();
+	}
+	function getEditorContent() {
+		const hasImg = quill.root.querySelector('img');
+		if (!hasImg && quill.getText().trim() === '') return '';
+		return quill.root.innerHTML;
+	}
+
+	/* ===== 첨부파일 ===== */
+	function formatSize(n) {
+		return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+	}
+	function extOf(name) {
+		const i = name.lastIndexOf('.');
+		return i < 0 ? 'FILE' : name.substring(i + 1).toUpperCase();
+	}
+	function renderFiles() {
+		const ul = document.getElementById('fileList');
+		ul.innerHTML = files.map((f, i) => `
+			<li>
+				<span class="ext">${esc(extOf(f.name))}</span>
+				<a class="name" href="${esc(f.url)}" target="_blank" title="${esc(f.name)}">${esc(f.name)}</a>
+				<span class="size">${formatSize(f.size || 0)}</span>
+				<button type="button" class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="removeFile(${i})">삭제</button>
+			</li>`).join('');
+	}
+	function removeFile(i) {
+		files.splice(i, 1);
+		renderFiles();
+	}
+	async function addFiles(list) {
+		const errBox = document.getElementById('formError');
+		for (const file of list) {
+			if (files.length >= MAX_FILES) { alert(`첨부파일은 최대 ${MAX_FILES}개까지 올릴 수 있습니다.`); break; }
+			if (file.size > FILE_MAX) { alert(`"${file.name}" 파일이 20MB를 넘습니다.`); continue; }
+			const btn = document.getElementById('btnAddFile');
+			btn.disabled = true;
+			btn.textContent = '업로드 중…';
+			setBusy(true);
+			try {
+				const data = await upload('file', file);
+				files.push({ name: data.name, url: data.url, fileKey: data.fileKey, size: data.size });
+				renderFiles();
+			} catch (e) {
+				errBox.textContent = `"${file.name}" — ${e.message}`;
+				errBox.style.display = 'block';
+			} finally {
+				setBusy(false);
+				btn.disabled = false;
+				btn.textContent = '+ 파일 추가';
+			}
+		}
+	}
 
 	function esc(s) {
 		return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -125,6 +303,12 @@
 	}
 
 	document.addEventListener("DOMContentLoaded", function () {
+		initEditor();
+		document.getElementById('fileInput').addEventListener('change', e => {
+			const list = [...e.target.files];
+			e.target.value = '';
+			addFiles(list);
+		});
 		fetch("/api/admin/board/types")
 			.then(res => res.json())
 			.then(list => {
@@ -155,7 +339,7 @@
 				<tr>
 					<td class="align-middle">${formatDate(p.createdAt)}</td>
 					<td class="align-middle">${esc(t.label)}</td>
-					<td class="align-middle">${p.pinned ? '<span class="badge bg-secondary me-1">고정</span>' : ''}${esc(p.title)}</td>
+					<td class="align-middle">${p.pinned ? '<span class="badge bg-secondary me-1">고정</span>' : ''}${esc(p.title)}${(p.attachments && p.attachments.length) ? ` <span class="small text-muted">· 첨부 ${p.attachments.length}</span>` : ''}</td>
 					<td class="align-middle">${p.viewCount ?? 0}</td>
 					<td class="align-middle">${p.published
 						? '<span class="badge badge-new">게시</span>'
@@ -180,27 +364,41 @@
 		setVal("postId", p ? p.id : '');
 		setVal("fBoard", p ? p.board : (filter || (types[0] && types[0].code)));
 		setVal("fTitle", p && p.title);
-		setVal("fContent", p && p.content);
+		setEditorContent(p ? p.content : '');
+		files = p && p.attachments ? p.attachments.map(f => ({ name: f.name, url: f.url, fileKey: f.fileKey, size: f.size })) : [];
+		renderFiles();
 		setVal("fLink", p && p.linkUrl);
 		document.getElementById("fPinned").checked = p ? p.pinned : false;
 		document.getElementById("fPublished").checked = p ? p.published : true;
 		bootstrap.Modal.getOrCreateInstance(document.getElementById('formModal')).show();
 	}
 
-	function savePost() {
+	async function savePost() {
+		const errBox = document.getElementById("formError");
+		errBox.style.display = "none";
+		if (uploading > 0) return;
+		const btn = document.getElementById("btnSave");
+		btn.disabled = true;
+
+		try {
+			await uploadPastedImages();
+		} catch (e) {
+			errBox.textContent = e.message;
+			errBox.style.display = "block";
+			btn.disabled = false;
+			return;
+		}
+
 		const id = getVal("postId");
 		const body = {
 			board: getVal("fBoard"),
 			title: getVal("fTitle"),
-			content: getVal("fContent"),
+			content: getEditorContent(),
 			linkUrl: getVal("fLink"),
 			pinned: document.getElementById("fPinned").checked,
-			published: document.getElementById("fPublished").checked
+			published: document.getElementById("fPublished").checked,
+			attachments: files
 		};
-		const errBox = document.getElementById("formError");
-		errBox.style.display = "none";
-		const btn = document.getElementById("btnSave");
-		btn.disabled = true;
 
 		fetch(id ? `/api/admin/board/${id}` : "/api/admin/board", {
 			method: id ? "PUT" : "POST",

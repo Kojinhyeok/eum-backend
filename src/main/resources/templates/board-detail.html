@@ -28,7 +28,27 @@
                 </p>
             </header>
 
-            <div class="whitespace-pre-line py-8 text-[16px] leading-8 text-ink" th:text="${post.content}">본문</div>
+            <!-- 본문: 관리자 에디터 HTML (저장 시 서버에서 정리됨) -->
+            <div class="board-content py-8" th:utext="${post.contentHtml}">본문</div>
+
+            <!-- 첨부파일 -->
+            <div th:if="${post.hasAttachments}" class="mb-8 rounded-lg border border-line bg-surface-low p-4 md:p-5">
+                <p class="flex items-center gap-1.5 text-[14px] font-bold text-ink">
+                    <span class="material-symbols-outlined notranslate text-[18px] text-primary" translate="no" aria-hidden="true">attach_file</span>
+                    첨부파일 <span class="text-primary" th:text="${#lists.size(post.attachments)}">2</span>
+                </p>
+                <ul class="mt-3 space-y-2">
+                    <li th:each="f : ${post.attachments}">
+                        <a th:href="${f.url}" href="#" target="_blank" rel="noopener" download
+                           class="group flex items-center gap-3 rounded-md border border-line bg-white px-3 py-2.5 transition-colors hover:border-primary">
+                            <span class="w-12 shrink-0 rounded bg-lime-soft px-1.5 py-1 text-center text-[11px] font-bold leading-none text-primary-deep notranslate" translate="no" th:text="${f.extLabel}">PDF</span>
+                            <span class="min-w-0 flex-1 truncate text-[14px] font-medium text-ink group-hover:text-primary notranslate" translate="no" th:text="${f.name}">파일명.pdf</span>
+                            <span class="hidden shrink-0 text-[12px] text-ink-mute sm:inline" th:text="${f.sizeLabel}">1.2 MB</span>
+                            <span class="material-symbols-outlined notranslate shrink-0 text-[20px] text-ink-mute group-hover:text-primary" translate="no" aria-hidden="true">download</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
             <div th:if="${post.hasLink}" class="border-t border-line pt-6">
                 <a th:href="${post.linkUrl}" href="#" target="_blank" rel="noopener" class="btn btn-outline">

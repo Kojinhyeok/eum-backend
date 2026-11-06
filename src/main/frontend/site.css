@@ -249,6 +249,74 @@
 }
 
 /* =========================================================
+   게시판 본문 (관리자 Quill 에디터 HTML)
+   ========================================================= */
+@layer components {
+  .board-content {
+    @apply break-words text-[16px] leading-8 text-ink;
+  }
+  .board-content > * + * {
+    @apply mt-4;
+  }
+  .board-content > :first-child {
+    @apply mt-0;
+  }
+  /* 에디터가 끝에 남기는 빈 줄 숨김 */
+  .board-content > p:last-child:has(> br:only-child) {
+    @apply hidden;
+  }
+  .board-content h2 {
+    @apply mt-10 text-[22px] font-extrabold leading-snug tracking-tight text-ink md:text-[24px];
+  }
+  .board-content h3 {
+    @apply mt-8 text-[18px] font-bold leading-snug text-ink md:text-[20px];
+  }
+  .board-content a {
+    @apply font-medium text-primary underline underline-offset-2 hover:text-primary-dark;
+  }
+  .board-content strong {
+    @apply font-bold;
+  }
+  .board-content ul,
+  .board-content ol {
+    @apply space-y-1 pl-6;
+  }
+  .board-content ul {
+    @apply list-disc;
+  }
+  .board-content ol {
+    @apply list-decimal;
+  }
+  .board-content li::marker {
+    @apply text-primary;
+  }
+  .board-content blockquote {
+    @apply border-l-4 border-lime bg-surface-low px-5 py-3 text-ink-soft;
+  }
+  .board-content pre {
+    @apply overflow-x-auto rounded-md bg-primary-deep px-4 py-3 text-[14px] leading-6 text-white;
+  }
+  .board-content img {
+    @apply mx-auto my-6 h-auto max-w-full rounded-md;
+  }
+  .board-content hr {
+    @apply my-8 border-line;
+  }
+  .board-content .ql-align-center {
+    @apply text-center;
+  }
+  .board-content .ql-align-right {
+    @apply text-right;
+  }
+  .board-content .ql-align-justify {
+    @apply text-justify;
+  }
+  .board-content .ql-indent-1 { @apply pl-8; }
+  .board-content .ql-indent-2 { @apply pl-16; }
+  .board-content .ql-indent-3 { @apply pl-24; }
+}
+
+/* =========================================================
    구글 번역 위젯 UI 숨김 (KR/EN 버튼만 사용)
    ========================================================= */
 .skiptranslate iframe,

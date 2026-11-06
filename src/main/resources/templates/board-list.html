@@ -30,6 +30,7 @@
                             <p class="flex items-center gap-2">
                                 <span th:if="${p.pinned}" class="chip-dark shrink-0">고정</span>
                                 <span class="line-clamp-2 text-[16px] font-bold text-ink group-hover:text-primary group-hover:underline sm:line-clamp-1" th:text="${p.title}">제목</span>
+                                <span th:if="${p.hasAttachments}" class="material-symbols-outlined notranslate shrink-0 text-[18px] text-ink-mute" translate="no" aria-label="첨부파일 있음">attach_file</span>
                             </p>
                             <p class="mt-1 line-clamp-1 text-[14px] text-ink-mute" th:text="${p.excerpt}">요약</p>
                         </div>
