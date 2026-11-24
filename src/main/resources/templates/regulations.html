@@ -28,7 +28,7 @@
 
             <!-- 목록 -->
             <ul th:if="${hasPosts}" class="mt-6 divide-y divide-line border-y border-primary/80">
-                <li th:each="p : ${posts}">
+                <li th:each="row : ${rows}" th:with="p=${row.post}">
                     <a th:href="${p.path}" href="#" class="group flex gap-4 py-5 sm:gap-6 sm:py-6">
                         <!-- 대표 이미지 (없으면 국가 코드) -->
                         <span class="reg-thumb">
@@ -39,7 +39,7 @@
                             <span class="block line-clamp-2 text-[16px] font-bold leading-snug text-ink group-hover:text-primary group-hover:underline md:text-[18px]" th:text="${p.title}">제목</span>
                             <span class="mt-1.5 block line-clamp-2 text-[14px] leading-6 text-ink-soft" th:text="${p.excerpt}">요약</span>
                             <span class="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-mute">
-                                <span class="reg-tag" th:text="${@menuService.regionLabel(p.region)}" th:attr="data-en=${@menuService.regionLabelEn(p.region)}">미국</span>
+                                <span class="reg-tag" th:text="${row.regionLabel}" th:attr="data-en=${row.regionLabelEn}">미국</span>
                                 <span th:if="${p.hasCategory}" th:text="${p.category}">최신 개정/고시</span>
                                 <span th:text="${p.dateLabel}">2026.11.16</span>
                             </span>

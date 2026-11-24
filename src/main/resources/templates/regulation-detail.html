@@ -16,7 +16,7 @@
 
             <header class="mt-5 border-b border-primary/80 pb-6">
                 <p class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-mute">
-                    <span class="reg-tag" th:text="${@menuService.regionLabel(post.region)}" th:attr="data-en=${@menuService.regionLabelEn(post.region)}">미국</span>
+                    <span class="reg-tag" th:text="${regionLabel}" th:attr="data-en=${regionLabelEn}">미국</span>
                     <span th:if="${post.hasCategory}" th:text="${post.category}">최신 개정/고시</span>
                     <span th:text="${post.dateLabel}">2026.11.16</span>
                     <th:block th:if="${post.hasEffectiveNote}">

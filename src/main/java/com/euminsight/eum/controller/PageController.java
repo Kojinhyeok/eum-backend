@@ -4,6 +4,8 @@ import com.euminsight.eum.domain.menu.MenuService;
 import com.euminsight.eum.domain.regulation.Region;
 import com.euminsight.eum.domain.regulation.RegulationPost;
 import com.euminsight.eum.domain.regulation.RegulationPostRepository;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -85,7 +87,10 @@ public class PageController {
         model.addAttribute("regions", menuService.visibleRegions());
         model.addAttribute("currentRegion", current);
 
-        model.addAttribute("posts", result.getContent());
+        // 국가 이름(한/영)은 미리 계산해서 넘김 (Thymeleaf 3.1은 th:attr 안에서 빈 메서드 호출을 막음)
+        model.addAttribute("rows", result.getContent().stream()
+                .map(p -> new RegulationRow(p, menuService.regionLabel(p.getRegion()), menuService.regionLabelEn(p.getRegion())))
+                .toList());
         model.addAttribute("hasPosts", result.hasContent());
         model.addAttribute("currentPage", result.getNumber());
         model.addAttribute("totalPages", result.getTotalPages());
@@ -107,7 +112,18 @@ public class PageController {
         model.addAttribute("pageTitle", menuService.labelKo("BOARD_REGULATIONS"));
         model.addAttribute("pageTitleEn", menuService.labelEn("BOARD_REGULATIONS"));
         model.addAttribute("post", post);
+        model.addAttribute("regionLabel", menuService.regionLabel(post.getRegion()));
+        model.addAttribute("regionLabelEn", menuService.regionLabelEn(post.getRegion()));
         return "regulation-detail";
+    }
+
+    /** 글로벌 규제동향 목록 한 줄 (글 + 국가 이름 한/영) */
+    @Getter
+    @AllArgsConstructor
+    public static class RegulationRow {
+        private final RegulationPost post;
+        private final String regionLabel;
+        private final String regionLabelEn;
     }
 
     private List<Region> visibleRegions() {
