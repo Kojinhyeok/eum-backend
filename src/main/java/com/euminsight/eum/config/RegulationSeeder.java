@@ -6,6 +6,7 @@ import com.euminsight.eum.domain.regulation.RegulationPostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.List;
  * 관리자 페이지에서 수정·삭제하면 다시 생성되지 않는다(테이블이 비어있지 않으므로).
  */
 @Slf4j
+@Order(1)
 @Component
 @RequiredArgsConstructor
 public class RegulationSeeder implements CommandLineRunner {

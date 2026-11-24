@@ -311,9 +311,64 @@
   .board-content .ql-align-justify {
     @apply text-justify;
   }
+  /* 표 (글로벌 규제동향 에디터) — 모바일에서는 가로 스크롤 */
+  .board-content table {
+    @apply my-6 block w-full max-w-full overflow-x-auto border-collapse text-[14px] leading-6 md:table;
+  }
+  .board-content th,
+  .board-content td {
+    @apply min-w-[96px] border border-line px-3 py-2 align-top;
+  }
+  .board-content th,
+  .board-content thead td {
+    @apply bg-surface-low font-bold text-ink;
+  }
+  .board-content figure {
+    @apply m-0;
+  }
+  .board-content figcaption {
+    @apply mt-2 text-center text-[13px] text-ink-mute;
+  }
+  .board-content .se-component {
+    @apply my-6;
+  }
+  .board-content .__se__float-left {
+    @apply sm:float-left sm:mr-6;
+  }
+  .board-content .__se__float-right {
+    @apply sm:float-right sm:ml-6;
+  }
+  .board-content::after {
+    content: "";
+    @apply block clear-both;
+  }
+  .board-content h4 {
+    @apply mt-6 text-[16px] font-bold text-ink;
+  }
+  .board-content u {
+    @apply underline underline-offset-2;
+  }
   .board-content .ql-indent-1 { @apply pl-8; }
   .board-content .ql-indent-2 { @apply pl-16; }
   .board-content .ql-indent-3 { @apply pl-24; }
+}
+
+/* =========================================================
+   글로벌 규제동향 목록
+   ========================================================= */
+@layer components {
+  .reg-thumb {
+    @apply flex h-[72px] w-[72px] shrink-0 items-center justify-center overflow-hidden rounded-md bg-primary sm:h-[110px] sm:w-[160px];
+  }
+  .reg-thumb img {
+    @apply h-full w-full object-cover;
+  }
+  .reg-thumb-code {
+    @apply text-[16px] font-extrabold tracking-wide text-white sm:text-[22px];
+  }
+  .reg-tag {
+    @apply rounded-sm bg-primary-50 px-2 py-0.5 text-[12px] font-bold text-primary;
+  }
 }
 
 /* =========================================================

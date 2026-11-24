@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${post.title + ' | ' + pageTitle + ' | 이음인사이트'}, ${post.excerpt})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('regulations')}"></header>
+
+<main>
+    <nav th:replace="~{fragments/layout :: insightTabs('REGULATIONS')}"></nav>
+
+    <article class="section !pt-10 bg-white md:!pt-14">
+        <div class="container-x max-w-3xl">
+            <a th:href="|/regulations?region=${post.region.code}#list|" href="/regulations" class="inline-flex items-center gap-1 text-[14px] font-bold text-primary hover:underline">
+                <span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">arrow_back</span>
+                <span th:text="${pageTitle}" th:attr="data-en=${pageTitleEn}">글로벌 규제동향</span>
+            </a>
+
+            <header class="mt-5 border-b border-primary/80 pb-6">
+                <p class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-mute">
+                    <span class="reg-tag" th:text="${@menuService.regionLabel(post.region)}" th:attr="data-en=${@menuService.regionLabelEn(post.region)}">미국</span>
+                    <span th:if="${post.hasCategory}" th:text="${post.category}">최신 개정/고시</span>
+                    <span th:text="${post.dateLabel}">2026.11.16</span>
+                    <th:block th:if="${post.hasEffectiveNote}">
+                        <span class="h-3 w-px bg-line-strong"></span>
+                        <span th:text="${post.effectiveNote}">2027년 1월 1일 시행</span>
+                    </th:block>
+                </p>
+                <h1 class="mt-3 text-[24px] font-extrabold leading-snug tracking-tight text-ink md:text-[30px]" th:text="${post.title}">제목</h1>
+            </header>
+
+            <!-- 본문: 관리자 에디터 HTML (저장 시 서버에서 정리됨) -->
+            <div class="board-content py-8" th:utext="${post.contentHtml}">본문</div>
+
+            <div th:if="${post.hasSource}" class="border-t border-line pt-6">
+                <a th:href="${post.sourceUrl}" href="#" target="_blank" rel="noopener" class="btn btn-outline">
+                    규정 원문 보기
+                    <span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">north_east</span>
+                </a>
+            </div>
+
+            <div class="mt-10 flex flex-col items-center gap-3 border-t border-line pt-8 sm:flex-row sm:justify-center">
+                <a href="/regulations" class="btn btn-primary">목록으로</a>
+                <a href="/contact?type=GLOBAL" class="btn btn-outline">이 규정 관련 상담하기</a>
+            </div>
+        </div>
+    </article>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+</body>
+</html>

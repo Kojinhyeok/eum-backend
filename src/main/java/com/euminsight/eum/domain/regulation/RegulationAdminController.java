@@ -1,5 +1,6 @@
 package com.euminsight.eum.domain.regulation;
 
+import com.euminsight.eum.common.HtmlSanitizer;
 import com.euminsight.eum.domain.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,8 @@ public class RegulationAdminController {
 
     public record RegulationRequest(
             String region, String category, String noticeDate, String effectiveNote,
-            String title, String summary, String impact, String checkpoints,
-            String keyPoint, String sourceUrl, Boolean published
+            String title, String summary, String content, String thumbnailUrl,
+            String sourceUrl, Boolean published
     ) {}
 
     /** 관리자 화면 select 박스용 권역 목록 */
@@ -72,10 +73,25 @@ public class RegulationAdminController {
         if (region == null) throw new IllegalArgumentException("권역을 선택해 주세요.");
 
         String title = trim(req.title());
-        String summary = trim(req.summary());
         if (title == null) throw new IllegalArgumentException("제목을 입력해 주세요.");
-        if (summary == null) throw new IllegalArgumentException("개정 내용 요약을 입력해 주세요.");
         if (title.length() > 200) throw new IllegalArgumentException("제목은 200자 이내로 입력해 주세요.");
+
+        String content = HtmlSanitizer.cleanRich(req.content());
+        if (HtmlSanitizer.isBlank(content)) throw new IllegalArgumentException("본문을 입력해 주세요.");
+
+        // 목록 요약: 비우면 본문 앞부분으로 자동 작성
+        String summary = trim(req.summary());
+        if (summary == null) {
+            String text = HtmlSanitizer.text(content).replaceAll("\\s+", " ").trim();
+            summary = text.length() > 160 ? text.substring(0, 160) + "…" : text;
+            if (summary.isEmpty()) summary = title;
+        }
+        if (summary.length() > 500) throw new IllegalArgumentException("목록 요약은 500자 이내로 입력해 주세요.");
+
+        String thumbnailUrl = trim(req.thumbnailUrl());
+        if (thumbnailUrl != null && !thumbnailUrl.matches("(?i)^https?://.+")) {
+            throw new IllegalArgumentException("대표 이미지 주소가 올바르지 않습니다.");
+        }
 
         LocalDate date;
         try {
@@ -99,9 +115,9 @@ public class RegulationAdminController {
         post.setEffectiveNote(trim(req.effectiveNote()));
         post.setTitle(title);
         post.setSummary(summary);
-        post.setImpact(trim(req.impact()));
-        post.setCheckpoints(trim(req.checkpoints()));
-        post.setKeyPoint(trim(req.keyPoint()));
+        post.setContent(content);
+        post.setThumbnailUrl(thumbnailUrl);
+        // impact / checkpoints / keyPoint 는 예전 칸 → 건드리지 않음 (되돌리기용 보존)
         post.setSourceUrl(sourceUrl);
         post.setPublished(req.published() == null || req.published());
     }

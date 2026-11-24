@@ -1,5 +1,6 @@
 package com.euminsight.eum.domain.regulation;
 
+import com.euminsight.eum.common.HtmlSanitizer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 국가별 최신규정 게시글 (관리자 등록 → /regulations 화면 카드로 노출)
+ * 글로벌 규제동향 게시글 (관리자 등록 → /regulations 목록, /regulations/{id} 상세)
+ *
+ * 2026-11 개편: 본문을 에디터 HTML(content) 하나로 통합.
+ * 예전 칸(impact / checkpoints / keyPoint)은 되돌릴 수 있도록 DB에 그대로 남겨두고 화면에서는 쓰지 않는다.
+ * (기존 글은 RegulationContentMigrator 가 서버 시작 시 content 로 한 번 옮김)
  */
 @Entity
 @Table(name = "regulation_post")
@@ -60,6 +65,14 @@ public class RegulationPost {
     @Column(length = 300)
     private String keyPoint;
 
+    /** 본문 (에디터 HTML, 저장 시 HtmlSanitizer.cleanRich 로 정리) */
+    @Column(columnDefinition = "LONGTEXT")
+    private String content;
+
+    /** 목록 대표 이미지 (비우면 국가 코드 박스) */
+    @Column(length = 500)
+    private String thumbnailUrl;
+
     /** 원문 & 분석 리포트 링크 */
     @Column(length = 500)
     private String sourceUrl;
@@ -88,6 +101,34 @@ public class RegulationPost {
 
     public String getDateLabel() {
         return noticeDate == null ? "" : noticeDate.format(DATE_LABEL);
+    }
+
+    /** 상세 주소 */
+    public String getPath() {
+        return "/regulations/" + id;
+    }
+
+    public String getContentHtml() {
+        return content == null ? "" : content;
+    }
+
+    public boolean isHasContent() {
+        return !HtmlSanitizer.isBlank(content);
+    }
+
+    /** 목록 요약: 입력한 요약, 없으면 본문 앞부분 */
+    public String getExcerpt() {
+        String base = (summary != null && !summary.isBlank()) ? summary : HtmlSanitizer.text(content);
+        String flat = base == null ? "" : base.replaceAll("\\s+", " ").trim();
+        return flat.length() > 160 ? flat.substring(0, 160) + "…" : flat;
+    }
+
+    public boolean isHasThumbnail() {
+        return thumbnailUrl != null && !thumbnailUrl.isBlank();
+    }
+
+    public boolean isHasCategory() {
+        return category != null && !category.isBlank();
     }
 
     public List<String> getCheckpointList() {

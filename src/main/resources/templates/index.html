@@ -215,7 +215,7 @@
             </div>
 
             <div th:if="${hasLatest}" class="mt-8 grid gap-4 md:grid-cols-3">
-                <a th:each="p : ${latestPosts}" th:href="|/regulations?region=${p.region.code}#post-${p.id}|" href="/regulations"
+                <a th:each="p : ${latestPosts}" th:href="${p.path}" href="/regulations"
                    class="card group flex flex-col p-5 transition-colors hover:border-primary">
                     <div class="flex items-center justify-between gap-2">
                         <span class="inline-flex items-center gap-2">
@@ -224,9 +224,9 @@
                         </span>
                         <span class="text-[12px] text-ink-mute" th:text="${p.dateLabel}">2026.10.01</span>
                     </div>
-                    <span class="chip mt-4 self-start" th:text="${p.category}">최신 개정/고시</span>
+                    <span th:if="${p.hasCategory}" class="chip mt-4 self-start" th:text="${p.category}">최신 개정/고시</span>
                     <h3 class="mt-2 line-clamp-2 text-[16px] font-bold leading-snug group-hover:text-primary" th:text="${p.title}">제목</h3>
-                    <p class="mt-2 line-clamp-2 text-[13px] leading-5" th:text="${p.summary}">요약</p>
+                    <p class="mt-2 line-clamp-2 text-[13px] leading-5" th:text="${p.excerpt}">요약</p>
                 </a>
             </div>
             <div th:unless="${hasLatest}" class="card mt-8 p-8 text-center text-[14px] text-ink-mute">
