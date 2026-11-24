@@ -79,6 +79,80 @@
     document.body.appendChild(s);
   }
 
+  /* ---------------------------------------------------------
+     2-1. 영문 고정 문구 (구글 번역 대신 지정한 영문 사용)
+        - data-en="About us"        : EN일 때 글자를 그대로 교체
+        - data-en-html="<b>..</b>"  : EN일 때 HTML로 교체 (굵게 등)
+        - data-ko-only              : EN일 때 숨김
+        교체한 요소는 notranslate 처리해 구글 번역이 다시 바꾸지 않게 함
+     --------------------------------------------------------- */
+  function applyFixedEnglish() {
+    document.querySelectorAll('[data-en], [data-en-html]').forEach(function (el) {
+      if (el.hasAttribute('data-en-html')) {
+        el.innerHTML = el.getAttribute('data-en-html');
+      } else {
+        el.textContent = el.getAttribute('data-en');
+      }
+      el.classList.add('notranslate');
+      el.setAttribute('translate', 'no');
+    });
+    document.querySelectorAll('[data-ko-only]').forEach(function (el) {
+      el.hidden = true;
+      el.style.display = 'none';
+    });
+  }
+
+  /* ---------------------------------------------------------
+     2-2. 영문 용어 고정 (구글 번역 결과를 한 번 더 보정)
+        본문처럼 data-en을 달기 어려운 곳의 잘못된 번역을 바로잡음
+     --------------------------------------------------------- */
+  var EN_GLOSSARY = [
+    [/\bE+eum\b/g, 'Eum'],
+    [/\bIeum\b/g, 'Eum'],
+    [/\bBaek Ji[- ]?[Hh]oon\b/g, 'Ji Hwoon Baek'],
+    [/\bJi[- ]?[Hh]oon Baek\b/g, 'Ji Hwoon Baek'],
+    [/\bBusinessand\b/g, 'Business and'],
+    [/\bOverseas\b/g, 'Global'],
+    [/\boverseas\b/g, 'global'],
+    [/\bDomestic\b/g, 'Korean'],
+    [/\bdomestic\b/g, 'Korean']
+  ];
+
+  function fixTextNode(node) {
+    var text = node.nodeValue;
+    if (!text || !/[A-Za-z]/.test(text)) return;
+    var fixed = text;
+    EN_GLOSSARY.forEach(function (rule) { fixed = fixed.replace(rule[0], rule[1]); });
+    if (fixed !== text) node.nodeValue = fixed;
+  }
+
+  function fixTree(root) {
+    if (root.nodeType === 3) { fixTextNode(root); return; }
+    if (root.nodeType !== 1) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var n;
+    while ((n = walker.nextNode())) fixTextNode(n);
+  }
+
+  function watchEnglishGlossary() {
+    var pending = [];
+    var timer = null;
+    var observer = new MutationObserver(function (records) {
+      records.forEach(function (r) {
+        if (r.type === 'characterData') pending.push(r.target);
+        r.addedNodes.forEach(function (n) { pending.push(n); });
+      });
+      if (timer) return;
+      timer = setTimeout(function () {
+        timer = null;
+        var list = pending; pending = [];
+        list.forEach(fixTree);
+      }, 50);
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    fixTree(document.body);
+  }
+
   function initLanguage() {
     var current = getTransLang();
     document.querySelectorAll('.lang-btn').forEach(function (btn) {
@@ -90,6 +164,10 @@
     });
     if (current !== 'ko') {
       document.documentElement.lang = current;
+      if (current === 'en') {
+        applyFixedEnglish();
+        watchEnglishGlossary();
+      }
       loadGoogleTranslate();
     }
   }

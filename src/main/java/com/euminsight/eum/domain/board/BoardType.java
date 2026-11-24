@@ -9,8 +9,8 @@ public enum BoardType {
 
     RESEARCH("insights", "research", "화장품 연구동향", "인사이트"),
     COLUMN("insights", "column", "전문가 칼럼", "인사이트"),
-    NOTICE("notice", "company", "회사공지", "공지사항"),
-    EVENT("notice", "event", "행사 및 세미나", "공지사항");
+    NOTICE("notice", "company", "알림", "새소식"),
+    EVENT("notice", "event", "함께하는 기관", "새소식");
 
     private final String group;
     private final String slug;
