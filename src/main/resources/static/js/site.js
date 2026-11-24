@@ -88,10 +88,14 @@
      --------------------------------------------------------- */
   function applyFixedEnglish() {
     document.querySelectorAll('[data-en], [data-en-html]').forEach(function (el) {
-      if (el.hasAttribute('data-en-html')) {
-        el.innerHTML = el.getAttribute('data-en-html');
+      var html = el.getAttribute('data-en-html');
+      var text = el.getAttribute('data-en');
+      if (html) {
+        el.innerHTML = html;
+      } else if (text) {
+        el.textContent = text;
       } else {
-        el.textContent = el.getAttribute('data-en');
+        return; // 영문 이름이 비어 있으면 구글 번역에 맡김
       }
       el.classList.add('notranslate');
       el.setAttribute('translate', 'no');

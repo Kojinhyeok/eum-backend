@@ -1,6 +1,7 @@
 package com.euminsight.eum.domain.board;
 
 import com.euminsight.eum.common.HtmlSanitizer;
+import com.euminsight.eum.domain.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.NoSuchElementException;
 public class BoardAdminController {
 
     private final BoardPostRepository boardPostRepository;
+    private final MenuService menuService;
 
     public record BoardRequest(
             String board, String title, String content, String linkUrl,
@@ -31,8 +33,9 @@ public class BoardAdminController {
     @GetMapping("/types")
     public List<Map<String, String>> types() {
         return Arrays.stream(BoardType.values())
-                .map(t -> Map.of("code", t.getCode(), "label", t.getLabel(),
-                        "groupLabel", t.getGroupLabel(), "path", t.getPath()))
+                .map(t -> Map.of("code", t.getCode(), "label", menuService.boardLabel(t),
+                        "groupLabel", menuService.boardGroupLabel(t), "path", t.getPath(),
+                        "visible", String.valueOf(menuService.isBoardVisible(t))))
                 .toList();
     }
 

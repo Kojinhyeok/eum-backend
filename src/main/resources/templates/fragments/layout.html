@@ -36,59 +36,21 @@
      HEADER: th:replace="~{fragments/layout :: header('global')}"
      active 값: home / about / global / domestic / clinical / regulations / insights / notice / contact
      ========================================================= -->
-<header th:fragment="header(active)" id="site-header" class="sticky top-0 z-50 border-b border-line bg-white">
+<header th:fragment="header(active)" th:with="menus=${@menuService.headerMenus()}" id="site-header" class="sticky top-0 z-50 border-b border-line bg-white">
     <div class="container-x flex h-16 items-center justify-between gap-3 lg:h-20">
         <a href="/" class="flex shrink-0 items-center notranslate" translate="no" aria-label="이음인사이트 홈">
             <img src="/img/logo.png" alt="이음 EUM Insight" class="h-9 w-auto lg:h-11" width="589" height="253">
         </a>
 
+        <!-- 메뉴 이름·표시 여부·순서: 관리자 > 메뉴·탭 관리 (MenuService) -->
         <nav class="hidden items-center lg:flex" aria-label="주요 메뉴">
-            <div class="nav-item">
-                <a href="/about" class="nav-link" th:classappend="${active == 'about'} ? 'is-active'"><span data-en="About us">회사 소개</span></a>
-            </div>
-            <div class="nav-item">
-                <a href="/global" class="nav-link" th:classappend="${active == 'global' or active == 'domestic'} ? 'is-active'">
-                    <span data-en="Regulatory Affairs">규제대응</span><span class="material-symbols-outlined notranslate nav-caret" translate="no" aria-hidden="true">expand_more</span>
+            <div class="nav-item" th:each="m : ${menus}">
+                <a th:href="${m.url}" href="#" class="nav-link" th:classappend="${m.isActiveFor(active)} ? 'is-active'">
+                    <span th:text="${m.labelKo}" th:attr="data-en=${m.labelEn}">메뉴</span><span th:if="${m.hasChildren}" class="material-symbols-outlined notranslate nav-caret" translate="no" aria-hidden="true">expand_more</span>
                 </a>
-                <div class="nav-dropdown">
+                <div th:if="${m.hasChildren}" class="nav-dropdown">
                     <div class="nav-dropdown-inner">
-                        <a href="/global" data-en="Global Registrations">해외 규제대응</a>
-                        <a href="/domestic" data-en="Korean Registrations">국내 규제대응</a>
-                    </div>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a href="/clinical" class="nav-link" th:classappend="${active == 'clinical'} ? 'is-active'">
-                    <span data-en="Scientific Verification">과학적 검증</span><span class="material-symbols-outlined notranslate nav-caret" translate="no" aria-hidden="true">expand_more</span>
-                </a>
-                <div class="nav-dropdown">
-                    <div class="nav-dropdown-inner">
-                        <a href="/clinical#invitro">in vitro 시험</a>
-                        <a href="/clinical#human">인체적용시험</a>
-                        <a href="/clinical#ai">AI 데이터 분석</a>
-                    </div>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a href="/regulations" class="nav-link" th:classappend="${active == 'regulations' or active == 'insights'} ? 'is-active'">
-                    <span data-en="Insights">인사이트</span><span class="material-symbols-outlined notranslate nav-caret" translate="no" aria-hidden="true">expand_more</span>
-                </a>
-                <div class="nav-dropdown">
-                    <div class="nav-dropdown-inner">
-                        <a href="/regulations">글로벌 규제동향</a>
-                        <a href="/insights/research">화장품 연구동향</a>
-                        <a href="/insights/column">전문가 칼럼</a>
-                    </div>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a href="/notice/company" class="nav-link" th:classappend="${active == 'notice'} ? 'is-active'">
-                    <span data-en="News">새소식</span><span class="material-symbols-outlined notranslate nav-caret" translate="no" aria-hidden="true">expand_more</span>
-                </a>
-                <div class="nav-dropdown">
-                    <div class="nav-dropdown-inner">
-                        <a href="/notice/company">알림</a>
-                        <a href="/notice/event">함께하는 기관</a>
+                        <a th:each="c : ${m.children}" th:href="${c.url}" href="#" th:text="${c.labelKo}" th:attr="data-en=${c.labelEn}">하위 메뉴</a>
                     </div>
                 </div>
             </div>
@@ -111,37 +73,10 @@
     <!-- 모바일 메뉴 -->
     <div id="mobile-menu" class="hidden max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-white lg:hidden">
         <nav class="container-x" aria-label="모바일 메뉴">
-            <div class="mobile-group">
-                <a href="/about" class="mobile-link" th:classappend="${active == 'about'} ? 'is-active'" data-en="About us">회사 소개</a>
-            </div>
-            <div class="mobile-group">
-                <a href="/global" class="mobile-link" th:classappend="${active == 'global' or active == 'domestic'} ? 'is-active'" data-en="Regulatory Affairs">규제대응</a>
-                <div class="mobile-sub">
-                    <a href="/global" data-en="Global Registrations">해외 규제대응</a>
-                    <a href="/domestic" data-en="Korean Registrations">국내 규제대응</a>
-                </div>
-            </div>
-            <div class="mobile-group">
-                <a href="/clinical" class="mobile-link" th:classappend="${active == 'clinical'} ? 'is-active'" data-en="Scientific Verification">과학적 검증</a>
-                <div class="mobile-sub">
-                    <a href="/clinical#invitro">in vitro 시험</a>
-                    <a href="/clinical#human">인체적용시험</a>
-                    <a href="/clinical#ai">AI 데이터 분석</a>
-                </div>
-            </div>
-            <div class="mobile-group">
-                <a href="/regulations" class="mobile-link" th:classappend="${active == 'regulations' or active == 'insights'} ? 'is-active'" data-en="Insights">인사이트</a>
-                <div class="mobile-sub">
-                    <a href="/regulations">글로벌 규제동향</a>
-                    <a href="/insights/research">화장품 연구동향</a>
-                    <a href="/insights/column">전문가 칼럼</a>
-                </div>
-            </div>
-            <div class="mobile-group">
-                <a href="/notice/company" class="mobile-link" th:classappend="${active == 'notice'} ? 'is-active'" data-en="News">새소식</a>
-                <div class="mobile-sub">
-                    <a href="/notice/company">알림</a>
-                    <a href="/notice/event">함께하는 기관</a>
+            <div class="mobile-group" th:each="m : ${menus}">
+                <a th:href="${m.url}" href="#" class="mobile-link" th:classappend="${m.isActiveFor(active)} ? 'is-active'" th:text="${m.labelKo}" th:attr="data-en=${m.labelEn}">메뉴</a>
+                <div th:if="${m.hasChildren}" class="mobile-sub">
+                    <a th:each="c : ${m.children}" th:href="${c.url}" href="#" th:text="${c.labelKo}" th:attr="data-en=${c.labelEn}">하위 메뉴</a>
                 </div>
             </div>
         </nav>
@@ -160,16 +95,15 @@
      ========================================================= -->
 <nav th:fragment="insightTabs(current)" class="border-b border-line bg-white" aria-label="인사이트 메뉴">
     <div class="container-x no-scrollbar flex gap-6 overflow-x-auto">
-        <a href="/regulations" class="board-tab" th:classappend="${current == 'REGULATIONS'} ? 'is-active'">글로벌 규제동향</a>
-        <a href="/insights/research" class="board-tab" th:classappend="${current == 'RESEARCH'} ? 'is-active'">화장품 연구동향</a>
-        <a href="/insights/column" class="board-tab" th:classappend="${current == 'COLUMN'} ? 'is-active'">전문가 칼럼</a>
+        <a th:each="t : ${@menuService.tabs('INSIGHTS')}" th:href="${t.url}" href="#" class="board-tab"
+           th:classappend="${t.tabKey == current} ? 'is-active'" th:text="${t.labelKo}" th:attr="data-en=${t.labelEn}">탭</a>
     </div>
 </nav>
 
 <nav th:fragment="noticeTabs(current)" class="border-b border-line bg-white" aria-label="새소식 메뉴">
     <div class="container-x no-scrollbar flex gap-6 overflow-x-auto">
-        <a href="/notice/company" class="board-tab" th:classappend="${current == 'NOTICE'} ? 'is-active'">알림</a>
-        <a href="/notice/event" class="board-tab" th:classappend="${current == 'EVENT'} ? 'is-active'">함께하는 기관</a>
+        <a th:each="t : ${@menuService.tabs('NEWS')}" th:href="${t.url}" href="#" class="board-tab"
+           th:classappend="${t.tabKey == current} ? 'is-active'" th:text="${t.labelKo}" th:attr="data-en=${t.labelEn}">탭</a>
     </div>
 </nav>
 
@@ -238,7 +172,7 @@
 </footer>
 
 <div id="google_translate_element"></div>
-<script src="/js/site.js?v=20261124" defer></script>
+<script src="/js/site.js?v=20261124b" defer></script>
 </th:block>
 
 </body>

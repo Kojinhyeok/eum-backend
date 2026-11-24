@@ -3,6 +3,7 @@ package com.euminsight.eum.controller;
 import com.euminsight.eum.domain.board.BoardPost;
 import com.euminsight.eum.domain.board.BoardPostRepository;
 import com.euminsight.eum.domain.board.BoardType;
+import com.euminsight.eum.domain.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,8 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.stream.IntStream;
 
 /**
- * 인사이트(화장품 연구동향 / 전문가 칼럼), 공지사항(회사공지 / 행사 및 세미나) 게시판 화면
- *  - 목록: /insights/research, /insights/column, /notice/company, /notice/event
+ * 인사이트(화장품 연구동향 / 전문가 칼럼), 새소식(알림 / 함께하는 기관 / 주요 고객사) 게시판 화면
+ *  - 목록: /insights/research, /insights/column, /notice/company, /notice/event, /notice/clients
+ *  - 관리자 > 메뉴·탭 관리에서 숨김 처리한 게시판은 404
  *  - 상세: 위 주소 + /{id}
  */
 @Controller
@@ -28,6 +30,7 @@ public class BoardPageController {
     private static final int PAGE_SIZE = 10;
 
     private final BoardPostRepository boardPostRepository;
+    private final MenuService menuService;
 
     @GetMapping({"/insights/{slug}", "/notice/{slug}"})
     public String list(@PathVariable String slug,
@@ -69,12 +72,15 @@ public class BoardPageController {
     private BoardType resolve(String uri, String slug) {
         String group = uri.startsWith("/notice/") ? "notice" : "insights";
         BoardType board = BoardType.fromPath(group, slug);
-        if (board == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if (board == null || !menuService.isBoardVisible(board)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return board;
     }
 
     private void addCommon(Model model, BoardType board) {
         model.addAttribute("board", board);
+        model.addAttribute("boardLabel", menuService.boardLabel(board));
+        model.addAttribute("boardLabelEn", menuService.boardLabelEn(board));
+        model.addAttribute("groupLabel", menuService.boardGroupLabel(board));
         model.addAttribute("isInsights", "insights".equals(board.getGroup()));
         // 헤더 메뉴 활성화 값 (layout.html header(active))
         model.addAttribute("activeMenu", "insights".equals(board.getGroup()) ? "insights" : "notice");

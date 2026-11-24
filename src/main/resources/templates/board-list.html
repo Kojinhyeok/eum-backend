@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head(${board.label + ' | ' + board.groupLabel + ' | 이음인사이트'}, ${'이음인사이트 ' + board.groupLabel + ' - ' + board.label})}"></head>
+<head th:replace="~{fragments/layout :: head(${boardLabel + ' | ' + groupLabel + ' | 이음인사이트'}, ${'이음인사이트 ' + groupLabel + ' - ' + boardLabel})}"></head>
 <body>
 <header th:replace="~{fragments/layout :: header(${activeMenu})}"></header>
 
@@ -9,7 +9,7 @@
     <section class="page-hero">
         <div class="container-x relative py-12 md:py-14">
             <span class="kicker" th:text="${isInsights} ? 'Insights' : 'Notice'">Insights</span>
-            <h1 class="h-page mt-3" th:text="${board.label}">화장품 연구동향</h1>
+            <h1 class="h-page mt-3" th:text="${boardLabel}" th:attr="data-en=${boardLabelEn}">화장품 연구동향</h1>
         </div>
     </section>
 

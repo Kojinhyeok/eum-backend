@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="robots" content="noindex, nofollow">
+	<title>메뉴·탭 관리 - 이음인사이트</title>
+	<link href="../css/app.css" rel="stylesheet">
+	<link href="../css/custom.css" rel="stylesheet">
+	<style>
+		.menu-table td { vertical-align: middle; }
+		.menu-table .row-top td { background: #f5f7fb; font-weight: 600; }
+		.menu-table .row-child .name-cell { padding-left: 2.25rem; }
+		.menu-table .row-hidden input[type="text"] { color: #9aa4ae; }
+		.menu-table input.form-control { min-width: 140px; }
+		.menu-table .order-input { width: 80px; }
+		.default-label { font-size: 12px; color: #8a94a0; }
+	</style>
+</head>
+
+<body data-page="menu-list" data-base="../">
+<div class="wrapper">
+	<div id="sidebar-container"></div>
+	<div class="main">
+		<div id="header-container"></div>
+
+		<main class="content">
+			<div class="container-fluid p-0">
+				<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+					<h1 class="h3 mb-0"><strong>메뉴·탭 관리</strong></h1>
+					<button type="button" class="btn btn-primary" id="btnSave" onclick="saveAll()">변경사항 저장</button>
+				</div>
+
+				<div class="card mb-3">
+					<div class="card-body py-3 small text-muted">
+						<ul class="mb-0 ps-3">
+							<li><strong>한글 이름</strong>은 KR 화면, <strong>영문 이름</strong>은 EN 화면에 그대로 표시됩니다. 영문을 비워두면 구글 번역이 자동으로 번역합니다.</li>
+							<li><strong>표시</strong>를 끄면 메뉴·탭에서 사라지고, 게시판은 주소로 들어와도 열리지 않습니다. 글은 지워지지 않으니 다시 켜면 그대로 보입니다.</li>
+							<li><strong>순서</strong>는 숫자가 작을수록 앞에 나옵니다. (같은 상위 메뉴 안에서 비교)</li>
+							<li>저장하면 홈페이지에 바로 반영됩니다.</li>
+						</ul>
+					</div>
+				</div>
+
+				<div id="saveMsg" class="alert alert-success py-2 px-3" style="display:none;"></div>
+				<div id="saveErr" class="alert alert-danger py-2 px-3" style="display:none;"></div>
+
+				<div class="card mb-3">
+					<div class="card-header pb-0"><h5 class="card-title mb-0">상단 메뉴 · 게시판</h5></div>
+					<div class="table-responsive">
+						<table class="table menu-table my-0" id="menuTable">
+							<thead>
+							<tr>
+								<th style="width:220px;">항목 (기본 이름)</th>
+								<th>한글 이름</th>
+								<th>영문 이름</th>
+								<th style="width:100px;">순서</th>
+								<th style="width:80px;">표시</th>
+								<th style="width:80px;">보기</th>
+							</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-header pb-0"><h5 class="card-title mb-0">글로벌 규제동향 · 국가 탭</h5></div>
+					<div class="table-responsive">
+						<table class="table menu-table my-0" id="regionTable">
+							<thead>
+							<tr>
+								<th style="width:220px;">국가 (기본 이름)</th>
+								<th>한글 이름</th>
+								<th>영문 이름</th>
+								<th style="width:100px;">순서</th>
+								<th style="width:80px;">표시</th>
+								<th style="width:80px;">보기</th>
+							</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script>
+	let rows = [];
+
+	function esc(s) {
+		return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+	}
+
+	document.addEventListener("DOMContentLoaded", loadRows);
+
+	function loadRows() {
+		fetch("/api/admin/menus")
+			.then(res => res.json())
+			.then(list => { rows = list; render(); });
+	}
+
+	function rowHtml(r) {
+		const cls = r.group === 'REGION' ? '' : (r.topLevel ? 'row-top' : 'row-child');
+		const link = r.url ? `<a href="${esc(r.url)}" target="_blank" class="small">열기</a>` : '<span class="small text-muted">-</span>';
+		return `<tr class="${cls}${r.visible ? '' : ' row-hidden'}" data-code="${esc(r.code)}">
+			<td class="name-cell">${r.topLevel || r.group === 'REGION' ? '' : '└ '}${esc(r.defaultKo)}<div class="default-label">${esc(r.code)}</div></td>
+			<td><input type="text" class="form-control form-control-sm f-ko" maxlength="50" value="${esc(r.labelKo)}"></td>
+			<td><input type="text" class="form-control form-control-sm f-en" maxlength="80" value="${esc(r.labelEn)}" placeholder="비우면 구글 번역"></td>
+			<td><input type="number" class="form-control form-control-sm order-input f-order" step="1" value="${r.sortOrder}"></td>
+			<td><div class="form-check form-switch mb-0"><input class="form-check-input f-visible" type="checkbox" ${r.visible ? 'checked' : ''} onchange="this.closest('tr').classList.toggle('row-hidden', !this.checked)"></div></td>
+			<td>${link}</td>
+		</tr>`;
+	}
+
+	function render() {
+		document.querySelector("#menuTable tbody").innerHTML = rows.filter(r => r.group === 'MENU').map(rowHtml).join('');
+		document.querySelector("#regionTable tbody").innerHTML = rows.filter(r => r.group === 'REGION').map(rowHtml).join('');
+	}
+
+	function showMsg(ok, text) {
+		const okBox = document.getElementById("saveMsg");
+		const errBox = document.getElementById("saveErr");
+		okBox.style.display = ok ? "block" : "none";
+		errBox.style.display = ok ? "none" : "block";
+		(ok ? okBox : errBox).textContent = text;
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	function saveAll() {
+		const items = [];
+		let invalid = null;
+		document.querySelectorAll("tr[data-code]").forEach(tr => {
+			const ko = tr.querySelector(".f-ko").value.trim();
+			if (!ko && !invalid) invalid = tr.querySelector(".f-ko");
+			items.push({
+				code: tr.dataset.code,
+				labelKo: ko,
+				labelEn: tr.querySelector(".f-en").value.trim(),
+				visible: tr.querySelector(".f-visible").checked,
+				sortOrder: parseInt(tr.querySelector(".f-order").value, 10) || 0
+			});
+		});
+		if (invalid) {
+			showMsg(false, "한글 이름은 비워둘 수 없습니다.");
+			invalid.focus();
+			return;
+		}
+
+		const btn = document.getElementById("btnSave");
+		btn.disabled = true;
+		fetch("/api/admin/menus", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(items)
+		})
+			.then(async res => {
+				const data = await res.json().catch(() => ({}));
+				if (!res.ok) throw new Error(data.message || "저장 중 오류가 발생했습니다.");
+			})
+			.then(() => { showMsg(true, "저장했습니다. 홈페이지에 바로 반영됩니다."); loadRows(); })
+			.catch(err => showMsg(false, err.message))
+			.finally(() => { btn.disabled = false; });
+	}
+</script>
+</body>
+</html>

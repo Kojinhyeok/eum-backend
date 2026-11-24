@@ -12,7 +12,7 @@
             <p class="min-w-0 flex-1 truncate text-white/85">
                 <th:block th:if="${hasLatest}">
                     <th:block th:each="t, st : ${latestPosts}">
-                        <span th:text="|${t.region.label} · ${t.title}|">미국 · MoCRA 안전성 입증 가이드</span><span th:unless="${st.last}" class="mx-3 text-white/30">|</span>
+                        <span th:text="|${@menuService.regionLabel(t.region)} · ${t.title}|">미국 · MoCRA 안전성 입증 가이드</span><span th:unless="${st.last}" class="mx-3 text-white/30">|</span>
                     </th:block>
                 </th:block>
                 <th:block th:unless="${hasLatest}">
@@ -220,7 +220,7 @@
                     <div class="flex items-center justify-between gap-2">
                         <span class="inline-flex items-center gap-2">
                             <span class="flex h-7 min-w-[28px] items-center justify-center rounded-sm bg-primary px-1.5 text-[11px] font-extrabold text-white notranslate" translate="no" th:text="${p.region.shortCode}">US</span>
-                            <span class="text-[14px] font-bold text-ink" th:text="${p.region.label}">미국</span>
+                            <span class="text-[14px] font-bold text-ink" th:text="${@menuService.regionLabel(p.region)}">미국</span>
                         </span>
                         <span class="text-[12px] text-ink-mute" th:text="${p.dateLabel}">2026.10.01</span>
                     </div>

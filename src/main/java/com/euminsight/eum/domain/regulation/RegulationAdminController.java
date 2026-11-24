@@ -1,5 +1,6 @@
 package com.euminsight.eum.domain.regulation;
 
+import com.euminsight.eum.domain.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.NoSuchElementException;
 public class RegulationAdminController {
 
     private final RegulationPostRepository regulationPostRepository;
+    private final MenuService menuService;
 
     public record RegulationRequest(
             String region, String category, String noticeDate, String effectiveNote,
@@ -28,7 +30,8 @@ public class RegulationAdminController {
     @GetMapping("/regions")
     public List<Map<String, String>> regions() {
         return Arrays.stream(Region.values())
-                .map(r -> Map.of("code", r.getCode(), "label", r.getLabel(), "shortCode", r.getShortCode()))
+                .map(r -> Map.of("code", r.getCode(), "label", menuService.regionLabel(r), "shortCode", r.getShortCode(),
+                        "visible", String.valueOf(menuService.isRegionVisible(r))))
                 .toList();
     }
 

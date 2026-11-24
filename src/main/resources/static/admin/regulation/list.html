@@ -165,7 +165,7 @@
 			.then(res => res.json())
 			.then(list => {
 				regions = list;
-				const opts = list.map(r => `<option value="${r.code}">${esc(r.label)} (${r.shortCode})</option>`).join('');
+				const opts = list.map(r => `<option value="${r.code}">${esc(r.label)} (${r.shortCode})${r.visible === 'false' ? ' - 숨김' : ''}</option>`).join('');
 				document.getElementById("fRegion").innerHTML = opts;
 				document.getElementById("filterRegion").insertAdjacentHTML('beforeend', opts);
 				loadPosts();

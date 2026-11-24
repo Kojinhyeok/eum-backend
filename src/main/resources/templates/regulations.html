@@ -31,7 +31,7 @@
                     </div>
                     <div class="mt-4 flex items-center gap-2">
                         <span class="flex h-7 min-w-[28px] items-center justify-center rounded bg-primary px-1.5 text-[11px] font-extrabold text-white notranslate" translate="no" th:text="${s.region.shortCode}">US</span>
-                        <span class="text-[14px] font-bold text-primary" th:text="${s.region.label}">미국</span>
+                        <span class="text-[14px] font-bold text-primary" th:text="${@menuService.regionLabel(s.region)}" th:attr="data-en=${@menuService.regionLabelEn(s.region)}">미국</span>
                     </div>
                     <h2 class="mt-2 line-clamp-2 text-[16px] font-bold leading-snug group-hover:text-primary" th:text="${s.title}">제목</h2>
                     <div th:if="${s.hasKeyPoint}" class="mt-4 flex-1 rounded-lg bg-surface-low p-3">
@@ -57,7 +57,7 @@
                 <a th:each="r : ${regions}" th:href="|/regulations?region=${r.code}#archive|" href="#"
                    class="filter-chip" th:classappend="${currentRegion != null and currentRegion.code == r.code} ? 'is-active'">
                     <span class="text-[11px] font-extrabold opacity-70 notranslate" translate="no" th:text="${r.shortCode}">US</span>
-                    <span th:text="${r.label}">미국</span>
+                    <span th:text="${r.labelKo}" th:attr="data-en=${r.labelEn}">미국</span>
                 </a>
             </nav>
 
@@ -70,7 +70,7 @@
                             <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary text-[13px] font-extrabold text-white notranslate" translate="no" th:text="${p.region.shortCode}">US</span>
                             <div class="min-w-0">
                                 <p class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                    <span class="text-[18px] font-extrabold text-ink"><span th:text="${p.region.label}">미국</span> <span class="notranslate" translate="no" th:text="${p.region.en}">USA</span></span>
+                                    <span class="text-[18px] font-extrabold text-ink"><span th:text="${@menuService.regionLabel(p.region)}">미국</span></span>
                                     <span class="chip-lime !py-0.5 !text-[11px]"><span class="live-dot"></span>Live Active</span>
                                 </p>
                                 <p class="mt-0.5 text-[12px] font-semibold text-primary notranslate" translate="no" th:text="${p.region.framework}">US FDA MoCRA &amp; OTC Regulations</p>
@@ -118,7 +118,7 @@
                         </span>
                         <a th:if="${p.hasSource}" th:href="${p.sourceUrl}" href="#" target="_blank" rel="noopener"
                            class="inline-flex items-center gap-1 font-bold text-primary hover:underline">
-                            <span th:text="|${p.region.label} 규정 원문 &amp; 분석 리포트|">규정 원문 &amp; 분석 리포트</span>
+                            <span th:text="|${@menuService.regionLabel(p.region)} 규정 원문 &amp; 분석 리포트|">규정 원문 &amp; 분석 리포트</span>
                             <span class="material-symbols-outlined notranslate text-[18px]" translate="no" aria-hidden="true">arrow_forward</span>
                         </a>
                         <a th:unless="${p.hasSource}" href="/contact?type=GLOBAL"

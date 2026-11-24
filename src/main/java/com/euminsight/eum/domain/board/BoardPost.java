@@ -2,6 +2,8 @@ package com.euminsight.eum.domain.board;
 
 import com.euminsight.eum.common.HtmlSanitizer;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.web.util.HtmlUtils;
@@ -29,7 +31,9 @@ public class BoardPost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** VARCHAR로 저장 (MariaDB ENUM 타입이면 게시판 추가 시 저장 오류가 나므로) */
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(length = 20, nullable = false)
     private BoardType board;
 
