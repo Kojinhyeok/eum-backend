@@ -31,6 +31,14 @@ public enum BoardType {
         return name();
     }
 
+    /**
+     * 구분 배지·대표 이미지·목록 요약·원문 링크를 쓰는 게시판 (썸네일 목록으로 표시)
+     * - 화장품 연구동향, 전문가 칼럼
+     */
+    public boolean isRichList() {
+        return this == RESEARCH || this == COLUMN;
+    }
+
     public String getGroup() {
         return group;
     }

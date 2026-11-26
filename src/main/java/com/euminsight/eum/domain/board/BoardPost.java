@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * 일반 게시판 글 (화장품 연구동향 / 전문가 칼럼 / 알림 / 함께하는 기관 / 주요 고객사)
- * - category, thumbnailUrl, summary 는 화장품 연구동향에서만 입력 (다른 게시판은 비어 있음)
+ * - category, thumbnailUrl, summary 는 화장품 연구동향·전문가 칼럼에서만 입력 (다른 게시판은 비어 있음)
  */
 @Entity
 @Table(name = "board_post")

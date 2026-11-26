@@ -89,9 +89,9 @@ public class BoardAdminController {
             throw new IllegalArgumentException("관련 링크는 http:// 또는 https:// 로 시작해야 합니다.");
         }
 
-        // 구분 배지·대표 이미지·목록 요약: 화장품 연구동향만 사용
+        // 구분 배지·대표 이미지·목록 요약: 화장품 연구동향·전문가 칼럼만 사용
         String category = null, thumbnailUrl = null, summary = null;
-        if (board == BoardType.RESEARCH) {
+        if (board.isRichList()) {
             category = trim(req.category());
             if (category != null && category.length() > 50) throw new IllegalArgumentException("구분 배지는 50자 이내로 입력해 주세요.");
             thumbnailUrl = trim(req.thumbnailUrl());

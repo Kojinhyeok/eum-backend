@@ -22,8 +22,8 @@
 
     <section class="section !pt-10 bg-white md:!pt-12">
         <div class="container-x">
-            <!-- 화장품 연구동향: 대표 이미지·구분 배지 목록 (글로벌 규제동향과 같은 형태) -->
-            <ul th:if="${hasPosts and board.code == 'RESEARCH'}" class="divide-y divide-line border-y border-primary/80">
+            <!-- 화장품 연구동향·전문가 칼럼: 대표 이미지·구분 배지 목록 (글로벌 규제동향과 같은 형태) -->
+            <ul th:if="${hasPosts and board.richList}" class="divide-y divide-line border-y border-primary/80">
                 <li th:each="p : ${posts}">
                     <a th:href="|${board.path}/${p.id}|" href="#" class="group flex gap-4 py-5 sm:gap-6 sm:py-6">
                         <span class="reg-thumb">
@@ -47,7 +47,7 @@
             </ul>
 
             <!-- 목록 (그 외 게시판) -->
-            <ul th:if="${hasPosts and board.code != 'RESEARCH'}" class="divide-y divide-line border-y border-primary/80">
+            <ul th:if="${hasPosts and !board.richList}" class="divide-y divide-line border-y border-primary/80">
                 <li th:each="p : ${posts}">
                     <a th:href="|${board.path}/${p.id}|" href="#" class="group flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:gap-6">
                         <div class="min-w-0 flex-1">
