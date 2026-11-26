@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * 일반 게시판 글 (화장품 연구동향 / 전문가 칼럼 / 회사공지 / 행사 및 세미나)
+ * 일반 게시판 글 (화장품 연구동향 / 전문가 칼럼 / 알림 / 함께하는 기관 / 주요 고객사)
+ * - category, thumbnailUrl, summary 는 화장품 연구동향에서만 입력 (다른 게시판은 비어 있음)
  */
 @Entity
 @Table(name = "board_post")
@@ -41,8 +42,20 @@ public class BoardPost {
     private String title;
 
     /** 본문 (에디터 HTML, 저장 시 정리됨 / 예전 글은 일반 텍스트) */
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content;
+
+    /** 구분 배지 (화장품 연구동향) */
+    @Column(length = 50)
+    private String category;
+
+    /** 목록 대표 이미지 (화장품 연구동향, 비우면 기본 박스) */
+    @Column(length = 500)
+    private String thumbnailUrl;
+
+    /** 목록 요약 (화장품 연구동향, 비우면 본문 앞부분) */
+    @Column(length = 500)
+    private String summary;
 
     /** 관련 링크 (선택: 원문, 신청 페이지 등) */
     @Column(length = 500)
@@ -102,8 +115,9 @@ public class BoardPost {
         return content != null && HTML_TAG.matcher(content).find();
     }
 
-    /** 목록용 요약 (태그·줄바꿈 제거, 120자) */
+    /** 목록용 요약: 입력한 요약, 없으면 본문 앞부분 (태그·줄바꿈 제거, 120자) */
     public String getExcerpt() {
+        if (summary != null && !summary.isBlank()) return summary.trim();
         if (content == null) return "";
         String flat = (isHtmlContent() ? HtmlSanitizer.text(content) : content).replaceAll("\\s+", " ").trim();
         return flat.length() > 120 ? flat.substring(0, 120) + "…" : flat;
@@ -111,6 +125,14 @@ public class BoardPost {
 
     public boolean isHasAttachments() {
         return attachments != null && !attachments.isEmpty();
+    }
+
+    public boolean isHasThumbnail() {
+        return thumbnailUrl != null && !thumbnailUrl.isBlank();
+    }
+
+    public boolean isHasCategory() {
+        return category != null && !category.isBlank();
     }
 
     public boolean isHasLink() {

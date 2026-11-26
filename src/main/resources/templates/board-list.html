@@ -22,8 +22,32 @@
 
     <section class="section !pt-10 bg-white md:!pt-12">
         <div class="container-x">
-            <!-- 목록 -->
-            <ul th:if="${hasPosts}" class="divide-y divide-line border-y border-primary/80">
+            <!-- 화장품 연구동향: 대표 이미지·구분 배지 목록 (글로벌 규제동향과 같은 형태) -->
+            <ul th:if="${hasPosts and board.code == 'RESEARCH'}" class="divide-y divide-line border-y border-primary/80">
+                <li th:each="p : ${posts}">
+                    <a th:href="|${board.path}/${p.id}|" href="#" class="group flex gap-4 py-5 sm:gap-6 sm:py-6">
+                        <span class="reg-thumb">
+                            <img th:if="${p.hasThumbnail}" th:src="${p.thumbnailUrl}" src="" alt="" loading="lazy">
+                            <span th:unless="${p.hasThumbnail}" class="reg-thumb-code notranslate" translate="no">EUM</span>
+                        </span>
+                        <span class="min-w-0 flex-1">
+                            <span class="flex items-start gap-2">
+                                <span th:if="${p.pinned}" class="chip-dark mt-0.5 shrink-0">고정</span>
+                                <span class="line-clamp-2 text-[16px] font-bold leading-snug text-ink group-hover:text-primary group-hover:underline md:text-[18px]" th:text="${p.title}">제목</span>
+                            </span>
+                            <span class="mt-1.5 block line-clamp-2 text-[14px] leading-6 text-ink-soft" th:text="${p.excerpt}">요약</span>
+                            <span class="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-mute">
+                                <span th:if="${p.hasCategory}" class="reg-tag" th:text="${p.category}">연구 리포트</span>
+                                <span th:text="${p.dateLabel}">2026.11.06</span>
+                                <span th:if="${p.hasAttachments}">첨부</span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- 목록 (그 외 게시판) -->
+            <ul th:if="${hasPosts and board.code != 'RESEARCH'}" class="divide-y divide-line border-y border-primary/80">
                 <li th:each="p : ${posts}">
                     <a th:href="|${board.path}/${p.id}|" href="#" class="group flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:gap-6">
                         <div class="min-w-0 flex-1">

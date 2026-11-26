@@ -22,7 +22,8 @@ public class BoardAdminController {
 
     public record BoardRequest(
             String board, String title, String content, String linkUrl,
-            Boolean pinned, Boolean published, List<FileRequest> attachments
+            Boolean pinned, Boolean published, List<FileRequest> attachments,
+            String category, String thumbnailUrl, String summary
     ) {}
 
     public record FileRequest(String name, String url, String fileKey, Long size) {}
@@ -79,7 +80,8 @@ public class BoardAdminController {
         if (title == null) throw new IllegalArgumentException("제목을 입력해 주세요.");
         if (title.length() > 200) throw new IllegalArgumentException("제목은 200자 이내로 입력해 주세요.");
 
-        String content = HtmlSanitizer.clean(trim(req.content()));
+        // 표·글자색 허용 (예전 Quill 글의 정렬 class 도 유지)
+        String content = HtmlSanitizer.cleanRich(trim(req.content()));
         if (HtmlSanitizer.isBlank(content)) throw new IllegalArgumentException("본문을 입력해 주세요.");
 
         String linkUrl = trim(req.linkUrl());
@@ -87,7 +89,23 @@ public class BoardAdminController {
             throw new IllegalArgumentException("관련 링크는 http:// 또는 https:// 로 시작해야 합니다.");
         }
 
+        // 구분 배지·대표 이미지·목록 요약: 화장품 연구동향만 사용
+        String category = null, thumbnailUrl = null, summary = null;
+        if (board == BoardType.RESEARCH) {
+            category = trim(req.category());
+            if (category != null && category.length() > 50) throw new IllegalArgumentException("구분 배지는 50자 이내로 입력해 주세요.");
+            thumbnailUrl = trim(req.thumbnailUrl());
+            if (thumbnailUrl != null && !thumbnailUrl.matches("(?i)^https?://.+")) {
+                throw new IllegalArgumentException("대표 이미지 주소가 올바르지 않습니다.");
+            }
+            summary = trim(req.summary());
+            if (summary != null && summary.length() > 500) throw new IllegalArgumentException("목록 요약은 500자 이내로 입력해 주세요.");
+        }
+
         post.setBoard(board);
+        post.setCategory(category);
+        post.setThumbnailUrl(thumbnailUrl);
+        post.setSummary(summary);
         post.setTitle(title);
         post.setContent(content);
         post.getAttachments().clear();

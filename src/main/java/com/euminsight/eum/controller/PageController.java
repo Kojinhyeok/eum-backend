@@ -2,6 +2,7 @@ package com.euminsight.eum.controller;
 
 import com.euminsight.eum.domain.menu.MenuService;
 import com.euminsight.eum.domain.regulation.Region;
+import com.euminsight.eum.domain.setting.SiteSettingService;
 import com.euminsight.eum.domain.regulation.RegulationPost;
 import com.euminsight.eum.domain.regulation.RegulationPostRepository;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class PageController {
 
     private final RegulationPostRepository regulationPostRepository;
     private final MenuService menuService;
+    private final SiteSettingService siteSettingService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -42,7 +44,9 @@ public class PageController {
     }
 
     @GetMapping("/about")
-    public String about() {
+    public String about(Model model) {
+        // 대표 사진: 관리자 > 사이트 설정 > 회사소개 (없으면 사진 영역을 표시하지 않음)
+        model.addAttribute("ceoPhotoUrl", siteSettingService.get(SiteSettingService.CEO_PHOTO_URL));
         return "about";
     }
 

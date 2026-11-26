@@ -12,8 +12,8 @@ import java.util.Set;
 
 /**
  * 관리자 에디터에서 넘어온 본문 HTML 정리 (스크립트·이벤트 속성 제거)
- * - clean()     : 게시판(Quill) 본문
- * - cleanRich() : 글로벌 규제동향(SunEditor) 본문. 표·글자색·정렬 허용
+ * - clean()     : 예전 Quill 본문용 (현재 사용처 없음)
+ * - cleanRich() : 게시판·글로벌 규제동향(SunEditor) 본문. 표·글자색·정렬 허용
  */
 public final class HtmlSanitizer {
 
@@ -76,11 +76,11 @@ public final class HtmlSanitizer {
             if (filtered.isEmpty()) el.removeAttr("style");
             else el.attr("style", filtered);
         }
-        // 에디터 내부용 class 외에는 제거 (se-* , __se__*)
+        // 에디터 내부용 class 외에는 제거 (SunEditor: se-* , __se__* / 예전 Quill 글: ql-*)
         for (Element el : doc.select("[class]")) {
             List<String> keep = new ArrayList<>();
             for (String c : el.classNames()) {
-                if (c.startsWith("se-") || c.startsWith("__se__")) keep.add(c);
+                if (c.startsWith("se-") || c.startsWith("__se__") || c.startsWith("ql-")) keep.add(c);
             }
             if (keep.isEmpty()) el.removeAttr("class");
             else el.attr("class", String.join(" ", keep));

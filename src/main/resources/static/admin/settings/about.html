@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="robots" content="noindex, nofollow">
+	<title>회사소개 설정 - 이음인사이트</title>
+	<link href="../css/app.css" rel="stylesheet">
+	<link href="../css/custom.css" rel="stylesheet">
+	<style>
+		.ceo-preview { width: 240px; aspect-ratio: 4 / 5; border-radius: .4rem; background: #E9EDF1; color: #7A8692;
+			display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 13px; text-align: center; }
+		.ceo-preview img { width: 100%; height: 100%; object-fit: cover; }
+		.busy { opacity: .6; pointer-events: none; }
+	</style>
+</head>
+
+<body data-page="settings-about" data-base="../">
+<div class="wrapper">
+	<div id="sidebar-container"></div>
+	<div class="main">
+		<div id="header-container"></div>
+
+		<main class="content">
+			<div class="container-fluid p-0">
+				<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+					<h1 class="h3 mb-0"><strong>회사소개 설정</strong></h1>
+					<a href="/about" target="_blank" class="btn btn-outline-secondary btn-sm">회사소개 페이지 보기</a>
+				</div>
+
+				<div id="saveMsg" class="alert alert-success py-2 px-3" style="display:none;"></div>
+				<div id="saveErr" class="alert alert-danger py-2 px-3" style="display:none;"></div>
+
+				<div class="card">
+					<div class="card-header pb-0"><h5 class="card-title mb-0">대표 컨설턴트 사진</h5></div>
+					<div class="card-body">
+						<div class="d-flex flex-wrap gap-4 align-items-start" id="photoArea">
+							<div class="ceo-preview" id="preview">등록된 사진이 없습니다.<br>(사진이 없으면 홈페이지에서<br>사진 영역이 보이지 않습니다)</div>
+							<div class="d-flex flex-column gap-2">
+								<div class="d-flex gap-2">
+									<button type="button" class="btn btn-primary btn-sm" onclick="pickPhoto()">사진 올리기</button>
+									<button type="button" class="btn btn-outline-danger btn-sm" onclick="removePhoto()">사진 삭제</button>
+								</div>
+								<div class="form-hint mb-0">
+									세로 사진(가로:세로 = 4:5)이 가장 잘 맞습니다. 다른 비율은 가운데를 기준으로 잘려 보입니다.<br>
+									JPG·PNG·WEBP, 10MB 이하 · 올리거나 삭제하면 홈페이지에 바로 반영됩니다.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script>
+	const KEY = 'about.ceoPhotoUrl';
+	const IMAGE_MAX = 10 * 1024 * 1024;
+
+	function esc(s) {
+		return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+	}
+	function showMsg(ok, text) {
+		document.getElementById('saveMsg').style.display = ok ? 'block' : 'none';
+		document.getElementById('saveErr').style.display = ok ? 'none' : 'block';
+		document.getElementById(ok ? 'saveMsg' : 'saveErr').textContent = text;
+	}
+	function render(url) {
+		const box = document.getElementById('preview');
+		if (url) box.innerHTML = `<img src="${esc(url)}" alt="대표 사진">`;
+		else box.innerHTML = '등록된 사진이 없습니다.<br>(사진이 없으면 홈페이지에서<br>사진 영역이 보이지 않습니다)';
+	}
+	function setBusy(on) { document.getElementById('photoArea').classList.toggle('busy', on); }
+
+	async function save(url) {
+		const res = await fetch('/api/admin/settings', {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ [KEY]: url })
+		});
+		const data = await res.json().catch(() => ({}));
+		if (!res.ok) throw new Error(data.message || '저장 중 오류가 발생했습니다.');
+	}
+
+	function pickPhoto() {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = 'image/jpeg,image/png,image/webp';
+		input.onchange = async () => {
+			const f = input.files[0];
+			if (!f) return;
+			if (f.size > IMAGE_MAX) { showMsg(false, '사진은 10MB 이하만 올릴 수 있습니다.'); return; }
+			setBusy(true);
+			try {
+				const fd = new FormData();
+				fd.append('file', f);
+				const res = await fetch('/api/admin/upload/image', { method: 'POST', body: fd });
+				const data = await res.json().catch(() => ({}));
+				if (!res.ok) throw new Error(data.message || '사진 업로드에 실패했습니다.');
+				await save(data.url);
+				render(data.url);
+				showMsg(true, '대표 사진을 저장했습니다. 홈페이지에 바로 반영됩니다.');
+			} catch (e) {
+				showMsg(false, e.message);
+			} finally {
+				setBusy(false);
+			}
+		};
+		input.click();
+	}
+
+	async function removePhoto() {
+		if (!confirm('대표 사진을 삭제할까요? 홈페이지에서 사진 영역이 사라집니다.')) return;
+		setBusy(true);
+		try {
+			await save('');
+			render('');
+			showMsg(true, '대표 사진을 삭제했습니다.');
+		} catch (e) {
+			showMsg(false, e.message);
+		} finally {
+			setBusy(false);
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		fetch('/api/admin/settings').then(r => r.json()).then(d => render(d[KEY] || ''));
+	});
+</script>
+</body>
+</html>

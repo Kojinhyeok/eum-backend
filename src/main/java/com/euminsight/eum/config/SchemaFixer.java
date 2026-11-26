@@ -13,6 +13,7 @@ import java.util.List;
  * DB 컬럼 보정 (서버 시작 시 1회 확인, 이미 맞으면 아무것도 안 함)
  * - board_post.board 가 MariaDB ENUM 으로 만들어진 경우 VARCHAR(20)으로 변경
  *   → 새 게시판(주요 고객사 등)을 추가해도 저장 오류가 나지 않게 함
+ * - board_post.content 가 TEXT 면 LONGTEXT 로 변경 (표·이미지가 많은 본문 대비)
  */
 @Slf4j
 @Order(0)
@@ -25,6 +26,22 @@ public class SchemaFixer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         toVarchar("board_post", "board", 20);
+        // 게시판 본문에 표·이미지가 들어가면 TEXT(64KB)를 넘을 수 있어 LONGTEXT로 확장
+        toLongText("board_post", "content");
+    }
+
+    private void toLongText(String table, String column) {
+        try {
+            List<String> types = jdbcTemplate.queryForList(
+                    "SELECT DATA_TYPE FROM information_schema.COLUMNS " +
+                            "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?",
+                    String.class, table, column);
+            if (types.isEmpty() || !"text".equalsIgnoreCase(types.get(0))) return;
+            jdbcTemplate.execute("ALTER TABLE " + table + " MODIFY " + column + " LONGTEXT NOT NULL");
+            log.info(">>> {}.{} 컬럼을 TEXT → LONGTEXT로 변경했습니다.", table, column);
+        } catch (Exception e) {
+            log.debug("SchemaFixer 건너뜀: {}", e.getMessage());
+        }
     }
 
     private void toVarchar(String table, String column, int length) {
